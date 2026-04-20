@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基金实时估值监控</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f7fa; margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 20px; margin-bottom: 20px; }
+        h1 { margin: 0; font-size: 24px; color: #2c3e50; }
+        .time { font-size: 20px; font-weight: bold; color: #7f8c8d; font-family: monospace; }
+        .input-group { display: flex; gap: 10px; margin-bottom: 30px; }
+        input { flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 16px; outline: none; transition: border-color 0.3s; }
+        input:focus { border-color: #3498db; }
+        button { padding: 12px 24px; background: #3498db; color: white; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; transition: background 0.3s; }
+        button:hover { background: #2980b9; }
+        button:disabled { background: #bdc3c7; cursor: not-allowed; }
+        
+        .fund-list { display: grid; gap: 15px; }
+        .fund-card { display: flex; justify-content: space-between; align-items: center; padding: 20px; border: 1px solid #eee; border-radius: 8px; background: #fafafa; }
+        .fund-info h3 { margin: 0 0 5px 0; font-size: 18px; }
+        .fund-code { color: #7f8c8d; font-size: 14px; margin: 0; }
+        .fund-val { text-align: right; }
+        .fund-pct { font-size: 28px; font-weight: bold; font-family: monospace; margin: 0; }
+        .fund-error { font-size: 12px; color: #95a5a6; margin-top: 5px; }
+        
+        /* 涨跌颜色 */
+        .up { color: #e74c3c; } /* A股习惯红涨 */
+        .down { color: #2ecc71; } /* 绿跌 */
+        .flat { color: #7f8c8d; }
+        
+        .loading { display: none; text-align: center; color: #e67e22; padding: 10px; }
+        .error-msg { color: #e74c3c; margin-top: 10px; display: none; }
+        
+        .disclaimer { margin-top: 40px; font-size: 12px; color: #bdc3c7; text-align: center; border-top: 1px solid #eee; padding-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>基金实时监控面板</h1>
+        <div class="time" id="clock">00:00:00</div>
+    </div>
+    
+    <div class="input-group">
+        <input type="text" id="fundInput" placeholder="请输入6位基金代码 (例: 005827)" maxlength="6">
+        <button id="addBtn" onclick="addFund()">添加监控</button>
+    </div>
+    
+    <div id="loading" class="loading">正在抓取基金持仓数据，请稍候...</div>
+    <div id="errorMsg" class="error-msg"></div>
+
+    <div class="fund-list" id="fundList">
+        <!-- 动态卡片插入 -->
+    </div>
+    
+    <div class="disclaimer">
+        * 注：盘中涨跌幅系根据最新披露季报的十大重仓股及其实时行情依权重估算得出。由于存在未披露仓位及基金经理调仓可能，估算涨跌幅与晚间实际净值存在天然误差。<br>
+        投资有风险，估值仅供参考。
+    </div>
+</div>
+
+<script>
+    const API_BASE = "/api/fund";
+    let funds = new Set(); // 存储已添加的基金代码
+
+    // 时钟更新
+    setInterval(() => {
+        const now = new Date();
+        document.getElementById('clock').innerText = now.toLocaleTimeString('zh-CN', { hour12: false });
+    }, 1000);
+
+    // 格式化涨跌幅样式和符号
+    function formatPct(val) {
+        if(val > 0) return `<span class="fund-pct up">+${val.toFixed(2)}%</span>`;
+        if(val < 0) return `<span class="fund-pct down">${val.toFixed(2)}%</span>`;
+        return `<span class="fund-pct flat">0.00%</span>`;
+    }
+
+    async function fetchFundData(code) {
+        try {
+            const response = await fetch(`${API_BASE}/${code}`);
+            if (!response.ok) throw new Error('接口请求失败或未找到该基金');
+            return await response.json();
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    }
+
+    async function addFund() {
+        const input = document.getElementById('fundInput');
+        const code = input.value.trim();
+        const errorDiv = document.getElementById('errorMsg');
+        const loadingDiv = document.getElementById('loading');
+        
+        errorDiv.style.display = 'none';
+        
+        if (!/^\d{6}$/.test(code)) {
+            errorDiv.innerText = "请输入正确的6位数字基金代码";
+            errorDiv.style.display = 'block';
+            return;
+        }
+        
+        if (funds.has(code)) {
+            errorDiv.innerText = "该基金已在监控列表中";
+            errorDiv.style.display = 'block';
+            return;
+        }
+
+        loadingDiv.style.display = 'block';
+        document.getElementById('addBtn').disabled = true;
+
+        try {
+            const data = await fetchFundData(code);
+            funds.add(code);
+            saveFunds(); // 存入本地缓存
+            renderCard(data);
+            input.value = '';
+        } catch (err) {
+            errorDiv.innerText = "添加失败，基金可能不存在或暂无持仓数据（或请求接口出错）。";
+            errorDiv.style.display = 'block';
+        } finally {
+            loadingDiv.style.display = 'none';
+            document.getElementById('addBtn').disabled = false;
+        }
+    }
+
+    // 保存数据到本地存储
+    function saveFunds() {
+        localStorage.setItem('monitorFunds', JSON.stringify(Array.from(funds)));
+    }
+
+    // 删除基金
+    function removeFund(code) {
+        funds.delete(code);
+        saveFunds();
+        const card = document.getElementById(`card-${code}`);
+        if(card) {
+            card.remove();
+        }
+    }
+
+    function renderCard(data) {
+        const list = document.getElementById('fundList');
+        
+        // 渲染单张卡片
+        const cardHTML = `
+            <div class="fund-card" id="card-${data.fund_code}">
+                <div class="fund-info">
+                    <h3>${data.fund_name || '获取名称失败'}</h3>
+                    <p class="fund-code">代码: ${data.fund_code} | 更新: <span class="update-time">${data.update_time}</span></p>
+                </div>
+                <div class="fund-val">
+                    <div class="pct-container">${formatPct(data.estimate_change)}</div>
+                    <div class="fund-error">
+                        已知仓位: <b>${data.total_weight}%</b> | 未知仓位: <b style="color:#e67e22">${data.unknown_weight}%</b><br>
+                        (估值误差偏离度基于未知仓位) 
+                        <a href="javascript:void(0)" onclick="removeFund('${data.fund_code}')" style="color: #e74c3c; margin-left: 10px; text-decoration: none;">[移除]</a>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // 如果已存在则更新，不存在则追加
+        const existing = document.getElementById(`card-${data.fund_code}`);
+        if(existing) {
+            existing.outerHTML = cardHTML;
+        } else {
+            list.insertAdjacentHTML('beforeend', cardHTML);
+        }
+    }
+
+    // 后台轮询更新数据，每10秒更新一次
+    setInterval(async () => {
+        if(funds.size === 0) return;
+        for (let code of funds) {
+            try {
+                const data = await fetchFundData(code);
+                renderCard(data);
+            } catch(e) {
+                // 静默失败，保持旧数据
+                console.warn(`自动更新失败: ${code}`);
+            }
+        }
+    }, 10000);
+
+    // 页面加载时恢复记录
+    window.addEventListener('DOMContentLoaded', async () => {
+        const saved = localStorage.getItem('monitorFunds');
+        if(saved) {
+            const savedCodes = JSON.parse(saved);
+            for(let code of savedCodes) {
+                try {
+                    // 不需要检查已存在，因为都在初始化阶段
+                    const data = await fetchFundData(code);
+                    funds.add(code);
+                    renderCard(data);
+                } catch(e) {
+                    console.error("恢复失效基金:", code);
+                }
+            }
+        }
+    });
+
+    // 允许回车键添加
+    document.getElementById('fundInput').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') addFund();
+    });
+
+</script>
+
+</body>
+</html>
