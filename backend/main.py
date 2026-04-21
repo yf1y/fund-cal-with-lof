@@ -91,26 +91,36 @@ async def fetch_tencent_stocks(stock_codes):
             return {}
 
 
+def fetch_fund_data_blocking(fund_code: str):
+    # 阻塞的 akshare 操作
+    # 获取基金名称
+    fund_name = get_fund_name(fund_code)
+
+    # 获取持仓
+    current_year = datetime.now().year
+    fund_portfolio_df = None
+    for offset in range(3):
+        year_str = str(current_year - offset)
+        try:
+            df = ak.fund_portfolio_hold_em(symbol=fund_code, date=year_str)
+            if df is not None and not df.empty:
+                fund_portfolio_df = df
+                break
+        except Exception:
+            pass
+
+    return fund_name, fund_portfolio_df
+
+
 @app.get("/api/fund/{fund_code}", response_model=FundResponse)
 async def get_fund_estimate(fund_code: str):
     # 1. 如果缓存中没有，则抓取基金信息和持仓
     if fund_code not in fund_cache:
         try:
-            # 获取基金名称
-            fund_name = get_fund_name(fund_code)
-
-            # 获取持仓，由于跨年时可能没有当年的数据，尝试获取最近的年份
-            current_year = datetime.now().year
-            fund_portfolio_df = None
-            for offset in range(3):
-                year_str = str(current_year - offset)
-                try:
-                    df = ak.fund_portfolio_hold_em(symbol=fund_code, date=year_str)
-                    if df is not None and not df.empty:
-                        fund_portfolio_df = df
-                        break
-                except Exception:
-                    pass
+            # 将阻塞的同步调用放到线程池中执行，避免阻塞 FastAPI 事件循环
+            fund_name, fund_portfolio_df = await asyncio.to_thread(
+                fetch_fund_data_blocking, fund_code
+            )
 
             if fund_portfolio_df is None or fund_portfolio_df.empty:
                 raise HTTPException(
