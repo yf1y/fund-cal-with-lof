@@ -131,6 +131,13 @@ async def get_fund_estimate(fund_code: str):
             total_weight = 0.0
 
             if not fund_portfolio_df.empty:
+                # 过滤出最新季度的持仓数据，因为 akshare 默认按年份拉取全年的几个季度数据，叠加会导致占比超过100%
+                if "季度" in fund_portfolio_df.columns:
+                    latest_quarter = fund_portfolio_df["季度"].max()
+                    fund_portfolio_df = fund_portfolio_df[
+                        fund_portfolio_df["季度"] == latest_quarter
+                    ]
+
                 # DataFrame列名：序号、股票代码、股票名称、占净值比例
                 for _, row in fund_portfolio_df.iterrows():
                     # 检查是否是前十大重仓股（一般只有10条）
@@ -207,6 +214,12 @@ def read_root():
 if __name__ == "__main__":
     import uvicorn
     import os
+    import sys
+
+    # 确保本地运行时 uvicorn 能够正确找到 backend 模块
+    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    if project_root not in sys.path:
+        sys.path.insert(0, project_root)
 
     # 从环境变量中获取端口（Render 等云平台会自动设置端口），默认为 8000
     port = int(os.environ.get("PORT", 8000))
