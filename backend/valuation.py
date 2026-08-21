@@ -152,6 +152,7 @@ class ValuationService:
                     "fx_rate": fx.latest,
                     "fx_updated_at": fx.latest_date,
                     "holding_return_pct": round(holding_return * 100, 4) if holding_return is not None else None,
+                    "contribution_pct": round(item["weight"] * holding_return, 4) if holding_return is not None else None,
                     "message": "ok" if usable else quote.message or fx.message,
                 }
             )

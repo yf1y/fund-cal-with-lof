@@ -48,6 +48,7 @@ class CoreTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(result["details"][0]["quality"], "proxy")
         self.assertEqual(result["details"][0]["quote_symbol"], "GLD")
         self.assertEqual(result["fx_updated_at"], "2026-08-21")
+        self.assertEqual(result["details"][0]["contribution_pct"], 5.0)
 
 
 if __name__ == "__main__":

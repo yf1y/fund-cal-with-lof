@@ -61,6 +61,23 @@
         .bar > span { display: block; height: 100%; background: var(--brand); }
         .basis-note { display: inline-block; max-width: 170px; color: #475467; font-size: 12px; line-height: 1.5; white-space: normal; text-align: left; }
         .basis-note.caution { color: var(--warn); }
+        .composition-toggle { margin-top: 7px; padding: 0; border: 0; background: none; color: var(--brand); font-size: 12px; font-weight: 700; cursor: pointer; }
+        .composition-toggle:hover { text-decoration: underline; }
+        .composition-row[hidden] { display: none; }
+        .composition-row > td { padding: 0; background: #f8faff; white-space: normal; text-align: left; }
+        .composition-panel { padding: 18px 20px 20px; border-bottom: 1px solid var(--line); }
+        .composition-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 10px; }
+        .composition-title { font-size: 14px; font-weight: 800; }
+        .composition-stats { color: var(--muted); font-size: 12px; line-height: 1.6; text-align: right; }
+        .composition-note { margin-bottom: 12px; padding: 9px 11px; border-radius: 8px; background: #eef4ff; color: #344054; font-size: 12px; line-height: 1.55; }
+        .composition-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); }
+        .composition-grid { display: grid; grid-template-columns: minmax(210px, 1.5fr) 70px 90px 90px minmax(160px, 1.2fr) minmax(150px, 1fr); min-width: 900px; align-items: center; }
+        .composition-grid > div { min-width: 0; padding: 9px 11px; border-bottom: 1px solid var(--line); font-size: 12px; line-height: 1.45; }
+        .composition-grid:last-child > div { border-bottom: 0; }
+        .composition-grid-head { background: #f9fafb; color: var(--muted); font-weight: 700; }
+        .composition-grid-head > div { font-size: 11px; }
+        .holding-name { font-weight: 700; color: #344054; }
+        .holding-meta { margin-top: 3px; color: var(--muted); font: 11px ui-monospace, SFMono-Regular, Consolas, monospace; }
         .notice { margin-top: 14px; color: var(--muted); font-size: 12px; line-height: 1.7; }
         .search-card { padding: clamp(20px, 5vw, 40px); }
         .search-card h2 { margin: 0 0 8px; font-size: 24px; }
@@ -84,11 +101,12 @@
         .detail-row:last-child { border-bottom: 0; }
         .skeleton { padding: 30px; text-align: center; color: var(--muted); }
         @media (max-width: 720px) {
-            .topbar { align-items: flex-start; flex-direction: column; }
             .search-row { flex-direction: column; }
             .metric-grid { grid-template-columns: repeat(2, 1fr); }
             .detail-row { grid-template-columns: 1fr 80px; }
             .detail-row span:nth-child(4) { grid-column: 1 / -1; }
+            .composition-head { flex-direction: column; }
+            .composition-stats { text-align: left; }
         }
     </style>
 </head>
@@ -166,6 +184,38 @@
         if (qualities.includes('assumed_stable')) notes.push('债券价格暂按不变');
         return notes.length ? notes.join('；') : '持仓均按原标的行情计算';
     };
+    const holdingMethod = (item) => {
+        if (item.quality === 'proxy') return `使用 ${item.quote_symbol} 近似${item.proxy_reason ? `：${item.proxy_reason}` : ''}`;
+        return QUALITY_LABELS[item.quality] || item.source || item.message || '—';
+    };
+    const fxDescription = (item) => {
+        if (item.currency === 'CNY') return '人民币，无需换汇';
+        if (!item.fx_rate) return `${item.currency || '外币'}，汇率暂缺`;
+        return `${item.currency}/CNY ${num(item.fx_rate, 4)} · ${displayTime(item.fx_updated_at)}`;
+    };
+    const renderComposition = (row) => {
+        const holdingRows = (row.details || []).map(item => `
+            <div class="composition-grid">
+                <div><div class="holding-name">${esc(item.name)}</div><div class="holding-meta">${esc(item.symbol)}${item.quote_symbol !== item.symbol ? ` → ${esc(item.quote_symbol)}` : ''}</div></div>
+                <div class="number">${num(item.weight, 2)}%</div>
+                <div class="number ${tone(item.holding_return_pct)}">${pct(item.holding_return_pct)}</div>
+                <div class="number ${tone(item.contribution_pct)}">${pct(item.contribution_pct)}</div>
+                <div>${esc(holdingMethod(item))}</div>
+                <div>${esc(fxDescription(item))}</div>
+            </div>`).join('');
+        return `
+            <div class="composition-panel">
+                <div class="composition-head">
+                    <div><div class="composition-title">基金构成与估值贡献</div><div class="micro">最新披露期 ${esc(row.report_period || '未知')}</div></div>
+                    <div class="composition-stats">已披露 ${num(row.recorded_weight, 1)}% · 已估 ${num(row.priced_weight, 1)}% · 未披露或未估 ${num(Math.max(0, 100 - Number(row.priced_weight || 0)), 1)}%</div>
+                </div>
+                <div class="composition-note">已披露持仓按真实权重计入；未披露或未取到价格的部分按 0 收益处理，不把前十大持仓涨跌放大到整个基金。</div>
+                <div class="composition-scroll">
+                    <div class="composition-grid composition-grid-head"><div>持仓 / 行情代码</div><div>权重</div><div>人民币涨跌</div><div>净值贡献</div><div>如何计价</div><div>汇率与时间</div></div>
+                    ${holdingRows || '<div class="skeleton">暂无披露持仓</div>'}
+                </div>
+            </div>`;
+    };
 
     document.querySelectorAll('.tab').forEach(button => button.addEventListener('click', () => {
         document.querySelectorAll('.tab').forEach(item => item.classList.toggle('active', item === button));
@@ -180,15 +230,23 @@
             if (!response.ok) throw new Error('看板接口请求失败');
             const payload = await response.json();
             document.getElementById('dashboardBody').innerHTML = payload.funds.map(row => `
-                <tr title="${esc((row.warnings || []).join(' '))}">
-                    <td><div class="fund-code-primary">${esc(row.fund_code)}</div><div class="fund-name">${esc(row.fund_name)}</div><div class="micro">基金简称 · ${row.is_qdii ? 'QDII-LOF' : 'LOF'}</div></td>
+                <tr class="dashboard-row" title="${esc((row.warnings || []).join(' '))}">
+                    <td><div class="fund-code-primary">${esc(row.fund_code)}</div><div class="fund-name">${esc(row.fund_name)}</div><button type="button" class="composition-toggle" data-code="${esc(row.fund_code)}" aria-expanded="false">查看构成</button></td>
                     <td><div class="number">${num(row.estimated_nav)}</div><div class="micro ${tone(row.estimated_change_pct)}">${pct(row.estimated_change_pct)}</div></td>
                     <td><div class="number">${num(row.market_price, 3)}</div><div class="micro">${esc(row.market_price_date || '—')}</div></td>
                     <td><div class="number ${tone(row.premium_rate)}">${pct(row.premium_rate)}</div></td>
                     <td class="coverage" title="成功取得行情并纳入计算的持仓，占基金净值的比例"><div class="number">${num(row.priced_weight, 1)}%</div><div class="bar"><span style="width:${Math.min(100, Number(row.priced_weight || 0))}%"></span></div></td>
                     <td><span class="basis-note ${(row.quote_qualities || []).includes('proxy') || (row.quote_qualities || []).includes('missing') ? 'caution' : ''}">${esc(estimateBasis(row.quote_qualities))}</span></td>
                     <td><div>${num(row.base_nav)}</div><div class="micro">${esc(row.base_nav_date || '—')}</div></td>
-                </tr>`).join('');
+                </tr>
+                <tr class="composition-row" id="composition-${esc(row.fund_code)}" hidden><td colspan="7">${renderComposition(row)}</td></tr>`).join('');
+            document.querySelectorAll('.composition-toggle').forEach(toggle => toggle.addEventListener('click', () => {
+                const panel = document.getElementById(`composition-${toggle.dataset.code}`);
+                const expanded = toggle.getAttribute('aria-expanded') === 'true';
+                toggle.setAttribute('aria-expanded', String(!expanded));
+                toggle.textContent = expanded ? '查看构成' : '收起构成';
+                panel.hidden = expanded;
+            }));
             const estimateUpdatedAt = payload.funds.map(row => row.update_time).filter(Boolean).sort().pop();
             document.getElementById('dashboardMeta').textContent = `按溢价率从高到低 · 估值更新 ${displayTime(estimateUpdatedAt)} · 汇率更新 ${displayTime(payload.fx_updated_at)}`;
         } catch (error) {
@@ -197,15 +255,8 @@
     }
 
     function renderSearchResult(row) {
-        const details = (row.details || []).map(item => `
-            <div class="detail-row">
-                <span><b>${esc(item.name)}</b><br><span class="micro">${esc(item.symbol)}${item.quote_symbol !== item.symbol ? ` → ${esc(item.quote_symbol)}` : ''}</span></span>
-                <span>权重 ${num(item.weight, 2)}%</span>
-                <span class="${tone(item.holding_return_pct)}">${pct(item.holding_return_pct)}</span>
-                <span>${qualityBadges([item.quality])}<br><span class="micro">${esc(item.proxy_reason || item.source || item.message)}</span></span>
-            </div>`).join('');
         return `
-            <div class="result-head"><div><div class="fund-code-primary">${esc(row.fund_code)}</div><h3>${esc(row.fund_name)}</h3><div class="fund-code">基金简称 · 持仓期 ${esc(row.report_period || '未知')} · 汇率更新 ${displayTime(row.fx_updated_at)}</div></div><span class="basis-note ${(row.quote_qualities || []).includes('proxy') ? 'caution' : ''}">${esc(estimateBasis(row.quote_qualities))}</span></div>
+            <div class="result-head"><div><div class="fund-code-primary">${esc(row.fund_code)}</div><h3>${esc(row.fund_name)}</h3><div class="fund-code">持仓披露期 ${esc(row.report_period || '未知')} · 汇率更新 ${displayTime(row.fx_updated_at)}</div></div><span class="basis-note ${(row.quote_qualities || []).includes('proxy') ? 'caution' : ''}">${esc(estimateBasis(row.quote_qualities))}</span></div>
             <div class="metric-grid">
                 <div class="metric"><div class="metric-label">实时估值</div><div class="metric-value">${num(row.estimated_nav)}</div></div>
                 <div class="metric"><div class="metric-label">估算涨跌</div><div class="metric-value ${tone(row.estimated_change_pct)}">${pct(row.estimated_change_pct)}</div></div>
@@ -213,7 +264,7 @@
                 <div class="metric"><div class="metric-label">已估持仓</div><div class="metric-value">${num(row.priced_weight,1)}%</div></div>
             </div>
             <p class="notice">${esc((row.warnings || []).join(' '))}</p>
-            <details><summary>查看持仓估值明细（${(row.details || []).length}）</summary><div class="detail-list">${details || '<div class="skeleton">暂无持仓数据</div>'}</div></details>`;
+            <details><summary>查看基金构成（${(row.details || []).length} 项）</summary>${renderComposition(row)}</details>`;
     }
 
     async function searchFund() {
