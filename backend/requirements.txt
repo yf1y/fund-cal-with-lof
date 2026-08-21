@@ -5,3 +5,4 @@ httpx
 pydantic
 sqlalchemy>=2.0
 psycopg[binary]>=3.2
+pyngrok>=7.2

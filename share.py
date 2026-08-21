@@ -7,7 +7,7 @@ import sys
 
 def main():
     print("正在启动内网穿透服务，为您生成公网链接...")
-    print("注意: 需要后台已启动 `python backend/main.py`！\n")
+    print("注意: 需要后台已启动 `python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000`！\n")
     try:
         # 打开ngrok隧道映射本地8000端口
         public_url = ngrok.connect(8000).public_url

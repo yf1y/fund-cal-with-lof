@@ -1,90 +1,177 @@
 # LOF 与基金实时估值中心
 
-把原有的基金实时监控与 QDII/LOF 溢价看板整合为一个 FastAPI 网页。
+> **一眼看懂 LOF 是贵了还是便宜了，也看得见这个估值靠不靠谱。**
 
-## 功能
+很多基金估值工具只给一个数字。本项目把 **最新披露持仓、跨市场行情、人民币汇率、场内价格和数据覆盖率** 放到同一张看板里：既计算实时估值和溢价，也明确告诉你哪些持仓使用直接行情、哪些只能使用代理标的、哪些暂时没有取到价格。
 
-- **LOF 看板**：展示当前维护的 21 只基金，包括基金名称、代码、持仓实时估值、场内价格、行业口径溢价率、取价覆盖率和行情质量。
-- **基金搜索**：按完整 6 位代码或完整名称搜索公募基金，根据最新披露持仓计算估算净值。
-- **跨市场换算**：外币持仓按基准日与当前汇率折算成人民币。
-- **代理估值标注**：日股、瑞士、伦敦等缺少稳定免费实时 API 的标的可使用相关 ETF 代理；前端逐项显示代理代码和原因。
-- **可选 PostgreSQL**：配置 `DATABASE_URL` 时使用 Supabase/标准 PostgreSQL；未配置时直接读取仓库中的 `data.json`，本机无需安装 PostgreSQL。
+打开网页即可使用，无需券商客户端，也无需在本机安装数据库。当前先维护 21 只 LOF/QDII-LOF，并保留按基金代码或完整名称查询其他公募基金的能力。
 
-## 估值口径
+## 功能概述
+
+网页包含两个 Tab：
+
+| 功能 | 你可以看到什么 |
+| --- | --- |
+| **LOF 看板** | 21 只基金的实时估值、场内价格、溢价率、持仓取价覆盖率和行情质量 |
+| **基金搜索** | 输入完整 6 位基金代码或完整基金名称，按最新披露持仓计算估算净值 |
+
+### 估算口径
+
+估值从基金最近一次披露的单位净值出发，计算各项已披露持仓从净值基准日至当前的人民币收益率：
 
 ```text
-持仓人民币收益率 = (当前价 / 净值基准日价格) × (当前汇率 / 基准日汇率) - 1
+持仓人民币收益率 = (当前价 / 基准日价格) × (当前汇率 / 基准日汇率) - 1
+
 实时估值 = 最新披露单位净值 × (1 + Σ 持仓权重 × 持仓人民币收益率)
+
 溢价率 = (场内价格 / 实时估值 - 1) × 100%
 ```
 
-未披露仓位默认收益为 0，因此页面同时展示已记录持仓权重和成功取价权重。该结果不是基金公司发布的 IOPV，也不构成投资建议。
+- 溢价率大于 0：场内交易价格高于估算净值，即溢价。
+- 溢价率小于 0：场内交易价格低于估算净值，即折价。
+- 外币资产会同时计入标的涨跌与汇率变化，并统一折算为人民币。
+- 未披露仓位默认收益为 0；页面会展示“已记录持仓权重”和“成功取价权重”，方便判断估值完整度。
 
-行情质量分为：
+### 这不是一个假装精确的数字
 
-- `直接行情`：腾讯实时快照，历史基准价由前收或东方财富日线补充；
-- `代理估值`：使用相关 ETF/指数代替无法稳定取价的原标的；
-- `收盘行情`：只能取得最近收盘价；
-- `稳定近似`：低波动债券暂按价格不变处理；
-- `行情缺失`：该持仓不参与本次涨跌贡献，并降低覆盖率。
+页面会把行情质量明确分为：
 
-## 本地运行
+| 标记 | 含义 |
+| --- | --- |
+| **直接行情** | 使用可获得的标的行情；基准价由前收或历史日线补充 |
+| **代理估值** | 原标的缺少稳定免费行情，使用相关 ETF 或指数近似，并展示代理代码与原因 |
+| **收盘行情** | 当前只能取得最近收盘价，并非盘中实时价格 |
+| **稳定近似** | 对部分低波动债券暂按价格不变处理 |
+| **行情缺失** | 该持仓不参与本次涨跌贡献，同时降低取价覆盖率 |
+
+估值基于公开披露持仓和第三方行情，不是基金公司发布的官方 IOPV，也不构成投资建议。基金调仓、未披露仓位、代理标的偏差和行情延迟都会影响结果。
+
+## 使用方式与部署方式
+
+### 在本机运行
+
+本机默认读取仓库里的 `data.json`，**不需要安装 PostgreSQL，也不需要配置任何 API Key**。
+
+Windows PowerShell：
 
 ```powershell
+cd C:\Users\21999\Desktop\stock_cal
 python -m venv venv
 .\venv\Scripts\Activate.ps1
-pip install -r backend\requirements.txt
+python -m pip install -r backend\requirements.txt
 python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
 ```
 
-打开 <http://127.0.0.1:8000>。
+浏览器打开：<http://127.0.0.1:8000>
 
-默认不需要数据库。应用会读取根目录的 `data.json`，包含 21 只看板基金及其披露持仓。
+如果虚拟环境已经创建，也可以直接运行：
 
-## 可选：连接 Supabase PostgreSQL
+```powershell
+cd C:\Users\21999\Desktop\stock_cal
+.\venv\Scripts\python.exe -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
+```
 
-Supabase 提供的是完整 PostgreSQL。项目仅使用标准 SQLAlchemy/PostgreSQL 连接，不依赖 Supabase 专有 SDK，未来可迁移到其他 PostgreSQL。
+按 `Ctrl+C` 停止服务。首次打开看板需要抓取跨市场行情，通常会比后续刷新慢；服务会对结果做短时缓存。
 
-1. 在 Supabase 创建项目。
-2. 在项目的 **Connect** 面板复制 **Session Pooler** 连接串。
-3. 将驱动前缀改为 `postgresql+psycopg://`。
-4. 在本机设置环境变量（不要提交密码）：
+### 部署到 Render
+
+仓库内的 `render.yaml` 已包含构建、启动和健康检查配置：
+
+1. 在 Render 新建 **Blueprint**，连接本 GitHub 仓库。
+2. Render 会读取 `render.yaml` 创建 Web Service。
+3. 部署完成后打开 Render 分配的公网网址。
+
+默认仍使用 `data.json`，无需额外数据库。Render 免费实例休眠后，首次访问需要等待实例启动和行情初始化。
+
+### 可选：使用 Supabase / PostgreSQL
+
+只有需要在线维护基金与代理映射数据时，才建议接入数据库。Supabase 提供的是托管 PostgreSQL，本项目使用标准 SQLAlchemy/PostgreSQL 连接，不依赖 Supabase 专有 SDK。
 
 ```powershell
 $env:DATABASE_URL = "postgresql+psycopg://postgres.PROJECT:PASSWORD@REGION.pooler.supabase.com:5432/postgres"
-python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
+.\venv\Scripts\python.exe -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
 ```
 
-首次连接会创建并填充：
+首次连接会自动创建并填充：
 
-- `funds`：基金、报告期和持仓 JSON；
-- `symbol_mappings`：无法直接取价标的与代理标的的映射。
+- `funds`：看板基金、报告期和披露持仓；
+- `symbol_mappings`：原始标的与代理行情代码的映射。
 
-如果数据库暂时不可用，应用会回退到 `data.json`，并在 `/api/health` 返回当前存储状态。
+数据库不可用时，应用会回退到仓库中的 `data.json`。连接字符串包含密码，不要提交到 GitHub。
 
-## Render 部署
+## 使用说明
 
-仓库根目录的 `render.yaml` 可部署单个免费 Web Service：
+### 使用 LOF 看板
+
+打开首页后默认进入 **LOF 看板**：
+
+1. 先看“实时估值”和“场内价格”，判断两者是否明显偏离。
+2. 再看“溢价率”：正数为溢价，负数为折价。
+3. 最后检查“覆盖率”和“行情质量”。代理或缺失持仓越多，估值的不确定性越高。
+4. 展开基金详情，可以查看每项持仓的行情代码、币种、价格质量和代理原因。
+
+### 精确搜索基金
+
+切换到 **基金搜索**，输入以下任意一种内容：
 
 ```text
-Build: pip install -r backend/requirements.txt
-Start: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
-Health: /api/health
+160719
+嘉实黄金证券投资基金（LOF）
 ```
 
-如需 Supabase，在 Render 服务的 **Environment** 页面手动添加 `DATABASE_URL`。不要把连接串写入 `render.yaml` 或 GitHub。
+当前版本只支持完整代码或完整名称，暂不做模糊搜索。搜索结果同样会展示估算净值、估算涨跌、覆盖率、持仓明细和警告信息。
 
-Render 免费服务闲置后会休眠，第一次访问还需要等待服务启动和首次行情缓存；后续看板请求会使用短时缓存。
+### 配置项
 
-## API
+本项目不使用大模型，因此没有模型名称、模型 API Key 或 Prompt 需要配置。可用的运行配置只有：
 
-- `GET /api/dashboard`：21 只 LOF 看板；
-- `GET /api/search?q=005827`：按完整代码或名称估值；
-- `GET /api/fund/005827`：兼容旧版代码接口；
-- `GET /api/health`：服务与数据库状态。
+| 环境变量 | 是否必需 | 作用 |
+| --- | --- | --- |
+| `DATABASE_URL` | 否 | 连接 Supabase 或标准 PostgreSQL；不配置则使用 `data.json` |
+| `PORT` | 否 | 服务端口，默认 `8000`；Render 会自动提供 |
+| `RELOAD` | 否 | 本地开发时设为 `1` 可启用自动重载 |
 
-## 数据维护
+### 运行交互式公网分享 CLI
 
-- 无数据库模式：编辑 `data.json` 后提交 Git；
-- PostgreSQL 模式：维护 `funds` 和 `symbol_mappings` 表；
-- 新增代理映射时必须填写原因，前端会原样展示，禁止把代理行情伪装为原标的实时行情。
+如果想在手机上访问，或临时把本机网页发给别人，可以使用仓库里的 `share.py`。先保持网页服务运行，再打开第二个 PowerShell：
+
+```powershell
+cd C:\Users\21999\Desktop\stock_cal
+.\venv\Scripts\python.exe share.py
+```
+
+脚本会通过 ngrok 创建临时公网链接。第一次运行时，如果尚未配置 ngrok，会交互式提示粘贴你的 Authtoken；配置完成后重新运行即可。按 `Ctrl+C` 关闭分享链接。
+
+公网链接会暴露当前服务，请只在需要时运行，不要在页面或终端里放置敏感数据。
+
+### API
+
+| 接口 | 作用 |
+| --- | --- |
+| `GET /api/dashboard` | 返回 21 只 LOF 看板数据 |
+| `GET /api/search?q=160719` | 按完整代码或名称查询并估值 |
+| `GET /api/fund/160719` | 兼容旧版的基金代码接口 |
+| `GET /api/health` | 查看服务、存储模式和基础数据状态 |
+
+## 项目结构
+
+```text
+stock_cal/
+├── backend/
+│   ├── main.py             # FastAPI 路由与网页入口
+│   ├── market_data.py      # 国内外行情、历史价格与汇率
+│   ├── valuation.py        # 持仓估值、溢价率与覆盖率计算
+│   ├── store.py            # JSON / PostgreSQL 双模式数据层
+│   └── requirements.txt    # Python 依赖
+├── frontend/
+│   └── index.html          # 两个 Tab 的单页前端
+├── tests/
+│   └── test_core.py        # 核心口径与代码映射测试
+├── data.json               # 当前 21 只基金与披露持仓
+├── share.py                # ngrok 交互式公网分享工具
+├── render.yaml             # Render 部署配置
+├── .env.example            # 可选环境变量示例
+└── README.md
+```
+
+当前阶段聚焦 21 只已维护基金。后续扩展全市场时，建议优先增加基金与持仓数据的自动同步，再逐步补充更多市场的直接行情源。
