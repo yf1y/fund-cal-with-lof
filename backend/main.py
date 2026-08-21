@@ -47,10 +47,12 @@ async def health() -> dict:
 @app.get("/api/dashboard")
 async def dashboard() -> dict:
     rows = await valuation.dashboard()
+    fx_times = [row["fx_updated_at"] for row in rows if row.get("fx_updated_at")]
     return {
         "funds": rows,
         "count": len(rows),
         "database": store.health(),
+        "fx_updated_at": max(fx_times) if fx_times else None,
         "disclaimer": "估值基于披露持仓、公开行情和已标注代理标的，仅供参考。",
     }
 

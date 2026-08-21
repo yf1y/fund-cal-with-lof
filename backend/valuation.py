@@ -113,6 +113,8 @@ class ValuationService:
         contribution = 0.0
         recorded_weight = sum(item["weight"] for item in prepared)
         priced_weight = 0.0
+        fx_update_times: list[str] = []
+        fx_currencies: set[str] = set()
         details: list[dict[str, Any]] = []
         for item, quote, fx in zip(prepared, quotes, fx_quotes):
             usable = (
@@ -129,6 +131,9 @@ class ValuationService:
                 contribution += item["weight"] / 100 * holding_return
                 priced_weight += item["weight"]
             quality = "proxy" if item["mapping"] and usable else quote.quality
+            if quote.currency != "CNY" and fx.latest_date:
+                fx_update_times.append(str(fx.latest_date))
+                fx_currencies.add(quote.currency)
             details.append(
                 {
                     "name": item["name"],
@@ -144,6 +149,8 @@ class ValuationService:
                     "base_date": quote.base_date,
                     "currency": quote.currency,
                     "fx_source": fx.source,
+                    "fx_rate": fx.latest,
+                    "fx_updated_at": fx.latest_date,
                     "holding_return_pct": round(holding_return * 100, 4) if holding_return is not None else None,
                     "message": "ok" if usable else quote.message or fx.message,
                 }
@@ -181,6 +188,8 @@ class ValuationService:
             "quote_qualities": qualities,
             "market_source": market_quote.source if market_quote else None,
             "nav_source": nav.source,
+            "fx_updated_at": max(fx_update_times) if fx_update_times else None,
+            "fx_currencies": sorted(fx_currencies),
             "update_time": datetime.now().isoformat(timespec="seconds"),
             "details": details,
             "warnings": self._warnings(status, recorded_weight, priced_weight, qualities),
@@ -192,7 +201,7 @@ class ValuationService:
         if status == "partial":
             warnings.append(f"已记录持仓中仅 {priced:.2f}/{recorded:.2f}% 权重成功取价。")
         if "proxy" in qualities:
-            warnings.append("部分持仓使用相关 ETF/指数代理，详情中已逐项标注。")
+            warnings.append("部分持仓无法稳定取得原标的价格，已使用相关 ETF 或指数近似；明细中列出了替代标的和原因。")
         if "eod" in qualities:
             warnings.append("部分持仓仅有收盘行情。")
         return warnings

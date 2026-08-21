@@ -165,7 +165,10 @@ class MarketDataClient:
         quote_date = None
         for item in parts:
             if re.fullmatch(r"\d{14}", item):
-                quote_date = f"{item[:4]}-{item[4:6]}-{item[6:8]}"
+                quote_date = (
+                    f"{item[:4]}-{item[4:6]}-{item[6:8]} "
+                    f"{item[8:10]}:{item[10:12]}:{item[12:14]}"
+                )
                 break
             if re.fullmatch(r"\d{4}[-/]\d{2}[-/]\d{2}.*", item):
                 quote_date = item[:10].replace("/", "-")
@@ -271,7 +274,10 @@ class MarketDataClient:
         spot = spots.get(symbol)
         if spot and spot[1] not in (None, 0) and base_date and spot[2]:
             try:
-                lag_days = (datetime.strptime(spot[2], "%Y-%m-%d") - datetime.strptime(base_date, "%Y-%m-%d")).days
+                lag_days = (
+                    datetime.strptime(spot[2][:10], "%Y-%m-%d")
+                    - datetime.strptime(base_date, "%Y-%m-%d")
+                ).days
             except ValueError:
                 lag_days = 99
             if 0 < lag_days <= 7:
@@ -333,13 +339,17 @@ class MarketDataClient:
                     headers={"User-Agent": USER_AGENT},
                 )
                 response.raise_for_status()
+            payload = response.json()
+            updated_at = (payload.get("data") or {}).get("showDateCN")
             wanted = "100JPY/CNY" if currency == "JPY" else f"{currency}/CNY"
-            for row in response.json().get("records", []):
+            for row in payload.get("records", []):
                 if row.get("ccyPair") == wanted:
                     bid, ask = as_float(row.get("bidPrc")), as_float(row.get("askPrc"))
                     if bid is not None and ask is not None:
                         rate = (bid + ask) / 2
-                        return (rate / 100 if currency == "JPY" else rate), row.get("time")
+                        return (rate / 100 if currency == "JPY" else rate), (
+                            row.get("time") or updated_at
+                        )
         except Exception:
             pass
         return None, None

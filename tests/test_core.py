@@ -1,6 +1,6 @@
 import unittest
 
-from backend.market_data import FxQuote, NavQuote, PriceQuote, normalize_symbol
+from backend.market_data import MarketDataClient, FxQuote, NavQuote, PriceQuote, normalize_symbol
 from backend.store import FundStore
 from backend.valuation import ValuationService
 
@@ -23,6 +23,14 @@ class CoreTests(unittest.IsolatedAsyncioTestCase):
     def test_normalizes_yahoo_shanghai_suffix(self):
         self.assertEqual(normalize_symbol("688052.SS"), "688052.SH")
 
+    def test_preserves_market_quote_timestamp(self):
+        current, previous, timestamp = MarketDataClient._parse_tencent_line(
+            'v_usAAPL="51~Apple~AAPL~230.00~228.00~x~20260822091530~";'
+        )
+        self.assertEqual(current, 230.0)
+        self.assertEqual(previous, 228.0)
+        self.assertEqual(timestamp, "2026-08-22 09:15:30")
+
     async def test_industry_premium_formula_and_proxy_label(self):
         service = ValuationService(FundStore(), FakeMarket())
         result = await service.estimate_fund(
@@ -39,6 +47,7 @@ class CoreTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(result["premium_formula"], "(场内价格 / 实时估值 - 1) × 100%")
         self.assertEqual(result["details"][0]["quality"], "proxy")
         self.assertEqual(result["details"][0]["quote_symbol"], "GLD")
+        self.assertEqual(result["fx_updated_at"], "2026-08-21")
 
 
 if __name__ == "__main__":
