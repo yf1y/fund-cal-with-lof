@@ -58,7 +58,8 @@ FundCal 是一款面向个人使用的基金实时估值工具。它支持按基
 首次运行：
 
 ```powershell
-cd C:\Users\21999\Desktop\stock_cal
+git clone https://github.com/yf1y/fund-cal-with-lof.git
+cd fund-cal-with-lof
 python -m venv venv
 .\venv\Scripts\Activate.ps1
 python -m pip install -r backend\requirements.txt
@@ -70,7 +71,7 @@ python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
 已有虚拟环境时可直接运行：
 
 ```powershell
-cd C:\Users\21999\Desktop\stock_cal
+cd fund-cal-with-lof
 .\venv\Scripts\python.exe -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
 ```
 
@@ -136,7 +137,7 @@ $env:DATABASE_URL = "postgresql+psycopg://USER:PASSWORD@HOST:5432/postgres"
 保持网页服务运行，再打开第二个 PowerShell：
 
 ```powershell
-cd C:\Users\21999\Desktop\stock_cal
+cd fund-cal-with-lof
 .\venv\Scripts\python.exe share.py
 ```
 
