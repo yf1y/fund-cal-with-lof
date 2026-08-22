@@ -36,7 +36,10 @@
         .panel.active { display: block; }
         .card { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 8px 24px rgba(16,24,40,.04); }
         .toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 18px; border-bottom: 1px solid var(--line); }
+        .toolbar-main { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
         .toolbar-meta { color: var(--muted); font-size: 13px; }
+        .catalog-filter { width: 230px; padding: 9px 11px; font-size: 13px; }
+        select { border: 1px solid #cfd4dc; border-radius: 9px; padding: 9px 11px; background: white; color: var(--ink); }
         button.action { border: 1px solid var(--line); border-radius: 9px; padding: 9px 14px; background: white; color: var(--ink); font-weight: 700; cursor: pointer; }
         button.action:hover { border-color: #b9c1cc; }
         button:disabled { opacity: .55; cursor: wait; }
@@ -90,6 +93,8 @@
         .primary { border: 0; border-radius: 10px; padding: 13px 22px; background: var(--brand); color: white; font-weight: 800; cursor: pointer; white-space: nowrap; }
         .error { display: none; color: #b42318; background: #fef3f2; padding: 10px 12px; border-radius: 8px; margin-top: 14px; }
         .result { display: none; margin-top: 28px; border-top: 1px solid var(--line); padding-top: 24px; }
+        .history-list { display: grid; gap: 16px; margin-top: 28px; }
+        .history-item { border-top: 1px solid var(--line); padding-top: 24px; }
         .result-head { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; }
         .result h3 { margin: 0 0 5px; font-size: 22px; }
         .metric-grid { display: grid; grid-template-columns: repeat(4, minmax(130px, 1fr)); gap: 12px; margin-top: 20px; }
@@ -109,6 +114,8 @@
             .detail-row span:nth-child(4) { grid-column: 1 / -1; }
             .composition-head { flex-direction: column; }
             .composition-stats { text-align: left; }
+            .toolbar { align-items: flex-start; flex-direction: column; }
+            .catalog-filter { width: 100%; }
         }
     </style>
 </head>
@@ -127,7 +134,11 @@
     <section class="panel active" id="dashboardPanel">
         <div class="card">
             <div class="toolbar">
-                <div class="toolbar-meta" id="dashboardMeta">正在计算估值与折溢价…</div>
+                <div class="toolbar-main">
+                    <input class="catalog-filter" id="catalogFilter" type="search" placeholder="筛选 LOF 代码或名称">
+                    <select id="industryFilter" aria-label="行业分类"><option value="">全部分类</option></select>
+                    <div class="toolbar-meta" id="dashboardMeta">正在加载全量 LOF…</div>
+                </div>
                 <button class="action" id="refreshBtn">刷新估值</button>
             </div>
             <div class="table-wrap">
@@ -143,11 +154,11 @@
                         <th>净值基准</th>
                     </tr>
                     </thead>
-                    <tbody id="dashboardBody"><tr><td colspan="7" class="skeleton">首次估值需要抓取持仓行情，请稍候…</td></tr></tbody>
+                    <tbody id="dashboardBody"><tr><td colspan="7" class="skeleton">正在加载 LOF 目录与场内行情…</td></tr></tbody>
                 </table>
             </div>
         </div>
-        <p class="notice">“已估持仓”是成功取得行情并纳入计算的持仓占基金净值的比例。溢价率 = 场内价格 ÷ 实时估值 − 1；正数为溢价，负数为折价。所有结果仅供参考，不构成投资建议。</p>
+        <p class="notice">看板列出当前目录中的全部 LOF。深度维护基金直接估值，其余基金点击“计算估值”后按需读取持仓。“已估持仓”是成功取得行情并纳入计算的持仓占基金净值的比例。溢价率 =（实时估值 − 场内价格）÷ 场内价格。</p>
     </section>
 
     <section class="panel" id="searchPanel">
@@ -159,7 +170,7 @@
                 <button class="primary" id="searchBtn">查询估值</button>
             </div>
             <div class="error" id="searchError"></div>
-            <div class="result" id="searchResult"></div>
+            <div class="history-list" id="searchHistory"><div class="skeleton">正在读取查询记录…</div></div>
         </div>
     </section>
 </main>
@@ -225,33 +236,90 @@
         document.querySelectorAll('.panel').forEach(panel => panel.classList.toggle('active', panel.id === button.dataset.panel));
     }));
 
+    let dashboardRows = [];
+
+    const valuationExplanation = (row) => {
+        if (row.valuation_state === 'estimated') return estimateBasis(row.quote_qualities || []);
+        return row.holdings_available ? '已有季度持仓，点击计算' : '点击获取持仓并计算';
+    };
+
+    function bindDashboardActions() {
+        document.querySelectorAll('.composition-toggle:not(.estimate-lof)').forEach(toggle => toggle.addEventListener('click', () => {
+            const panel = document.getElementById(`composition-${toggle.dataset.code}`);
+            const expanded = toggle.getAttribute('aria-expanded') === 'true';
+            toggle.setAttribute('aria-expanded', String(!expanded));
+            toggle.textContent = expanded ? '查看构成' : '收起构成';
+            panel.hidden = expanded;
+        }));
+        document.querySelectorAll('.estimate-lof').forEach(button => button.addEventListener('click', async () => {
+            const code = button.dataset.code;
+            button.disabled = true; button.textContent = '正在计算…';
+            try {
+                const response = await fetch(`/api/lof/${encodeURIComponent(code)}/estimate`);
+                const payload = await response.json();
+                if (!response.ok) throw new Error(payload.detail || '估值失败');
+                const index = dashboardRows.findIndex(row => row.fund_code === code);
+                if (index >= 0) dashboardRows[index] = payload;
+                renderDashboard();
+            } catch (error) { button.disabled = false; button.textContent = error.message; }
+        }));
+    }
+
+    function renderDashboard() {
+        const needle = document.getElementById('catalogFilter').value.trim().toLowerCase();
+        const industry = document.getElementById('industryFilter').value;
+        const rows = dashboardRows.filter(row => {
+            const matchesText = !needle || `${row.fund_code} ${row.fund_name}`.toLowerCase().includes(needle);
+            return matchesText && (!industry || row.industry === industry);
+        });
+        document.getElementById('dashboardBody').innerHTML = rows.map(row => {
+            const estimated = row.valuation_state === 'estimated';
+            const action = estimated
+                ? `<button type="button" class="composition-toggle" data-code="${esc(row.fund_code)}" aria-expanded="false">查看构成</button>`
+                : `<button type="button" class="composition-toggle estimate-lof" data-code="${esc(row.fund_code)}">计算估值</button>`;
+            return `
+                <tr class="dashboard-row" title="${esc((row.warnings || []).join(' '))}">
+                    <td><div class="fund-code-primary">${esc(row.fund_code)}</div><div class="fund-name">${esc(row.fund_name)}</div><div class="micro">${esc(row.industry || '未分类')}</div>${action}</td>
+                    <td><div class="number">${num(row.estimated_nav)}</div><div class="micro ${tone(row.estimated_change_pct)}">${pct(row.estimated_change_pct)}</div></td>
+                    <td><div class="number">${num(row.market_price, 3)}</div><div class="micro">${esc(row.market_price_date || '—')}</div></td>
+                    <td><div class="number ${tone(row.premium_rate)}">${pct(row.premium_rate)}</div></td>
+                    <td class="coverage" title="成功取得行情并纳入计算的持仓，占基金净值的比例"><div class="number">${estimated ? `${num(row.priced_weight, 1)}%` : '—'}</div><div class="bar"><span style="width:${Math.min(100, Number(row.priced_weight || 0))}%"></span></div></td>
+                    <td><span class="basis-note ${(row.quote_qualities || []).includes('proxy') || !estimated ? 'caution' : ''}">${esc(valuationExplanation(row))}</span></td>
+                    <td><div>${num(row.base_nav)}</div><div class="micro">${esc(row.base_nav_date || '—')}</div></td>
+                </tr>
+                ${estimated ? `<tr class="composition-row" id="composition-${esc(row.fund_code)}" hidden><td colspan="7">${renderComposition(row)}</td></tr>` : ''}`;
+        }).join('') || '<tr><td colspan="7" class="skeleton">没有符合条件的 LOF</td></tr>';
+        bindDashboardActions();
+        const ready = dashboardRows.filter(row => row.valuation_state === 'estimated').length;
+        document.getElementById('dashboardMeta').textContent = `${rows.length} / ${dashboardRows.length} 只 · ${ready} 只已完成估值`;
+    }
+
     async function loadDashboard() {
         const button = document.getElementById('refreshBtn');
         button.disabled = true;
         try {
-            const response = await fetch('/api/dashboard');
-            if (!response.ok) throw new Error('看板接口请求失败');
+            const response = await fetch('/api/lof/catalog');
+            if (!response.ok) throw new Error('LOF 目录请求失败');
             const payload = await response.json();
-            document.getElementById('dashboardBody').innerHTML = payload.funds.map(row => `
-                <tr class="dashboard-row" title="${esc((row.warnings || []).join(' '))}">
-                    <td><div class="fund-code-primary">${esc(row.fund_code)}</div><div class="fund-name">${esc(row.fund_name)}</div><button type="button" class="composition-toggle" data-code="${esc(row.fund_code)}" aria-expanded="false">查看构成</button></td>
-                    <td><div class="number">${num(row.estimated_nav)}</div><div class="micro ${tone(row.estimated_change_pct)}">${pct(row.estimated_change_pct)}</div></td>
-                    <td><div class="number">${num(row.market_price, 3)}</div><div class="micro">${esc(row.market_price_date || '—')}</div></td>
-                    <td><div class="number ${tone(row.premium_rate)}">${pct(row.premium_rate)}</div></td>
-                    <td class="coverage" title="成功取得行情并纳入计算的持仓，占基金净值的比例"><div class="number">${num(row.priced_weight, 1)}%</div><div class="bar"><span style="width:${Math.min(100, Number(row.priced_weight || 0))}%"></span></div></td>
-                    <td><span class="basis-note ${(row.quote_qualities || []).includes('proxy') || (row.quote_qualities || []).includes('missing') ? 'caution' : ''}">${esc(estimateBasis(row.quote_qualities))}</span></td>
-                    <td><div>${num(row.base_nav)}</div><div class="micro">${esc(row.base_nav_date || '—')}</div></td>
-                </tr>
-                <tr class="composition-row" id="composition-${esc(row.fund_code)}" hidden><td colspan="7">${renderComposition(row)}</td></tr>`).join('');
-            document.querySelectorAll('.composition-toggle').forEach(toggle => toggle.addEventListener('click', () => {
-                const panel = document.getElementById(`composition-${toggle.dataset.code}`);
-                const expanded = toggle.getAttribute('aria-expanded') === 'true';
-                toggle.setAttribute('aria-expanded', String(!expanded));
-                toggle.textContent = expanded ? '查看构成' : '收起构成';
-                panel.hidden = expanded;
-            }));
-            const estimateUpdatedAt = payload.funds.map(row => row.update_time).filter(Boolean).sort().pop();
-            document.getElementById('dashboardMeta').textContent = `按溢价率从高到低 · 估值更新 ${displayTime(estimateUpdatedAt)} · 汇率更新 ${displayTime(payload.fx_updated_at)}`;
+            dashboardRows = payload.funds || [];
+            const select = document.getElementById('industryFilter');
+            const selected = select.value;
+            const industries = [...new Set(dashboardRows.map(row => row.industry).filter(Boolean))].sort();
+            select.innerHTML = '<option value="">全部分类</option>' + industries.map(item => `<option value="${esc(item)}">${esc(item)}</option>`).join('');
+            select.value = selected;
+            renderDashboard();
+            button.disabled = false;
+            fetch('/api/dashboard').then(async detailedResponse => {
+                if (!detailedResponse.ok) throw new Error('深度估值请求失败');
+                const detailedPayload = await detailedResponse.json();
+                const estimated = new Map((detailedPayload.funds || [])
+                    .filter(row => row.valuation_state === 'estimated')
+                    .map(row => [row.fund_code, row]));
+                dashboardRows = dashboardRows.map(row => estimated.get(row.fund_code) || row);
+                renderDashboard();
+            }).catch(() => {
+                document.getElementById('dashboardMeta').textContent += ' · 深度估值暂未完成';
+            });
         } catch (error) {
             document.getElementById('dashboardBody').innerHTML = `<tr><td colspan="7" class="skeleton">${esc(error.message)}</td></tr>`;
         } finally { button.disabled = false; }
@@ -271,29 +339,49 @@
             <details><summary>查看基金构成（${(row.details || []).length} 项）</summary>${renderComposition(row)}</details>`;
     }
 
+    function renderSearchHistory(rows) {
+        const box = document.getElementById('searchHistory');
+        box.innerHTML = rows.length
+            ? rows.map(row => `<article class="history-item">${renderSearchResult(row)}</article>`).join('')
+            : '<div class="skeleton">还没有查询记录。完成第一次查询后，结果会保留在这里。</div>';
+    }
+
+    async function loadSearchHistory() {
+        try {
+            const response = await fetch('/api/search/history');
+            const payload = await response.json();
+            if (!response.ok) throw new Error(payload.detail || '查询记录读取失败');
+            renderSearchHistory(payload.funds || []);
+        } catch (error) {
+            document.getElementById('searchHistory').innerHTML = `<div class="error" style="display:block">${esc(error.message)}</div>`;
+        }
+    }
+
     async function searchFund() {
         const input = document.getElementById('searchInput');
         const button = document.getElementById('searchBtn');
         const errorBox = document.getElementById('searchError');
-        const resultBox = document.getElementById('searchResult');
         const query = input.value.trim();
-        errorBox.style.display = 'none'; resultBox.style.display = 'none';
+        errorBox.style.display = 'none';
         if (!query) { errorBox.textContent = '请输入完整基金代码或名称'; errorBox.style.display = 'block'; return; }
         button.disabled = true; button.textContent = '正在计算…';
         try {
             const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
             const payload = await response.json();
             if (!response.ok) throw new Error(payload.detail || '搜索失败');
-            resultBox.innerHTML = renderSearchResult(payload); resultBox.style.display = 'block';
+            await loadSearchHistory();
         } catch (error) { errorBox.textContent = error.message; errorBox.style.display = 'block'; }
         finally { button.disabled = false; button.textContent = '查询估值'; }
     }
 
     document.getElementById('refreshBtn').addEventListener('click', loadDashboard);
+    document.getElementById('catalogFilter').addEventListener('input', renderDashboard);
+    document.getElementById('industryFilter').addEventListener('change', renderDashboard);
     document.getElementById('searchBtn').addEventListener('click', searchFund);
     document.getElementById('searchInput').addEventListener('keydown', event => { if (event.key === 'Enter') searchFund(); });
     loadDashboard();
-    setInterval(loadDashboard, 60000);
+    loadSearchHistory();
+    setInterval(loadDashboard, 300000);
 </script>
 </body>
 </html>

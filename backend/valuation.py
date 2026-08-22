@@ -42,19 +42,66 @@ class ValuationService:
         self._name_lock = asyncio.Lock()
         self._portfolio_cache: dict[str, dict[str, Any]] = {}
         self._dashboard_cache: tuple[float, list[dict[str, Any]]] | None = None
+        self._catalog_cache: tuple[float, list[dict[str, Any]]] | None = None
+
+    async def dashboard_catalog(self) -> list[dict[str, Any]]:
+        """Return the whole exchange catalog without waiting for portfolio estimates."""
+        now = datetime.now().timestamp()
+        if self._catalog_cache and self._catalog_cache[0] > now:
+            return self._catalog_cache[1]
+        catalog = self.store.list_lof_catalog()
+        symbols = [
+            exchange_symbol_for_fund(str(item.get("fund_code", ""))) for item in catalog
+        ]
+        spots = await self.market.current_prices(symbols)
+        rows = []
+        for item in catalog:
+            code = str(item.get("fund_code", "")).zfill(6)
+            spot = spots.get(exchange_symbol_for_fund(code))
+            rows.append(
+                {
+                    "fund_code": code,
+                    "fund_name": item.get("fund_name") or code,
+                    "is_qdii": bool(item.get("is_qdii")),
+                    "is_lof": True,
+                    "fund_category": item.get("fund_category"),
+                    "industry": item.get("industry"),
+                    "report_period": item.get("report_period"),
+                    "estimated_nav": None,
+                    "estimated_change_pct": None,
+                    "base_nav": None,
+                    "base_nav_date": None,
+                    "market_price": spot[0] if spot else None,
+                    "market_price_date": spot[2] if spot else None,
+                    "premium_rate": None,
+                    "recorded_weight": 0.0,
+                    "priced_weight": 0.0,
+                    "quote_qualities": [],
+                    "fx_updated_at": None,
+                    "update_time": datetime.now().isoformat(timespec="seconds"),
+                    "details": [],
+                    "warnings": ["尚未执行本只基金的按需估值。"],
+                    "holdings_available": bool(item.get("holdings_available")),
+                    "valuation_state": "ready" if item.get("holdings_available") else "on_demand",
+                }
+            )
+        self._catalog_cache = (datetime.now().timestamp() + 60, rows)
+        return rows
 
     async def dashboard(self) -> list[dict[str, Any]]:
         now = datetime.now().timestamp()
         if self._dashboard_cache and self._dashboard_cache[0] > now:
             return self._dashboard_cache[1]
+        catalog = self.store.list_lof_catalog()
         funds = self.store.list_dashboard_funds()
         navs = await asyncio.gather(
             *(self.market.latest_nav(str(fund.get("fund_code", ""))) for fund in funds)
         )
         spot_symbols: list[str] = []
         fx_keys: set[tuple[str, str | None]] = set()
+        for catalog_item in catalog:
+            spot_symbols.append(exchange_symbol_for_fund(str(catalog_item.get("fund_code", ""))))
         for fund, nav in zip(funds, navs):
-            spot_symbols.append(exchange_symbol_for_fund(str(fund.get("fund_code", ""))))
             for holding in fund.get("holdings") or []:
                 raw_symbol = normalize_symbol(
                     holding.get("price_symbol") or holding.get("reported_code") or ""
@@ -63,20 +110,61 @@ class ValuationService:
                 quote_symbol = mapping["proxy_symbol"] if mapping else raw_symbol
                 spot_symbols.append(quote_symbol)
                 fx_keys.add((symbol_currency(quote_symbol), nav.nav_date))
-        await self.market.current_prices([symbol for symbol in spot_symbols if symbol])
+        spots = await self.market.current_prices([symbol for symbol in spot_symbols if symbol])
         await asyncio.gather(
             *(self.market.fx_quote(currency, base_date) for currency, base_date in fx_keys if currency != "UNKNOWN")
         )
-        rows = await asyncio.gather(
+        detailed_rows = await asyncio.gather(
             *(self.estimate_fund(fund) for fund in funds)
         )
-        rows = sorted(
-            rows,
+        detailed_by_code = {row["fund_code"]: row for row in detailed_rows}
+        rows: list[dict[str, Any]] = []
+        for item in catalog:
+            code = str(item.get("fund_code", "")).zfill(6)
+            if code in detailed_by_code:
+                rows.append(detailed_by_code[code])
+                continue
+            symbol = exchange_symbol_for_fund(code)
+            spot = spots.get(symbol)
+            rows.append(
+                {
+                    "fund_code": code,
+                    "fund_name": item.get("fund_name") or code,
+                    "is_qdii": bool(item.get("is_qdii")),
+                    "is_lof": True,
+                    "fund_category": item.get("fund_category"),
+                    "industry": item.get("industry"),
+                    "report_period": item.get("report_period"),
+                    "estimated_nav": None,
+                    "estimated_change_pct": None,
+                    "base_nav": None,
+                    "base_nav_date": None,
+                    "market_price": spot[0] if spot else None,
+                    "market_price_date": spot[2] if spot else None,
+                    "premium_rate": None,
+                    "recorded_weight": 0.0,
+                    "priced_weight": 0.0,
+                    "quote_qualities": [],
+                    "fx_updated_at": None,
+                    "update_time": datetime.now().isoformat(timespec="seconds"),
+                    "details": [],
+                    "warnings": ["尚未执行本只基金的按需估值。"],
+                    "holdings_available": bool(item.get("holdings_available")),
+                    "valuation_state": "ready" if item.get("holdings_available") else "on_demand",
+                }
+            )
+        detailed = sorted(
+            [row for row in rows if row.get("estimated_nav") is not None],
             key=lambda row: row.get("premium_rate")
             if row.get("premium_rate") is not None
             else -10_000,
             reverse=True,
         )
+        pending = sorted(
+            [row for row in rows if row.get("estimated_nav") is None],
+            key=lambda row: (str(row.get("industry") or ""), row["fund_code"]),
+        )
+        rows = detailed + pending
         self._dashboard_cache = (datetime.now().timestamp() + 60, rows)
         return rows
 
@@ -171,7 +259,7 @@ class ValuationService:
         estimated_nav = nav.value * (1 + contribution) if nav.ok and nav.value is not None else None
         premium_rate = None
         if market_quote and market_quote.latest not in (None, 0) and estimated_nav not in (None, 0):
-            premium_rate = (market_quote.latest / estimated_nav - 1) * 100
+            premium_rate = (estimated_nav - market_quote.latest) / market_quote.latest * 100
         recorded_coverage = min(recorded_weight, 100.0)
         priced_coverage = min(priced_weight, 100.0)
         status = "complete" if recorded_weight > 0 and abs(priced_weight - recorded_weight) < 0.01 else "partial"
@@ -189,6 +277,8 @@ class ValuationService:
             "fund_name": name,
             "is_qdii": bool(fund.get("is_qdii")),
             "is_lof": is_lof,
+            "fund_category": fund.get("fund_category"),
+            "industry": fund.get("industry"),
             "report_period": fund.get("report_period"),
             "estimated_nav": round(estimated_nav, 4) if estimated_nav is not None else None,
             "estimated_change_pct": round(contribution * 100, 4) if nav.ok else None,
@@ -197,7 +287,7 @@ class ValuationService:
             "market_price": market_quote.latest if market_quote else None,
             "market_price_date": market_quote.latest_date if market_quote else None,
             "premium_rate": round(premium_rate, 4) if premium_rate is not None else None,
-            "premium_formula": "(场内价格 / 实时估值 - 1) × 100%",
+            "premium_formula": "(实时估值 - 场内价格) / 场内价格 × 100%",
             "recorded_weight": round(recorded_coverage, 2),
             "priced_weight": round(priced_coverage, 2),
             "unknown_weight": round(max(0.0, 100.0 - recorded_coverage), 2),
@@ -212,6 +302,8 @@ class ValuationService:
             "details": details,
             "warnings": warnings,
             "holdings_cache": fund.get("_cache_status", "curated"),
+            "holdings_available": bool(holdings),
+            "valuation_state": "estimated",
         }
 
     @staticmethod
@@ -231,7 +323,7 @@ class ValuationService:
         async with self._name_lock:
             if self._fund_names:
                 return
-            for item in self.store.list_dashboard_funds():
+            for item in self.store.list_lof_catalog():
                 self._fund_names[str(item["fund_code"]).zfill(6)] = item["fund_name"]
             cached_names = self.cache.get("fund-names:v1")
             if isinstance(cached_names, dict):
@@ -255,6 +347,13 @@ class ValuationService:
         curated = self.store.find_curated(query)
         if curated:
             return curated
+        known_lof = self.store.find_lof(query)
+        if known_lof:
+            return await self._load_public_fund(
+                str(known_lof["fund_code"]).zfill(6),
+                str(known_lof.get("fund_name") or known_lof["fund_code"]),
+                known_lof,
+            )
         if query.isdigit() and len(query) == 6:
             cached = self.cache.get(f"portfolio:v2:{query}")
             if isinstance(cached, dict):
@@ -345,7 +444,12 @@ class ValuationService:
                 return holdings, period
         return [], None
 
-    async def _load_public_fund(self, code: str, name: str) -> dict[str, Any]:
+    async def _load_public_fund(
+        self,
+        code: str,
+        name: str,
+        known: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
         cached = self._portfolio_cache.get(code)
         if cached:
             return cached
@@ -362,8 +466,10 @@ class ValuationService:
         fund = {
             "fund_code": code,
             "fund_name": name,
-            "is_qdii": "QDII" in name.upper(),
-            "is_lof": self._looks_like_lof_code(code),
+            "is_qdii": bool(known.get("is_qdii")) if known else "QDII" in name.upper(),
+            "is_lof": True if known else self._looks_like_lof_code(code),
+            "fund_category": known.get("fund_category") if known else None,
+            "industry": known.get("industry") if known else None,
             "report_period": report_period,
             "holdings": holdings,
             "_cache_status": "stored",

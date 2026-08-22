@@ -30,6 +30,22 @@ class CoreTests(unittest.IsolatedAsyncioTestCase):
             LocalCache(path).set("fund", {"code": "012870"}, 60)
             self.assertEqual(LocalCache(path).get("fund"), {"code": "012870"})
 
+    def test_search_history_is_latest_first(self):
+        with TemporaryDirectory() as directory:
+            cache = LocalCache(Path(directory) / "history.sqlite3", database_url="")
+            cache.record_search({"fund_code": "000001", "fund_name": "第一只"})
+            cache.record_search({"fund_code": "000002", "fund_name": "第二只"})
+            cache.record_search({"fund_code": "000001", "fund_name": "第一只"})
+            rows = cache.list_search_history()
+            self.assertEqual([item["fund_code"] for item in rows], ["000001", "000002"])
+
+    def test_versioned_lof_catalog_and_holdings_are_separate(self):
+        store = FundStore()
+        health = store.health()
+        self.assertGreaterEqual(health["catalog_count"], 400)
+        self.assertGreaterEqual(health["holdings_count"], 21)
+        self.assertEqual(len(store.list_dashboard_funds()), 21)
+
     def test_public_holding_symbol_markets(self):
         self.assertEqual(ValuationService._holding_symbol("600519"), "600519.SH")
         self.assertEqual(ValuationService._holding_symbol("00700"), "00700.HK")
@@ -70,8 +86,8 @@ class CoreTests(unittest.IsolatedAsyncioTestCase):
             }
         )
         self.assertEqual(result["estimated_nav"], 1.05)
-        self.assertAlmostEqual(result["premium_rate"], 4.7619, places=4)
-        self.assertEqual(result["premium_formula"], "(场内价格 / 实时估值 - 1) × 100%")
+        self.assertAlmostEqual(result["premium_rate"], -4.5455, places=4)
+        self.assertEqual(result["premium_formula"], "(实时估值 - 场内价格) / 场内价格 × 100%")
         self.assertEqual(result["details"][0]["quality"], "proxy")
         self.assertEqual(result["details"][0]["quote_symbol"], "GLD")
         self.assertEqual(result["fx_updated_at"], "2026-08-21")

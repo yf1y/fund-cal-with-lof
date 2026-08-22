@@ -1,61 +1,46 @@
 # FundCal
 
-> **基金实时估值与 LOF 折溢价工具**
+> 看得见计算过程的基金实时估值工具：既能查询普通公募基金，也能在一张看板里比较全量 LOF 的场内价格、估算净值与折溢价。
 
-FundCal 是一款面向个人使用的基金实时估值工具。它支持按基金代码或名称查询公开基金，并为 LOF 提供场内价格、折溢价和持仓拆解。结果同时展示披露持仓、原标的或替代行情、人民币汇率、成功取价比例和更新时间，避免只给出一个无法核验的估值数字。
+FundCal 面向个人投资者，不只给出一个“实时估值”数字，还把估值依据一并展示：基金最新披露持仓、每项资产使用的行情或替代标的、人民币汇率、成功取价比例和各自更新时间。这样即使免费行情覆盖不完整，也能知道误差可能来自哪里，而不是把近似值包装成官方净值。
 
-当前版本深度维护 21 只 LOF / QDII-LOF，同时支持按基金代码或完整名称分析其他公募基金。首次查询取得的基金名称、披露期和持仓会自动写入本机 SQLite 缓存；再次查询或重启服务后无需重复抓取持仓。本机运行不需要安装 PostgreSQL，也不需要 API Key。
+当前目录包含 **469 只可取得沪深场内报价的 LOF**。其中 21 只经过人工校验，打开看板即可估值；其余基金保留完整目录与场内价格，点击后按需读取持仓并计算。普通公募基金也可以通过代码或完整名称查询，查过的基金会保留在列表中，最近查询排在最前。
 
 ## 功能概述
 
-网页保留两个清晰的使用入口：
+网页包含两个入口：
 
-| 功能 | 适用场景 | 展示内容 |
-| --- | --- | --- |
-| **LOF 看板** | 持续观察重点基金 | 21 只深度维护基金的实时估值、场内价格、溢价率、已估持仓比例、净值基准和逐项构成 |
-| **基金搜索** | 临时分析其他基金 | 输入完整 6 位代码或完整名称，按最新可用披露持仓计算估值；查询过的持仓资料自动缓存 |
+| 页面 | 能做什么 |
+| --- | --- |
+| **LOF 看板** | 浏览全量目录，按代码、名称或行业筛选；查看场内价格；对 21 只深度维护基金直接估值，对其余基金按需计算；展开查看持仓贡献与计价口径 |
+| **基金查询** | 按 6 位基金代码或完整名称计算实时估值；自动保存成功结果；继续查询时保留旧结果并将最新查询置顶 |
 
 ### 估算口径
 
-估值以基金最新公布的单位净值为基准，计算已披露持仓从净值基准日至当前的人民币收益：
+FundCal 以基金最新公布的单位净值为基准，计算已披露持仓从净值基准日至当前的人民币收益：
 
 ```text
 持仓人民币收益率 = (当前价 / 基准日价格) × (当前汇率 / 基准日汇率) - 1
 
 实时估值 = 最新单位净值 × (1 + Σ 持仓权重 × 持仓人民币收益率)
 
-溢价率 = (场内价格 / 实时估值 - 1) × 100%
+溢价率 = (实时估值 - 场内价格) / 场内价格 × 100%
 ```
 
-- 溢价率大于 0，表示场内价格高于估算净值；小于 0，表示场内价格低于估算净值。
-- 外币资产同时计入标的涨跌和汇率变化，最终统一折算为人民币。
-- 未披露持仓和未成功取价的持仓按 0 收益处理，不会把前十大持仓的涨跌放大到整个基金。
-- “已估持仓”表示成功取得行情并纳入计算的持仓占基金净值的比例，不是预测置信度。
+- 溢价率为正，表示估算净值高于场内价格；为负，表示估算净值低于场内价格。
+- 海外资产的标的涨跌和汇率变化都会计入，最终折算为人民币；页面单独显示汇率更新时间。
+- 未披露仓位和未成功取价的持仓按 0 收益处理，不会把前十大持仓的涨跌放大到整个基金。
+- “已估持仓”指成功取得行情并参与计算的持仓占基金净值的比例，不是置信度评分。
+- 原证券没有稳定免费行情时，可能采用相关 ETF 或指数近似；页面会明确标为“相关资产近似”并展示替代代码。
+- 不同市场交易时段、持仓披露滞后、基金调仓、替代标的和免费行情延迟都会造成误差。结果不是基金公司发布的官方 IOPV，不构成投资建议。
 
-页面会分别标明以下计价方式：
-
-| 页面标记 | 严格含义 |
-| --- | --- |
-| **原标的行情** | 使用持仓本身的盘中或最近可用行情 |
-| **相关资产近似** | 原标的缺少稳定免费行情，使用相关 ETF 或指数近似，并列出替代代码和原因 |
-| **最近收盘价** | 只能取得最近交易日收盘价，不代表盘中价格 |
-| **价格暂按不变** | 对部分低波动债券作保守的零涨跌处理 |
-| **暂缺价格** | 本次不计入涨跌贡献，同时降低已估持仓比例 |
-
-估值基于公开披露和第三方行情，不是基金公司发布的官方 IOPV，也不构成投资建议。基金调仓、披露滞后、未披露仓位、替代标的偏差、跨市场交易时段和行情延迟都会造成误差。披露期过旧时，页面会直接给出警告。
-
-### 当前覆盖边界
-
-- 看板中的 21 只基金经过人工整理，包含持仓代码和必要的跨市场替代映射，属于“深度覆盖”。
-- 搜索入口可按需分析公开基金代码。A 股、常见港股、美股和日股代码可自动识别；复杂 QDII、基金中基金、瑞士及其他小众市场仍可能需要人工补充映射。
-- 项目暂不维护历史净值数据库。每次估值读取最新单位净值，并仅为计算基准涨跌取得必要的历史行情。
-- 免费数据源不适合同时对数百只 LOF 做逐持仓高频估值。因此全市场扩展采用“目录发现 + 按需分析 + 持久缓存”，而不是让所有基金每分钟全量重算。
+项目不维护庞大的历史净值库。历史行情只在计算基准涨跌时按需获取；重点维护的是两类真正影响使用速度的数据：季度持仓和查询缓存。
 
 ## 使用方式与部署方式
 
-### 在 Windows 本机运行
+### 本机运行
 
-首次运行：
+本机不需要安装 PostgreSQL。Python 自带的 SQLite 会在首次启动时自动创建本地文件。
 
 ```powershell
 git clone https://github.com/yf1y/fund-cal-with-lof.git
@@ -66,121 +51,132 @@ python -m pip install -r backend\requirements.txt
 python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
 ```
 
-浏览器打开 <http://127.0.0.1:8000>。按 `Ctrl+C` 停止服务。
+打开 <http://127.0.0.1:8000>，按 `Ctrl+C` 停止。
 
-已有虚拟环境时可直接运行：
+已经安装过依赖时：
 
 ```powershell
 cd fund-cal-with-lof
 .\venv\Scripts\python.exe -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
 ```
 
-项目使用 Python 内置的 SQLite 保存查询缓存，文件会自动创建在 `.cache/`。SQLite 是一个本地文件，不是需要单独安装和启动的数据库服务。
+### Render + Supabase 部署
 
-### 部署到 Render
+`render.yaml` 已包含 Render 的构建、启动和健康检查配置。连接 GitHub 仓库创建 Blueprint 后即可部署。
 
-仓库中的 `render.yaml` 已配置构建、启动和健康检查：
+云端建议同时创建一个 Supabase 免费项目，并把 Supabase 的 PostgreSQL 连接串作为 Render 环境变量 `DATABASE_URL`。应用首次连接时会自动创建：
 
-1. 在 Render 创建 Blueprint，并连接本仓库。
-2. Render 读取 `render.yaml` 创建 Web Service。
-3. 部署成功后打开 Render 分配的网址。
+- `runtime_cache`：减少重复抓取持仓和基金目录的等待时间；
+- `search_history`：永久保存查过的基金及顺序。
 
-默认部署不要求外部数据库。需要注意：Render 的实例文件系统不保证在重新部署后长期保留，因此 SQLite 适合单次实例缓存，不适合作为云端永久数据源；免费实例休眠后的首次访问也会有冷启动时间。
+Supabase 是托管的 PostgreSQL；这里仍然使用标准 SQL 和 PostgreSQL 驱动，不需要 Supabase 专有 SDK。数据库与 Render Web Service 相互独立，因此 **重新部署、重启或休眠 Render 不会删除 Supabase 中的数据**。
 
-### 可选：Supabase / PostgreSQL
+如果没有配置 `DATABASE_URL`，Render 也能启动，但只能使用实例内的 SQLite。Render 的临时文件系统在重新部署、重启或服务休眠后可能丢失，此时查询历史无法保证保留。
 
-个人本机使用无需 PostgreSQL。只有需要跨设备保留人工维护的基金清单和行情代码映射时，才建议配置 `DATABASE_URL`。Supabase 是托管的 PostgreSQL 服务；本项目使用标准 SQLAlchemy/PostgreSQL 连接，不依赖 Supabase 专有 SDK。
+Render 免费 Web Service 每个 workspace 每个自然月共享 750 个实例小时；15 分钟无访问会休眠，下一次访问会冷启动。用量月底重置且不结转，多个免费服务会共同消耗额度。详见 [Render Free 实例说明](https://render.com/docs/free)。Supabase 免费项目长时间低活跃时也可能暂停，但数据库不会因 Render 部署而消失，可在 Supabase 控制台恢复。
+
+### 在本机改用 PostgreSQL
+
+只有需要验证云端数据库时才需要这样做：
 
 ```powershell
-$env:DATABASE_URL = "postgresql+psycopg://USER:PASSWORD@HOST:5432/postgres"
+$env:DATABASE_URL = "postgresql://USER:PASSWORD@HOST:5432/postgres"
 .\venv\Scripts\python.exe -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
 ```
 
-首次连接会创建 `funds` 和 `symbol_mappings` 两张配置表。连接失败时应用会回退到仓库中的 `data.json`。连接字符串含密码，不要提交到 GitHub。
+连接串包含密码，不要写入代码或提交到 GitHub。未设置 `DATABASE_URL` 时始终使用 SQLite。
 
 ## 使用说明
 
-### 阅读 LOF 看板
+### LOF 数据如何维护
 
-1. 对比“实时估值”和“场内价格”，再查看溢价率。
-2. 检查“已估持仓”。比例越低，未参与计算的净值部分越多。
-3. 阅读“估值说明”，确认是否使用替代资产或最近收盘价。
-4. 展开“查看构成”，核对每项持仓的权重、人民币涨跌、净值贡献、计价方式和汇率时间。
+数据按变化频率拆为三层，没有重复职责：
 
-估值时间、场内行情时间和汇率时间分别展示，不能把它们理解为同一个数据时点。
+| 数据 | 文件或数据库 | 更新节奏 | 内容 |
+| --- | --- | --- | --- |
+| LOF 基础目录 | `data/lof_catalog.json` | 低频 | 代码、名称、交易市场、基金类别、行业分类、是否 QDII |
+| LOF 持仓 | `data/lof_holdings.json` | 季度为主 | 披露期、持仓、行情代码映射、是否人工校验 |
+| 用户查询 | SQLite 或 Supabase PostgreSQL | 每次成功查询 | 查询结果、持仓抓取缓存、最近查询顺序 |
 
-### 查询其他基金
+手工同步命令：
 
-代码查询最直接，例如：
+```powershell
+# 更新全量场内目录
+.\venv\Scripts\python.exe scripts\sync_lof_data.py --catalog
 
-```text
-012870
-160719
+# 更新公开披露持仓
+.\venv\Scripts\python.exe scripts\sync_lof_data.py --holdings
+
+# 两者依次更新
+.\venv\Scripts\python.exe scripts\sync_lof_data.py --all
 ```
 
-也可以输入基金完整名称。名称查询要求完全匹配；第一次使用名称搜索时需要同步基金目录，因此通常比直接输入 6 位代码慢。
+GitHub Actions 中的 `Sync LOF catalog and holdings` 每月自动运行一次，也可以在 Actions 页面手动触发。自动同步不会覆盖标记为人工校验的 21 只持仓；如确需覆盖，可加 `--include-curated`。
 
-首次成功读取的基金持仓资料会写入 SQLite，并缓存 7 天；没有取得持仓的失败结果仅缓存 6 小时。缓存只减少重复抓取时间，当前行情和汇率仍会重新读取，以避免用旧结果冒充实时估值。
+### 查询与缓存
+
+- 代码查询最快，例如 `012870`、`160719`。
+- 名称查询目前要求完整名称精确匹配。
+- 第一次查询需要读取基金公开资料，复杂基金可能较慢；成功后持仓文档会缓存 7 天。
+- 每次查询仍会更新可取得的行情和汇率，不会直接把旧估值冒充实时数据。
+- 同一基金再次查询会移动到第一条，其他已查询基金继续保留在后面。
 
 ### 配置项
 
-本项目不使用大模型，因此没有模型、Prompt 或模型 API Key 需要配置。
+本项目不使用大模型，没有模型、Prompt 或模型 API Key。
 
 | 环境变量 | 必需 | 作用 |
 | --- | --- | --- |
-| `DATABASE_URL` | 否 | 连接 Supabase 或标准 PostgreSQL，维护云端基金配置 |
-| `PORT` | 否 | 服务端口，默认 `8000`；Render 会自动提供 |
-| `RELOAD` | 否 | 本地开发时设为 `1`，启用代码自动重载 |
+| `DATABASE_URL` | 否 | Supabase 或标准 PostgreSQL 连接串；Render 上建议配置 |
+| `PORT` | 否 | 服务端口，默认 `8000`；Render 自动提供 |
+| `RELOAD` | 否 | 本地开发设为 `1` 时启用代码自动重载 |
 
 ### 运行交互式公网分享 CLI
 
-保持网页服务运行，再打开第二个 PowerShell：
+先保持网页服务运行，再打开第二个 PowerShell：
 
 ```powershell
 cd fund-cal-with-lof
 .\venv\Scripts\python.exe share.py
 ```
 
-`share.py` 会通过 ngrok 创建临时公网地址。首次使用会交互式要求输入 ngrok Authtoken；配置后重新运行即可。按 `Ctrl+C` 关闭分享链接。临时公网地址会暴露当前服务，请勿在网页或终端中放置敏感信息。
+`share.py` 使用 ngrok 创建临时公网网址。首次运行会交互式要求 ngrok Authtoken；按 `Ctrl+C` 关闭分享。
 
 ### API
 
 | 接口 | 作用 |
 | --- | --- |
-| `GET /api/dashboard` | 返回 21 只深度维护 LOF 的估值看板 |
-| `GET /api/search?q=012870` | 按完整代码或名称查询，自动缓存披露持仓 |
+| `GET /api/lof/catalog` | 快速返回全量 LOF 目录与场内价格 |
+| `GET /api/dashboard` | 返回全量目录及 21 只深度维护基金的估值 |
+| `GET /api/lof/{fund_code}/estimate` | 按需计算指定 LOF |
+| `GET /api/search?q=012870` | 按完整代码或名称查询并保存结果 |
+| `GET /api/search/history` | 返回最近查询在前的历史列表 |
 | `GET /api/fund/160719` | 兼容旧版基金代码接口 |
-| `GET /api/health` | 查看配置数据层和本机 SQLite 缓存状态 |
+| `GET /api/health` | 查看静态数据数量及 SQLite / PostgreSQL 状态 |
 
 ## 项目结构
 
 ```text
 fund-cal-with-lof/
+├── .github/workflows/
+│   └── sync-lof-data.yml   # 每月同步目录与季度持仓
 ├── backend/
-│   ├── cache.py            # 无需安装服务的 SQLite 持久缓存
+│   ├── cache.py            # SQLite / PostgreSQL 查询缓存与历史
 │   ├── main.py             # FastAPI 路由、健康检查与网页入口
-│   ├── market_data.py      # 基金净值、国内外行情、持仓文档与汇率
-│   ├── valuation.py        # 持仓解析、人民币估值、折溢价与覆盖率
-│   ├── store.py            # JSON / PostgreSQL 可选配置数据层
-│   └── requirements.txt    # Python 依赖
+│   ├── market_data.py      # 基金净值、持仓、国内外行情与汇率
+│   ├── store.py            # LOF 目录与持仓数据层
+│   └── valuation.py        # 人民币估值、折溢价与覆盖率
+├── data/
+│   ├── lof_catalog.json    # 低频变化的全量 LOF 基础目录
+│   └── lof_holdings.json   # 季度变化的 LOF 披露持仓
 ├── frontend/
-│   └── index.html          # LOF 看板与基金搜索单页界面
+│   └── index.html          # LOF 看板与基金查询界面
+├── scripts/
+│   └── sync_lof_data.py    # 目录发现与持仓更新 CLI
 ├── tests/
-│   └── test_core.py        # 估值口径、行情代码和缓存测试
-├── data.json               # 21 只深度维护基金及持仓映射
-├── share.py                # ngrok 交互式公网分享工具
-└── render.yaml             # Render 部署配置
+│   └── test_core.py        # 估值、行情、缓存与数据分层测试
+├── render.yaml             # Render Blueprint
+└── share.py                # ngrok 交互式分享工具
 ```
 
-### 全市场 LOF 扩展与开源参考
-
-全市场 LOF 的“代码与场内价目录”本身复杂度不高；真正困难的是逐基金识别最新持仓、基金中基金穿透、海外证券代码映射、免费行情稳定性和披露滞后。对个人项目的现实拆分是：
-
-| 阶段 | 预估工作量 | 主要风险 |
-| --- | --- | --- |
-| 全量 LOF 目录与场内价格 | 1–2 个工作日 | 免费批量接口稳定性、退市与类别识别 |
-| 境内 LOF 按需持仓估值 | 2–4 个工作日 | 行业基金、债券和未披露仓位的估值口径 |
-| QDII / FOF 跨市场自动映射 | 1–2 周起 | 港美日瑞等代码体系、交易时段、汇率和替代标的维护 |
-| 长期稳定运行 | 持续维护 | 上游接口变更、基金调仓与新增品种 |
-
-可参考 [FundVal-Live](https://github.com/Ye-Yu-Mo/FundVal-Live) 的持仓穿透和覆盖率思路，以及 [lof-fund-monitor-optimized-v2.8L](https://github.com/YeYeXuXu/lof-fund-monitor-optimized-v2.8L) 的 LOF 分类、海外代理和置信度设计。前者采用 AGPL-3.0；后者仓库当前未见明确 LICENSE。FundCal 只参考产品思路，估值与缓存代码独立实现，不直接复制其源码。
+FundCal 借鉴了 [FundVal-Live](https://github.com/Ye-Yu-Mo/FundVal-Live) 对持仓穿透和覆盖率的重视，以及 [lof-fund-monitor-optimized-v2.8L](https://github.com/YeYeXuXu/lof-fund-monitor-optimized-v2.8L) 对 LOF 分类、海外代理和申赎信息的产品思路。FundCal 的取舍是更适合个人部署：一个网页、无需本机数据库服务、全量场内目录与按需估值并存，并把每一项近似和缺失显式展示。估值与缓存代码为独立实现，未复制上述项目源码。

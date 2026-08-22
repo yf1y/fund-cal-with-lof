@@ -1,14 +1,14 @@
 from __future__ import annotations
 
 import json
-import os
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-SEED_FILE = PROJECT_ROOT / "data.json"
+CATALOG_FILE = PROJECT_ROOT / "data" / "lof_catalog.json"
+HOLDINGS_FILE = PROJECT_ROOT / "data" / "lof_holdings.json"
 
 
 DEFAULT_PROXY_MAPPINGS: dict[str, dict[str, str]] = {
@@ -43,114 +43,74 @@ class StoreStatus:
 
 
 class FundStore:
-    """PostgreSQL when DATABASE_URL is set; otherwise read-only JSON seed data."""
+    """Version-controlled LOF metadata and quarterly holdings."""
 
     def __init__(self) -> None:
-        self.database_url = os.getenv("DATABASE_URL", "").strip()
-        self._funds = self._load_seed()
+        self._catalog = self._load_catalog()
+        self._holdings = self._load_holdings()
         self._mappings = dict(DEFAULT_PROXY_MAPPINGS)
-        self._engine = None
-        self.status = StoreStatus("json", False, "未配置 DATABASE_URL，使用仓库 JSON 种子数据")
-        if self.database_url:
-            self._init_postgres()
+        self.status = StoreStatus(
+            "versioned-json",
+            True,
+            "LOF 目录与季度持仓来自仓库版本化 JSON",
+        )
 
     @staticmethod
-    def _load_seed() -> list[dict[str, Any]]:
-        with SEED_FILE.open("r", encoding="utf-8") as handle:
+    def _load_catalog() -> list[dict[str, Any]]:
+        with CATALOG_FILE.open("r", encoding="utf-8") as handle:
             payload = json.load(handle)
-        if not isinstance(payload, list):
-            raise ValueError("data.json 顶层必须是基金数组")
-        return payload
+        funds = payload.get("funds") if isinstance(payload, dict) else None
+        if not isinstance(funds, list):
+            raise ValueError("lof_catalog.json 缺少 funds 数组")
+        return funds
 
-    def _init_postgres(self) -> None:
-        try:
-            from sqlalchemy import (
-                JSON,
-                Boolean,
-                Column,
-                MetaData,
-                String,
-                Table,
-                create_engine,
-                select,
-            )
+    @staticmethod
+    def _load_holdings() -> dict[str, dict[str, Any]]:
+        with HOLDINGS_FILE.open("r", encoding="utf-8") as handle:
+            payload = json.load(handle)
+        funds = payload.get("funds") if isinstance(payload, dict) else None
+        if not isinstance(funds, dict):
+            raise ValueError("lof_holdings.json 缺少 funds 对象")
+        return funds
 
-            metadata = MetaData()
-            funds = Table(
-                "funds",
-                metadata,
-                Column("fund_code", String(6), primary_key=True),
-                Column("fund_name", String(255), nullable=False),
-                Column("is_qdii", Boolean, nullable=False, default=False),
-                Column("report_period", String(10)),
-                Column("holdings", JSON, nullable=False),
-            )
-            mappings = Table(
-                "symbol_mappings",
-                metadata,
-                Column("source_symbol", String(80), primary_key=True),
-                Column("proxy_symbol", String(80), nullable=False),
-                Column("reason", String(255), nullable=False),
-            )
-            engine = create_engine(self.database_url, pool_pre_ping=True)
-            metadata.create_all(engine)
-            with engine.begin() as conn:
-                if conn.execute(select(funds.c.fund_code).limit(1)).first() is None:
-                    conn.execute(
-                        funds.insert(),
-                        [
-                            {
-                                "fund_code": str(item["fund_code"]).zfill(6),
-                                "fund_name": item.get("fund_name") or "未知基金",
-                                "is_qdii": bool(item.get("is_qdii")),
-                                "report_period": item.get("report_period"),
-                                "holdings": item.get("holdings") or [],
-                            }
-                            for item in self._funds
-                        ],
-                    )
-                if conn.execute(select(mappings.c.source_symbol).limit(1)).first() is None:
-                    conn.execute(
-                        mappings.insert(),
-                        [
-                            {"source_symbol": source, **mapping}
-                            for source, mapping in self._mappings.items()
-                        ],
-                    )
-                rows = conn.execute(select(funds)).mappings().all()
-                mapping_rows = conn.execute(select(mappings)).mappings().all()
-            self._funds = [dict(row) for row in rows]
-            self._mappings = {
-                row["source_symbol"]: {
-                    "proxy_symbol": row["proxy_symbol"],
-                    "reason": row["reason"],
-                }
-                for row in mapping_rows
+    def _joined_fund(self, catalog_item: dict[str, Any]) -> dict[str, Any]:
+        code = str(catalog_item.get("fund_code", "")).zfill(6)
+        item = dict(catalog_item)
+        holding_data = self._holdings.get(code) or {}
+        item.update(
+            {
+                "fund_code": code,
+                "is_lof": True,
+                "report_period": holding_data.get("report_period"),
+                "holdings": holding_data.get("holdings") or [],
+                "holdings_source": holding_data.get("source"),
+                "holdings_available": bool(holding_data.get("holdings")),
+                "holdings_curated": bool(holding_data.get("curated")),
             }
-            self._engine = engine
-            self.status = StoreStatus("postgresql", True, "已连接 Supabase/PostgreSQL")
-        except Exception as exc:
-            self.status = StoreStatus(
-                "json-fallback",
-                False,
-                f"PostgreSQL 连接失败，已回退 JSON：{type(exc).__name__}",
-            )
+        )
+        return item
+
+    def list_lof_catalog(self) -> list[dict[str, Any]]:
+        return [self._joined_fund(item) for item in self._catalog]
 
     def list_dashboard_funds(self) -> list[dict[str, Any]]:
-        result = []
-        for fund in self._funds:
-            item = dict(fund)
-            item["is_lof"] = True
-            result.append(item)
-        return result
+        return [item for item in self.list_lof_catalog() if item["holdings_curated"]]
 
     def find_curated(self, query: str) -> dict[str, Any] | None:
         needle = query.strip()
-        for fund in self._funds:
-            if needle in {str(fund.get("fund_code", "")).zfill(6), str(fund.get("fund_name", ""))}:
-                item = dict(fund)
-                item["is_lof"] = True
-                return item
+        for catalog_item in self._catalog:
+            code = str(catalog_item.get("fund_code", "")).zfill(6)
+            if needle in {code, str(catalog_item.get("fund_name", ""))}:
+                item = self._joined_fund(catalog_item)
+                return item if item["holdings_available"] else None
+        return None
+
+    def find_lof(self, query: str) -> dict[str, Any] | None:
+        needle = query.strip()
+        for catalog_item in self._catalog:
+            code = str(catalog_item.get("fund_code", "")).zfill(6)
+            if needle in {code, str(catalog_item.get("fund_name", ""))}:
+                return self._joined_fund(catalog_item)
         return None
 
     def proxy_mapping(self, symbol: str) -> dict[str, str] | None:
@@ -161,6 +121,7 @@ class FundStore:
             "backend": self.status.backend,
             "persistent": self.status.persistent,
             "message": self.status.message,
-            "fund_count": len(self._funds),
+            "catalog_count": len(self._catalog),
+            "holdings_count": len(self._holdings),
             "proxy_mapping_count": len(self._mappings),
         }

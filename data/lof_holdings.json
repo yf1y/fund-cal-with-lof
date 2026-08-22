@@ -1,0 +1,2581 @@
+{
+  "updated_at": "2026-08-22T21:09:31",
+  "source": "基金公开披露；人工数据优先于自动抓取",
+  "count": 32,
+  "funds": {
+    "161116": {
+      "report_period": "2026-03-31",
+      "holdings": [
+        {
+          "r": "1",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "abrdn Physical Gold Shares ETF",
+          "w": 19.48,
+          "price_symbol": "SGOL",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "2",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "SPDR Gold MiniShares Trust",
+          "w": 19.05,
+          "price_symbol": "GLDM",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "3",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "iShares Gold Trust",
+          "w": 18.8,
+          "price_symbol": "IAU",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "4",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "SPDR Gold Shares",
+          "w": 18.38,
+          "price_symbol": "GLD",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "5",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "UBS Gold ETF",
+          "w": 17.78,
+          "price_symbol": "AUUSI.SW",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "B1",
+          "type": "BOND",
+          "reported_code": "250431",
+          "name": "25农发31",
+          "w": 2.07,
+          "price_symbol": "CNBOND:250431",
+          "symbol_status": "from_report"
+        }
+      ],
+      "source": "人工校验",
+      "curated": true,
+      "updated_at": "2026-08-22T20:49:54"
+    },
+    "160719": {
+      "report_period": "2026-03-31",
+      "holdings": [
+        {
+          "r": "1",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "SPDR Gold Shares",
+          "w": 17.51,
+          "price_symbol": "GLD",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "2",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "abrdn Physical Gold Shares ETF",
+          "w": 17.49,
+          "price_symbol": "SGOL",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "3",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "iShares Gold Trust",
+          "w": 17.24,
+          "price_symbol": "IAU",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "4",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "Swisscanto CH Gold ETF",
+          "w": 16.32,
+          "price_symbol": "ZGLD.SW",
+          "symbol_status": "mapped_with_currency_check"
+        },
+        {
+          "r": "5",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "UBS Gold ETF",
+          "w": 15.97,
+          "price_symbol": "AUUSI.SW",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "6",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "iShares Gold ETF CH",
+          "w": 10.41,
+          "price_symbol": "CSGOLD.SW",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "B1",
+          "type": "BOND",
+          "reported_code": "019785",
+          "name": "25国债13",
+          "w": 0.1,
+          "price_symbol": "CNBOND:019785",
+          "symbol_status": "from_report"
+        }
+      ],
+      "source": "人工校验",
+      "curated": true,
+      "updated_at": "2026-08-22T20:49:54"
+    },
+    "160324": {
+      "report_period": "2026-03-31",
+      "holdings": [
+        {
+          "r": "1",
+          "type": "STOCK",
+          "reported_code": "688052",
+          "name": "纳芯微",
+          "w": 9.66,
+          "price_symbol": "688052.SS",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "2",
+          "type": "STOCK",
+          "reported_code": "300661",
+          "name": "圣邦股份",
+          "w": 9.65,
+          "price_symbol": "300661.SZ",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "3",
+          "type": "STOCK",
+          "reported_code": "688536",
+          "name": "思瑞浦",
+          "w": 9.48,
+          "price_symbol": "688536.SS",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "4",
+          "type": "STOCK",
+          "reported_code": "688368",
+          "name": "晶丰明源",
+          "w": 8.87,
+          "price_symbol": "688368.SS",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "5",
+          "type": "STOCK",
+          "reported_code": "688508",
+          "name": "芯朋微",
+          "w": 8.0,
+          "price_symbol": "688508.SS",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "6",
+          "type": "STOCK",
+          "reported_code": "688200",
+          "name": "华峰测控",
+          "w": 7.74,
+          "price_symbol": "688200.SS",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "7",
+          "type": "STOCK",
+          "reported_code": "688484",
+          "name": "南芯科技",
+          "w": 7.58,
+          "price_symbol": "688484.SS",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "8",
+          "type": "STOCK",
+          "reported_code": "603986",
+          "name": "兆易创新",
+          "w": 7.5,
+          "price_symbol": "603986.SS",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "9",
+          "type": "STOCK",
+          "reported_code": "688141",
+          "name": "杰华特",
+          "w": 6.71,
+          "price_symbol": "688141.SS",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "10",
+          "type": "STOCK",
+          "reported_code": "300373",
+          "name": "扬杰科技",
+          "w": 6.55,
+          "price_symbol": "300373.SZ",
+          "symbol_status": "from_report"
+        }
+      ],
+      "source": "人工校验",
+      "curated": true,
+      "updated_at": "2026-08-22T20:49:54"
+    },
+    "501225": {
+      "report_period": "2026-03-31",
+      "holdings": [
+        {
+          "r": "1",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "Invesco Dynamic Semiconductors ETF",
+          "w": 18.32,
+          "price_symbol": "PSI",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "2",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "Invesco PHLX Semiconductor ETF",
+          "w": 18.25,
+          "price_symbol": "SOXQ",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "3",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "iShares Semiconductor ETF",
+          "w": 18.23,
+          "price_symbol": "SOXX",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "4",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "VanEck Semiconductor ETF",
+          "w": 18.17,
+          "price_symbol": "SMH",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "5",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "景顺长城中证芯片产业ETF",
+          "w": 6.62,
+          "price_symbol": "159560.SZ",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "6",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "华夏国证半导体芯片ETF",
+          "w": 6.62,
+          "price_symbol": "159995.SZ",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "7",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "国泰CES半导体芯片行业ETF",
+          "w": 6.56,
+          "price_symbol": "512760.SS",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "8",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "Global X Semiconductor ETF/Japan",
+          "w": 1.56,
+          "price_symbol": "2644.T",
+          "symbol_status": "mapped"
+        }
+      ],
+      "source": "人工校验",
+      "curated": true,
+      "updated_at": "2026-08-22T20:49:54"
+    },
+    "162411": {
+      "report_period": "2026-03-31",
+      "holdings": [
+        {
+          "r": "1",
+          "type": "STOCK",
+          "reported_code": "APA US",
+          "name": "APA Corp",
+          "w": 2.79,
+          "price_symbol": "APA",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "2",
+          "type": "STOCK",
+          "reported_code": "VG US",
+          "name": "Venture Global Inc",
+          "w": 2.74,
+          "price_symbol": "VG",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "3",
+          "type": "STOCK",
+          "reported_code": "SM US",
+          "name": "SM Energy Co",
+          "w": 2.64,
+          "price_symbol": "SM",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "4",
+          "type": "STOCK",
+          "reported_code": "MUR US",
+          "name": "Murphy Oil Corp",
+          "w": 2.63,
+          "price_symbol": "MUR",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "5",
+          "type": "STOCK",
+          "reported_code": "OXY US",
+          "name": "Occidental Petroleum Corp",
+          "w": 2.54,
+          "price_symbol": "OXY",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "6",
+          "type": "STOCK",
+          "reported_code": "CHRD US",
+          "name": "Chord Energy Corp",
+          "w": 2.47,
+          "price_symbol": "CHRD",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "7",
+          "type": "STOCK",
+          "reported_code": "PBF US",
+          "name": "PBF Energy Inc",
+          "w": 2.46,
+          "price_symbol": "PBF",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "8",
+          "type": "STOCK",
+          "reported_code": "COP US",
+          "name": "ConocoPhillips",
+          "w": 2.45,
+          "price_symbol": "COP",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "9",
+          "type": "STOCK",
+          "reported_code": "MTDR US",
+          "name": "Matador Resources Co",
+          "w": 2.44,
+          "price_symbol": "MTDR",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "10",
+          "type": "STOCK",
+          "reported_code": "CTRA US",
+          "name": "Coterra Energy Inc",
+          "w": 2.43,
+          "price_symbol": "CTRA",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "F1",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "Direxion Daily S&P Oil & Gas Exp. & Prod. Bull 2X ETF",
+          "w": 1.01,
+          "price_symbol": "GUSH",
+          "symbol_status": "mapped"
+        }
+      ],
+      "source": "人工校验",
+      "curated": true,
+      "updated_at": "2026-08-22T20:49:54"
+    },
+    "501227": {
+      "report_period": "2026-03-31",
+      "holdings": [
+        {
+          "r": "1",
+          "type": "STOCK",
+          "reported_code": "600985",
+          "name": "淮北矿业",
+          "w": 2.02,
+          "price_symbol": "600985.SS",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "2",
+          "type": "STOCK",
+          "reported_code": "600938",
+          "name": "中国海油",
+          "w": 1.96,
+          "price_symbol": "600938.SS",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "3",
+          "type": "STOCK",
+          "reported_code": "000408",
+          "name": "藏格矿业",
+          "w": 1.92,
+          "price_symbol": "000408.SZ",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "4",
+          "type": "STOCK",
+          "reported_code": "601229",
+          "name": "上海银行",
+          "w": 1.86,
+          "price_symbol": "601229.SS",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "5",
+          "type": "STOCK",
+          "reported_code": "601919",
+          "name": "中远海控",
+          "w": 1.8,
+          "price_symbol": "601919.SS",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "6",
+          "type": "STOCK",
+          "reported_code": "601998",
+          "name": "中信银行",
+          "w": 1.74,
+          "price_symbol": "601998.SS",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "7",
+          "type": "STOCK",
+          "reported_code": "601187",
+          "name": "厦门银行",
+          "w": 1.73,
+          "price_symbol": "601187.SS",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "8",
+          "type": "STOCK",
+          "reported_code": "600188",
+          "name": "兖矿能源",
+          "w": 1.69,
+          "price_symbol": "600188.SS",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "9",
+          "type": "STOCK",
+          "reported_code": "601598",
+          "name": "中国外运",
+          "w": 1.68,
+          "price_symbol": "601598.SS",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "10",
+          "type": "STOCK",
+          "reported_code": "601225",
+          "name": "陕西煤业",
+          "w": 1.65,
+          "price_symbol": "601225.SS",
+          "symbol_status": "from_report"
+        }
+      ],
+      "source": "人工校验",
+      "curated": true,
+      "updated_at": "2026-08-22T20:49:54"
+    },
+    "164701": {
+      "report_period": "2026-03-31",
+      "holdings": [
+        {
+          "r": "1",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "iShares Gold Trust",
+          "w": 19.3,
+          "price_symbol": "IAU",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "2",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "SPDR Gold Shares",
+          "w": 18.27,
+          "price_symbol": "GLD",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "3",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "SPDR Gold MiniShares Trust",
+          "w": 18.01,
+          "price_symbol": "GLDM",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "4",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "iShares Gold Trust Micro",
+          "w": 8.64,
+          "price_symbol": "IAUM",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "5",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "GraniteShares Gold Trust",
+          "w": 7.77,
+          "price_symbol": "BAR",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "6",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "ProShares Ultra Gold",
+          "w": 7.01,
+          "price_symbol": "UGL",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "7",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "abrdn Physical Gold Shares ETF",
+          "w": 6.86,
+          "price_symbol": "SGOL",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "8",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "Goldman Sachs Physical Gold ETF",
+          "w": 6.21,
+          "price_symbol": "AAAU",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "9",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "abrdn Physical Silver Shares ETF",
+          "w": 0.04,
+          "price_symbol": "SIVR",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "10",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "iShares Silver Trust",
+          "w": 0.04,
+          "price_symbol": "SLV",
+          "symbol_status": "mapped"
+        }
+      ],
+      "source": "人工校验",
+      "curated": true,
+      "updated_at": "2026-08-22T20:49:54"
+    },
+    "161129": {
+      "report_period": "2026-03-31",
+      "holdings": [
+        {
+          "r": "1",
+          "type": "ETC",
+          "reported_code": null,
+          "name": "WisdomTree WTI Crude Oil ETC",
+          "w": 19.7,
+          "price_symbol": "CRUD.L",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "2",
+          "type": "ETC",
+          "reported_code": null,
+          "name": "WisdomTree Brent Crude Oil ETC",
+          "w": 19.53,
+          "price_symbol": "BRNT.L",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "3",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "Invesco DB Oil Fund ETF",
+          "w": 16.72,
+          "price_symbol": "DBO",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "4",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "United States Brent Oil Fund LP ETF",
+          "w": 13.24,
+          "price_symbol": "BNO",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "5",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "United States Oil Fund LP ETF",
+          "w": 12.86,
+          "price_symbol": "USO",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "6",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "Samsung S&P GSCI Crude Oil ER Futures ETF",
+          "w": 12.82,
+          "price_symbol": "3175.HK",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "B1",
+          "type": "BOND",
+          "reported_code": "210305",
+          "name": "21进出05",
+          "w": 1.29,
+          "price_symbol": "CNBOND:210305",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "B2",
+          "type": "BOND",
+          "reported_code": "250431",
+          "name": "25农发31",
+          "w": 1.27,
+          "price_symbol": "CNBOND:250431",
+          "symbol_status": "from_report"
+        }
+      ],
+      "source": "人工校验",
+      "curated": true,
+      "updated_at": "2026-08-22T20:49:54"
+    },
+    "501018": {
+      "report_period": "2026-03-31",
+      "holdings": [
+        {
+          "r": "1",
+          "type": "ETC",
+          "reported_code": null,
+          "name": "WisdomTree WTI Crude Oil",
+          "w": 19.8,
+          "price_symbol": "CRUD.L",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "2",
+          "type": "ETC",
+          "reported_code": null,
+          "name": "WisdomTree Brent Crude Oil",
+          "w": 19.2,
+          "price_symbol": "BRNT.L",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "3",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "United States Oil Fund LP",
+          "w": 19.06,
+          "price_symbol": "USO",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "4",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "United States Brent Oil Fund LP",
+          "w": 15.88,
+          "price_symbol": "BNO",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "5",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "Simplex WTI ETF",
+          "w": 6.97,
+          "price_symbol": "1671.T",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "6",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "NEXT FUNDS NOMURA Crude Oil Long Index Linked Exchange Traded",
+          "w": 6.77,
+          "price_symbol": "1699.T",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "7",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "UBS CMCI Oil SF ETF",
+          "w": 6.47,
+          "price_symbol": "OILUSA.SW",
+          "symbol_status": "mapped"
+        }
+      ],
+      "source": "人工校验",
+      "curated": true,
+      "updated_at": "2026-08-22T20:49:54"
+    },
+    "160723": {
+      "report_period": "2026-03-31",
+      "holdings": [
+        {
+          "r": "S1",
+          "type": "STOCK",
+          "reported_code": "883 HK",
+          "name": "CNOOC Ltd / 中国海洋石油",
+          "w": 3.43,
+          "price_symbol": "0883.HK",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "S2",
+          "type": "STOCK",
+          "reported_code": "857 HK",
+          "name": "PetroChina Co Ltd / 中国石油股份",
+          "w": 2.99,
+          "price_symbol": "0857.HK",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "1",
+          "type": "ETC",
+          "reported_code": null,
+          "name": "WisdomTree WTI Crude Oil ETC",
+          "w": 19.35,
+          "price_symbol": "CRUD.L",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "2",
+          "type": "ETC",
+          "reported_code": null,
+          "name": "WisdomTree Brent Crude Oil ETC Trading Currency USD",
+          "w": 16.28,
+          "price_symbol": "BRNT.L",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "3",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "ProShares K-1 Free Crude Oil ETF",
+          "w": 14.48,
+          "price_symbol": "OILK",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "4",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "United States Oil Fund LP",
+          "w": 9.56,
+          "price_symbol": "USO",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "5",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "United States Brent Oil Fund LP",
+          "w": 8.17,
+          "price_symbol": "BNO",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "6",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "Simplex WTI ETF",
+          "w": 4.76,
+          "price_symbol": "1671.T",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "7",
+          "type": "ETC",
+          "reported_code": null,
+          "name": "WisdomTree Brent Crude Oil ETC Trading Currency GBP",
+          "w": 3.29,
+          "price_symbol": "BRNT.L",
+          "symbol_status": "mapped_with_currency_check"
+        },
+        {
+          "r": "8",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "State Street Energy Select Sector SPDR ETF",
+          "w": 2.97,
+          "price_symbol": "XLE",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "9",
+          "type": "ETC",
+          "reported_code": null,
+          "name": "Collateralized ETC on Brent Crude Oil",
+          "w": 2.16,
+          "price_symbol": "BRENT_ETC_PROXY",
+          "symbol_status": "proxy",
+          "note": "季报名称缺少发行人/交易所，暂用 BNO 作为 Brent 原油代理并在前端标注。"
+        },
+        {
+          "r": "10",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "Samsung S&P GSCI Crude Oil ER Futures ETF",
+          "w": 1.84,
+          "price_symbol": "3175.HK",
+          "symbol_status": "mapped"
+        }
+      ],
+      "source": "人工校验",
+      "curated": true,
+      "updated_at": "2026-08-22T20:49:54"
+    },
+    "161125": {
+      "report_period": "2026-03-31",
+      "holdings": [
+        {
+          "r": "1",
+          "type": "STOCK",
+          "reported_code": "NVDA US",
+          "name": "NVIDIA Corp",
+          "w": 6.6,
+          "price_symbol": "NVDA",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "2",
+          "type": "STOCK",
+          "reported_code": "AAPL US",
+          "name": "Apple Inc",
+          "w": 5.8,
+          "price_symbol": "AAPL",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "3a",
+          "type": "STOCK",
+          "reported_code": "GOOGL US",
+          "name": "Alphabet Inc Class A",
+          "w": 2.61,
+          "price_symbol": "GOOGL",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "3b",
+          "type": "STOCK",
+          "reported_code": "GOOG US",
+          "name": "Alphabet Inc Class C",
+          "w": 2.09,
+          "price_symbol": "GOOG",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "4",
+          "type": "STOCK",
+          "reported_code": "MSFT US",
+          "name": "Microsoft Corp",
+          "w": 4.28,
+          "price_symbol": "MSFT",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "5",
+          "type": "STOCK",
+          "reported_code": "AMZN US",
+          "name": "Amazon.com Inc",
+          "w": 3.17,
+          "price_symbol": "AMZN",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "6",
+          "type": "STOCK",
+          "reported_code": "AVGO US",
+          "name": "Broadcom Inc",
+          "w": 2.29,
+          "price_symbol": "AVGO",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "7",
+          "type": "STOCK",
+          "reported_code": "META US",
+          "name": "Meta Platforms Inc",
+          "w": 1.95,
+          "price_symbol": "META",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "8",
+          "type": "STOCK",
+          "reported_code": "TSLA US",
+          "name": "Tesla Inc",
+          "w": 1.63,
+          "price_symbol": "TSLA",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "9",
+          "type": "STOCK",
+          "reported_code": "BRK/B US",
+          "name": "Berkshire Hathaway Inc Class B",
+          "w": 1.37,
+          "price_symbol": "BRK-B",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "10",
+          "type": "STOCK",
+          "reported_code": "JPM US",
+          "name": "JPMorgan Chase & Co",
+          "w": 1.24,
+          "price_symbol": "JPM",
+          "symbol_status": "from_report"
+        }
+      ],
+      "source": "人工校验",
+      "curated": true,
+      "updated_at": "2026-08-22T20:49:54"
+    },
+    "161130": {
+      "report_period": "2026-03-31",
+      "holdings": [
+        {
+          "r": "1",
+          "type": "ETF",
+          "reported_code": "159696",
+          "name": "易方达纳斯达克100交易型开放式指数证券投资基金（QDII）",
+          "w": 91.47,
+          "price_symbol": "159696.SZ",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "B1",
+          "type": "BOND",
+          "reported_code": "250361",
+          "name": "25进出61",
+          "w": 5.88,
+          "price_symbol": "CNBOND:250361",
+          "symbol_status": "from_report"
+        }
+      ],
+      "source": "人工校验",
+      "curated": true,
+      "updated_at": "2026-08-22T20:49:54"
+    },
+    "501312": {
+      "report_period": "2026-03-31",
+      "holdings": [
+        {
+          "r": "1",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "ARK Innovation ETF",
+          "w": 18.74,
+          "price_symbol": "ARKK",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "2",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "ARK Genomic Revolution ETF",
+          "w": 15.35,
+          "price_symbol": "ARKG",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "3",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "ARK Autonomous Technology & Robotics ETF",
+          "w": 11.59,
+          "price_symbol": "ARKQ",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "4",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "iShares Semiconductor ETF",
+          "w": 9.51,
+          "price_symbol": "SOXX",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "5",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "Global X Artificial Intelligence & Technology ETF",
+          "w": 7.85,
+          "price_symbol": "AIQ",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "6",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "Invesco QQQ Trust Series 1",
+          "w": 7.45,
+          "price_symbol": "QQQ",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "7",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "Global X Robotics & Artificial Intelligence ETF",
+          "w": 7.44,
+          "price_symbol": "BOTZ",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "8",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "State Street Technology Select Sector SPDR ETF",
+          "w": 6.44,
+          "price_symbol": "XLK",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "9",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "VanEck Semiconductor ETF",
+          "w": 4.29,
+          "price_symbol": "SMH",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "10",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "Global X FinTech ETF",
+          "w": 1.2,
+          "price_symbol": "FINX",
+          "symbol_status": "mapped"
+        }
+      ],
+      "source": "人工校验",
+      "curated": true,
+      "updated_at": "2026-08-22T20:49:54"
+    },
+    "501300": {
+      "report_period": "2026-03-31",
+      "holdings": [
+        {
+          "r": "1",
+          "type": "BOND",
+          "reported_code": "US91282CPJ44",
+          "name": "T 4 11/15/35",
+          "w": 8.81,
+          "price_symbol": "ISIN:US91282CPJ44",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "2",
+          "type": "BOND",
+          "reported_code": "US91282CMM00",
+          "name": "T 4 5/8 02/15/35",
+          "w": 8.52,
+          "price_symbol": "ISIN:US91282CMM00",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "3",
+          "type": "BOND",
+          "reported_code": "US91282CNC19",
+          "name": "T 4 1/4 05/15/35",
+          "w": 8.37,
+          "price_symbol": "ISIN:US91282CNC19",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "4",
+          "type": "BOND",
+          "reported_code": "US91282CPA35",
+          "name": "T 3 5/8 09/30/30",
+          "w": 4.39,
+          "price_symbol": "ISIN:US91282CPA35",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "5",
+          "type": "BOND",
+          "reported_code": "US91282CNT44",
+          "name": "T 4 1/4 08/15/35",
+          "w": 3.82,
+          "price_symbol": "ISIN:US91282CNT44",
+          "symbol_status": "from_report"
+        }
+      ],
+      "source": "人工校验",
+      "curated": true,
+      "updated_at": "2026-08-22T20:49:54"
+    },
+    "164824": {
+      "report_period": "2026-03-31",
+      "holdings": [
+        {
+          "r": "1",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "WisdomTree India Earnings Fund",
+          "w": 17.09,
+          "price_symbol": "EPI",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "2",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "iShares MSCI India ETF",
+          "w": 16.74,
+          "price_symbol": "INDA",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "3",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "iShares MSCI India UCITS ETF",
+          "w": 16.0,
+          "price_symbol": "NDIA.L",
+          "symbol_status": "mapped_with_class_check",
+          "note": "部分行情源可能使用 ISNDIA 或其他交易所代码，需按实际持有份额/ISIN二次核验。"
+        },
+        {
+          "r": "4",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "Amundi MSCI India Swap UCITS ETF",
+          "w": 15.01,
+          "price_symbol": "INDI.MI",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "5",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "iShares MSCI India Small-Cap ETF",
+          "w": 8.42,
+          "price_symbol": "SMIN",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "6",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "iShares India 50 ETF",
+          "w": 6.62,
+          "price_symbol": "INDY",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "7",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "NEXT FUNDS Nifty 50 Linked Exchange Traded Fund",
+          "w": 4.32,
+          "price_symbol": "1678.T",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "8",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "Columbia India Consumer ETF",
+          "w": 3.18,
+          "price_symbol": "INCO",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "9",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "VanEck India Growth Leaders ETF",
+          "w": 0.92,
+          "price_symbol": "GLIN",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "10",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "iShares Core SENSEX India ETF",
+          "w": 0.87,
+          "price_symbol": "2836.HK",
+          "symbol_status": "mapped"
+        }
+      ],
+      "source": "人工校验",
+      "curated": true,
+      "updated_at": "2026-08-22T20:49:54"
+    },
+    "161128": {
+      "report_period": "2026-03-31",
+      "holdings": [
+        {
+          "r": "1",
+          "type": "STOCK",
+          "reported_code": "NVDA US",
+          "name": "NVIDIA Corp",
+          "w": 20.16,
+          "price_symbol": "NVDA",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "2",
+          "type": "STOCK",
+          "reported_code": "AAPL US",
+          "name": "Apple Inc",
+          "w": 17.73,
+          "price_symbol": "AAPL",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "3",
+          "type": "STOCK",
+          "reported_code": "MSFT US",
+          "name": "Microsoft Corp",
+          "w": 13.08,
+          "price_symbol": "MSFT",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "4",
+          "type": "STOCK",
+          "reported_code": "AVGO US",
+          "name": "Broadcom Inc",
+          "w": 6.98,
+          "price_symbol": "AVGO",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "5",
+          "type": "STOCK",
+          "reported_code": "MU US",
+          "name": "Micron Technology Inc",
+          "w": 1.81,
+          "price_symbol": "MU",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "6",
+          "type": "STOCK",
+          "reported_code": "PLTR US",
+          "name": "Palantir Technologies Inc",
+          "w": 1.59,
+          "price_symbol": "PLTR",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "7",
+          "type": "STOCK",
+          "reported_code": "AMD US",
+          "name": "Advanced Micro Devices Inc",
+          "w": 1.58,
+          "price_symbol": "AMD",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "8",
+          "type": "STOCK",
+          "reported_code": "CSCO US",
+          "name": "Cisco Systems Inc",
+          "w": 1.46,
+          "price_symbol": "CSCO",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "9",
+          "type": "STOCK",
+          "reported_code": "AMAT US",
+          "name": "Applied Materials Inc",
+          "w": 1.29,
+          "price_symbol": "AMAT",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "10",
+          "type": "STOCK",
+          "reported_code": "LRCX US",
+          "name": "Lam Research Corp",
+          "w": 1.27,
+          "price_symbol": "LRCX",
+          "symbol_status": "from_report"
+        }
+      ],
+      "source": "人工校验",
+      "curated": true,
+      "updated_at": "2026-08-22T20:49:54"
+    },
+    "162719": {
+      "report_period": "2026-03-31",
+      "holdings": [
+        {
+          "r": "1",
+          "type": "STOCK",
+          "reported_code": "COP US",
+          "name": "ConocoPhillips",
+          "w": 18.27,
+          "price_symbol": "COP",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "2",
+          "type": "STOCK",
+          "reported_code": "EOG US",
+          "name": "EOG Resources Inc",
+          "w": 8.73,
+          "price_symbol": "EOG",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "3",
+          "type": "STOCK",
+          "reported_code": "PSX US",
+          "name": "Phillips 66",
+          "w": 8.16,
+          "price_symbol": "PSX",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "4",
+          "type": "STOCK",
+          "reported_code": "MPC US",
+          "name": "Marathon Petroleum Corp",
+          "w": 6.55,
+          "price_symbol": "MPC",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "5",
+          "type": "STOCK",
+          "reported_code": "VLO US",
+          "name": "Valero Energy Corp",
+          "w": 4.38,
+          "price_symbol": "VLO",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "6",
+          "type": "STOCK",
+          "reported_code": "DVN US",
+          "name": "Devon Energy Corp",
+          "w": 4.18,
+          "price_symbol": "DVN",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "7",
+          "type": "STOCK",
+          "reported_code": "FANG US",
+          "name": "Diamondback Energy Inc",
+          "w": 3.94,
+          "price_symbol": "FANG",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "8",
+          "type": "STOCK",
+          "reported_code": "TPL US",
+          "name": "Texas Pacific Land Corp",
+          "w": 3.74,
+          "price_symbol": "TPL",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "9",
+          "type": "STOCK",
+          "reported_code": "CTRA US",
+          "name": "Coterra Energy Inc",
+          "w": 3.71,
+          "price_symbol": "CTRA",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "10",
+          "type": "STOCK",
+          "reported_code": "EQT US",
+          "name": "EQT Corp",
+          "w": 3.49,
+          "price_symbol": "EQT",
+          "symbol_status": "from_report"
+        },
+        {
+          "r": "F1",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "ProShares Ultra Energy",
+          "w": 1.97,
+          "price_symbol": "DIG",
+          "symbol_status": "mapped"
+        }
+      ],
+      "source": "人工校验",
+      "curated": true,
+      "updated_at": "2026-08-22T20:49:54"
+    },
+    "165513": {
+      "report_period": "2026-03-31",
+      "holdings": [
+        {
+          "r": "1",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "iShares Gold Trust",
+          "w": 17.13,
+          "price_symbol": "IAU",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "2",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "Aberdeen Standard Physical Gold Shares ETF",
+          "w": 16.68,
+          "price_symbol": "SGOL",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "3",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "SPDR Gold MiniShares Trust",
+          "w": 16.24,
+          "price_symbol": "GLDM",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "4",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "iShares Gold Trust Micro",
+          "w": 14.16,
+          "price_symbol": "IAUM",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "5",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "SPDR Gold Shares",
+          "w": 11.74,
+          "price_symbol": "GLD",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "6",
+          "type": "ETC",
+          "reported_code": null,
+          "name": "Invesco Physical Gold ETC",
+          "w": 7.96,
+          "price_symbol": "SGLD.L",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "7",
+          "type": "ETN",
+          "reported_code": null,
+          "name": "DB Gold Double Long Exchange Traded Notes",
+          "w": 3.19,
+          "price_symbol": "DGP",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "8",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "Japan Physical Gold ETF",
+          "w": 2.44,
+          "price_symbol": "1540.T",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "9",
+          "type": "ETC",
+          "reported_code": null,
+          "name": "WisdomTree WTI Crude Oil",
+          "w": 0.49,
+          "price_symbol": "CRUD.L",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "10",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "iShares Silver Trust",
+          "w": 0.41,
+          "price_symbol": "SLV",
+          "symbol_status": "mapped"
+        }
+      ],
+      "source": "人工校验",
+      "curated": true,
+      "updated_at": "2026-08-22T20:49:54"
+    },
+    "160216": {
+      "report_period": "2026-03-31",
+      "holdings": [
+        {
+          "r": "1",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "United States Brent Oil Fund LP",
+          "w": 13.1,
+          "price_symbol": "BNO",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "2",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "ProShares Ultra Gold",
+          "w": 10.98,
+          "price_symbol": "UGL",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "3",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "ProShares Ultra Bloomberg Crude Oil",
+          "w": 9.23,
+          "price_symbol": "UCO",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "4",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "United States Copper Index Fund",
+          "w": 8.37,
+          "price_symbol": "CPER",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "5",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "abrdn Physical Gold Shares ETF",
+          "w": 8.33,
+          "price_symbol": "SGOL",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "6",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "Invesco DB Agriculture Fund",
+          "w": 7.87,
+          "price_symbol": "DBA",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "7",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "United States Oil Fund LP",
+          "w": 7.02,
+          "price_symbol": "USO",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "8",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "State Street Energy Select Sector SPDR ETF",
+          "w": 6.05,
+          "price_symbol": "XLE",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "9",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "iShares Gold Trust",
+          "w": 5.2,
+          "price_symbol": "IAU",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "10",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "State Street SPDR S&P Oil & Gas Exploration & Production ETF",
+          "w": 4.87,
+          "price_symbol": "XOP",
+          "symbol_status": "mapped"
+        }
+      ],
+      "source": "人工校验",
+      "curated": true,
+      "updated_at": "2026-08-22T20:49:54"
+    },
+    "161815": {
+      "report_period": "2026-03-31",
+      "holdings": [
+        {
+          "r": "1",
+          "type": "ETC",
+          "reported_code": null,
+          "name": "WT Brent Crude Oil",
+          "w": 15.08,
+          "price_symbol": "BRNT.L",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "2",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "iShares Gold Trust",
+          "w": 11.95,
+          "price_symbol": "IAU",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "3",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "iShares GSCI Commodity Dynamic ETF",
+          "w": 11.17,
+          "price_symbol": "COMT",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "4",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "SPDR Gold Trust ETF",
+          "w": 10.93,
+          "price_symbol": "GLD",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "5",
+          "type": "ETC",
+          "reported_code": null,
+          "name": "WT WTI Crude Oil",
+          "w": 9.92,
+          "price_symbol": "CRUD.L",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "6",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "Goldman Sachs Physical Gold",
+          "w": 8.61,
+          "price_symbol": "AAAU",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "7",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "abrdn Physical Gold Shares",
+          "w": 8.31,
+          "price_symbol": "SGOL",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "8",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "abrdn Bloomberg All Commodity Longer Dated ETF",
+          "w": 6.36,
+          "price_symbol": "BCD",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "9",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "iShares Silver Trust",
+          "w": 2.31,
+          "price_symbol": "SLV",
+          "symbol_status": "mapped"
+        }
+      ],
+      "source": "人工校验",
+      "curated": true,
+      "updated_at": "2026-08-22T20:49:54"
+    },
+    "163208": {
+      "report_period": "2026-03-31",
+      "holdings": [
+        {
+          "r": "1",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "SPDR S&P Oil & Gas Exploration & Production ETF",
+          "w": 16.04,
+          "price_symbol": "XOP",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "2",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "Vanguard Energy ETF",
+          "w": 16.02,
+          "price_symbol": "VDE",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "3",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "iShares US Energy ETF",
+          "w": 15.82,
+          "price_symbol": "IYE",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "4",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "iShares Global Energy ETF",
+          "w": 15.81,
+          "price_symbol": "IXC",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "5",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "SPDR Energy Select Sector Fund",
+          "w": 15.6,
+          "price_symbol": "XLE",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "6",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "United States Oil Fund LP",
+          "w": 7.6,
+          "price_symbol": "USO",
+          "symbol_status": "mapped"
+        },
+        {
+          "r": "7",
+          "type": "ETF",
+          "reported_code": null,
+          "name": "United States Brent Oil Fund",
+          "w": 7.31,
+          "price_symbol": "BNO",
+          "symbol_status": "mapped"
+        }
+      ],
+      "source": "人工校验",
+      "curated": true,
+      "updated_at": "2026-08-22T20:49:54"
+    },
+    "160125": {
+      "report_period": "2026年2季度",
+      "holdings": [
+        {
+          "name": "壁仞科技",
+          "price_symbol": "6082.T",
+          "w": 7.77,
+          "type": "STOCK"
+        },
+        {
+          "name": "建设银行",
+          "price_symbol": "939",
+          "w": 7.07,
+          "type": "STOCK"
+        },
+        {
+          "name": "长光辰芯",
+          "price_symbol": "3277.T",
+          "w": 6.19,
+          "type": "STOCK"
+        },
+        {
+          "name": "中芯国际",
+          "price_symbol": "981",
+          "w": 5.76,
+          "type": "STOCK"
+        },
+        {
+          "name": "建滔积层板",
+          "price_symbol": "1888.T",
+          "w": 4.77,
+          "type": "STOCK"
+        },
+        {
+          "name": "工商银行",
+          "price_symbol": "1398.T",
+          "w": 4.67,
+          "type": "STOCK"
+        },
+        {
+          "name": "华虹宏力",
+          "price_symbol": "1347.T",
+          "w": 4.38,
+          "type": "STOCK"
+        },
+        {
+          "name": "长和",
+          "price_symbol": "1",
+          "w": 4.07,
+          "type": "STOCK"
+        },
+        {
+          "name": "绿色动力环保",
+          "price_symbol": "1330.T",
+          "w": 3.61,
+          "type": "STOCK"
+        },
+        {
+          "name": "宁德时代",
+          "price_symbol": "3750.T",
+          "w": 3.61,
+          "type": "STOCK"
+        }
+      ],
+      "source": "东方财富基金持仓公开披露自动同步",
+      "curated": false,
+      "updated_at": "2026-08-22T20:50:10"
+    },
+    "160140": {
+      "report_period": "2026年2季度",
+      "holdings": [
+        {
+          "name": "Welltower Inc",
+          "price_symbol": "WELL",
+          "w": 10.89,
+          "type": "STOCK"
+        },
+        {
+          "name": "安博",
+          "price_symbol": "PLD",
+          "w": 8.59,
+          "type": "STOCK"
+        },
+        {
+          "name": "易昆尼克斯",
+          "price_symbol": "EQIX",
+          "w": 6.99,
+          "type": "STOCK"
+        },
+        {
+          "name": "西蒙地产",
+          "price_symbol": "SPG",
+          "w": 4.93,
+          "type": "STOCK"
+        },
+        {
+          "name": "数字房地产信托",
+          "price_symbol": "DLR",
+          "w": 4.03,
+          "type": "STOCK"
+        },
+        {
+          "name": "Realty Income Corp",
+          "price_symbol": "O",
+          "w": 3.93,
+          "type": "STOCK"
+        },
+        {
+          "name": "大众仓储",
+          "price_symbol": "PSA",
+          "w": 3.42,
+          "type": "STOCK"
+        },
+        {
+          "name": "芬塔公司",
+          "price_symbol": "VTR",
+          "w": 2.94,
+          "type": "STOCK"
+        },
+        {
+          "name": "Extra Space Storage Inc",
+          "price_symbol": "EXR",
+          "w": 2.09,
+          "type": "STOCK"
+        },
+        {
+          "name": "艾芙隆海湾社区",
+          "price_symbol": "AVB",
+          "w": 1.78,
+          "type": "STOCK"
+        }
+      ],
+      "source": "东方财富基金持仓公开披露自动同步",
+      "curated": false,
+      "updated_at": "2026-08-22T20:50:01"
+    },
+    "160416": {
+      "report_period": "2026年2季度",
+      "holdings": [
+        {
+          "name": "埃克森美孚",
+          "price_symbol": "XOM",
+          "w": 9.95,
+          "type": "STOCK"
+        },
+        {
+          "name": "雪佛龙",
+          "price_symbol": "CVX",
+          "w": 8.04,
+          "type": "STOCK"
+        },
+        {
+          "name": "壳牌",
+          "price_symbol": "SHEL",
+          "w": 5.62,
+          "type": "STOCK"
+        },
+        {
+          "name": "印度瑞来斯实业",
+          "price_symbol": "RIGD",
+          "w": 4.4,
+          "type": "STOCK"
+        },
+        {
+          "name": "道达尔集团",
+          "price_symbol": "TTEFP",
+          "w": 4.14,
+          "type": "STOCK"
+        },
+        {
+          "name": "康菲石油",
+          "price_symbol": "COP",
+          "w": 3.09,
+          "type": "STOCK"
+        },
+        {
+          "name": "Enbridge股份有限公司",
+          "price_symbol": "ENBCN",
+          "w": 2.77,
+          "type": "STOCK"
+        },
+        {
+          "name": "英国石油",
+          "price_symbol": "BP.",
+          "w": 2.41,
+          "type": "STOCK"
+        },
+        {
+          "name": "威廉姆斯",
+          "price_symbol": "WMB",
+          "w": 2.14,
+          "type": "STOCK"
+        },
+        {
+          "name": "挪威国家石油公司",
+          "price_symbol": "EQNRNO",
+          "w": 2.07,
+          "type": "STOCK"
+        }
+      ],
+      "source": "东方财富基金持仓公开披露自动同步",
+      "curated": false,
+      "updated_at": "2026-08-22T20:50:11"
+    },
+    "160644": {
+      "report_period": "2026年2季度",
+      "holdings": [
+        {
+          "name": "美光科技",
+          "price_symbol": "MU",
+          "w": 10.64,
+          "type": "STOCK"
+        },
+        {
+          "name": "闪迪",
+          "price_symbol": "SNDK",
+          "w": 10.54,
+          "type": "STOCK"
+        },
+        {
+          "name": "建滔积层板",
+          "price_symbol": "01888.HK",
+          "w": 10.4,
+          "type": "STOCK"
+        },
+        {
+          "name": "联想集团",
+          "price_symbol": "00992.HK",
+          "w": 9.35,
+          "type": "STOCK"
+        },
+        {
+          "name": "建滔集团",
+          "price_symbol": "00148.HK",
+          "w": 8.92,
+          "type": "STOCK"
+        },
+        {
+          "name": "美团-W",
+          "price_symbol": "03690.HK",
+          "w": 7.23,
+          "type": "STOCK"
+        },
+        {
+          "name": "阿里巴巴-W",
+          "price_symbol": "09988.HK",
+          "w": 6.87,
+          "type": "STOCK"
+        },
+        {
+          "name": "英伟达",
+          "price_symbol": "NVDA",
+          "w": 5.69,
+          "type": "STOCK"
+        },
+        {
+          "name": "台积电",
+          "price_symbol": "TSM",
+          "w": 5.01,
+          "type": "STOCK"
+        },
+        {
+          "name": "超威半导体",
+          "price_symbol": "AMD",
+          "w": 3.53,
+          "type": "STOCK"
+        }
+      ],
+      "source": "东方财富基金持仓公开披露自动同步",
+      "curated": false,
+      "updated_at": "2026-08-22T20:50:54"
+    },
+    "160717": {
+      "report_period": "2026年2季度",
+      "holdings": [
+        {
+          "name": "腾讯控股",
+          "price_symbol": "700",
+          "w": 7.69,
+          "type": "STOCK"
+        },
+        {
+          "name": "建设银行",
+          "price_symbol": "939",
+          "w": 7.41,
+          "type": "STOCK"
+        },
+        {
+          "name": "阿里巴巴-W",
+          "price_symbol": "9988.T",
+          "w": 6.11,
+          "type": "STOCK"
+        },
+        {
+          "name": "工商银行",
+          "price_symbol": "1398.T",
+          "w": 5.06,
+          "type": "STOCK"
+        },
+        {
+          "name": "中国移动",
+          "price_symbol": "941",
+          "w": 4.55,
+          "type": "STOCK"
+        },
+        {
+          "name": "小米集团-W",
+          "price_symbol": "1810.T",
+          "w": 3.75,
+          "type": "STOCK"
+        },
+        {
+          "name": "美团-W",
+          "price_symbol": "3690.T",
+          "w": 3.64,
+          "type": "STOCK"
+        },
+        {
+          "name": "中芯国际",
+          "price_symbol": "981",
+          "w": 3.6,
+          "type": "STOCK"
+        },
+        {
+          "name": "中国银行",
+          "price_symbol": "3988.T",
+          "w": 3.39,
+          "type": "STOCK"
+        },
+        {
+          "name": "中国平安",
+          "price_symbol": "2318.T",
+          "w": 3.27,
+          "type": "STOCK"
+        }
+      ],
+      "source": "东方财富基金持仓公开披露自动同步",
+      "curated": false,
+      "updated_at": "2026-08-22T20:50:56"
+    },
+    "160924": {
+      "report_period": "2026年2季度",
+      "holdings": [
+        {
+          "name": "汇丰控股",
+          "price_symbol": "5",
+          "w": 8.31,
+          "type": "STOCK"
+        },
+        {
+          "name": "腾讯控股",
+          "price_symbol": "700",
+          "w": 7.39,
+          "type": "STOCK"
+        },
+        {
+          "name": "阿里巴巴-W",
+          "price_symbol": "9988.T",
+          "w": 5.87,
+          "type": "STOCK"
+        },
+        {
+          "name": "建设银行",
+          "price_symbol": "939",
+          "w": 4.72,
+          "type": "STOCK"
+        },
+        {
+          "name": "友邦保险",
+          "price_symbol": "1299.T",
+          "w": 4.57,
+          "type": "STOCK"
+        },
+        {
+          "name": "工商银行",
+          "price_symbol": "1398.T",
+          "w": 3.22,
+          "type": "STOCK"
+        },
+        {
+          "name": "中国移动",
+          "price_symbol": "941",
+          "w": 2.88,
+          "type": "STOCK"
+        },
+        {
+          "name": "香港交易所",
+          "price_symbol": "388",
+          "w": 2.66,
+          "type": "STOCK"
+        },
+        {
+          "name": "小米集团-W",
+          "price_symbol": "1810.T",
+          "w": 2.39,
+          "type": "STOCK"
+        },
+        {
+          "name": "美团-W",
+          "price_symbol": "3690.T",
+          "w": 2.31,
+          "type": "STOCK"
+        }
+      ],
+      "source": "东方财富基金持仓公开披露自动同步",
+      "curated": false,
+      "updated_at": "2026-08-22T20:51:03"
+    },
+    "161124": {
+      "report_period": "2026年2季度",
+      "holdings": [
+        {
+          "name": "长飞光纤光缆",
+          "price_symbol": "6869.T",
+          "w": 10.51,
+          "type": "STOCK"
+        },
+        {
+          "name": "赣锋锂业",
+          "price_symbol": "1772.T",
+          "w": 2.37,
+          "type": "STOCK"
+        },
+        {
+          "name": "中远海能",
+          "price_symbol": "1138.T",
+          "w": 1.66,
+          "type": "STOCK"
+        },
+        {
+          "name": "康诺亚-B",
+          "price_symbol": "2162.T",
+          "w": 1.53,
+          "type": "STOCK"
+        },
+        {
+          "name": "诺诚健华",
+          "price_symbol": "9969.T",
+          "w": 1.39,
+          "type": "STOCK"
+        },
+        {
+          "name": "荣昌生物",
+          "price_symbol": "9995.T",
+          "w": 1.36,
+          "type": "STOCK"
+        },
+        {
+          "name": "国富量子",
+          "price_symbol": "290",
+          "w": 1.35,
+          "type": "STOCK"
+        },
+        {
+          "name": "重庆农村商业银行",
+          "price_symbol": "3618.T",
+          "w": 1.27,
+          "type": "STOCK"
+        },
+        {
+          "name": "中创新航",
+          "price_symbol": "3931.T",
+          "w": 1.22,
+          "type": "STOCK"
+        },
+        {
+          "name": "汇聚科技",
+          "price_symbol": "1729.T",
+          "w": 1.2,
+          "type": "STOCK"
+        }
+      ],
+      "source": "东方财富基金持仓公开披露自动同步",
+      "curated": false,
+      "updated_at": "2026-08-22T20:51:41"
+    },
+    "161126": {
+      "report_period": "2026年2季度",
+      "holdings": [
+        {
+          "name": "Moderna Inc",
+          "price_symbol": "MRNA",
+          "w": 2.34,
+          "type": "STOCK"
+        },
+        {
+          "name": "Bio-Techne Corp",
+          "price_symbol": "TECH",
+          "w": 2.07,
+          "type": "STOCK"
+        },
+        {
+          "name": "查尔斯河",
+          "price_symbol": "CRL",
+          "w": 1.87,
+          "type": "STOCK"
+        },
+        {
+          "name": "福泰制药",
+          "price_symbol": "VRTX",
+          "w": 1.75,
+          "type": "STOCK"
+        },
+        {
+          "name": "梅特勒-托利多",
+          "price_symbol": "MTD",
+          "w": 1.74,
+          "type": "STOCK"
+        },
+        {
+          "name": "达维塔保健",
+          "price_symbol": "DVA",
+          "w": 1.72,
+          "type": "STOCK"
+        },
+        {
+          "name": "艾伯维",
+          "price_symbol": "ABBV",
+          "w": 1.72,
+          "type": "STOCK"
+        },
+        {
+          "name": "生化基因",
+          "price_symbol": "BIIB",
+          "w": 1.71,
+          "type": "STOCK"
+        },
+        {
+          "name": "卡地纳健康",
+          "price_symbol": "CAH",
+          "w": 1.69,
+          "type": "STOCK"
+        },
+        {
+          "name": "Revvity Inc",
+          "price_symbol": "RVTY",
+          "w": 1.69,
+          "type": "STOCK"
+        }
+      ],
+      "source": "东方财富基金持仓公开披露自动同步",
+      "curated": false,
+      "updated_at": "2026-08-22T20:51:42"
+    },
+    "161127": {
+      "report_period": "2026年2季度",
+      "holdings": [
+        {
+          "name": "Apogee Therapeutics Inc",
+          "price_symbol": "APGE",
+          "w": 1.41,
+          "type": "STOCK"
+        },
+        {
+          "name": "Moderna Inc",
+          "price_symbol": "MRNA",
+          "w": 1.34,
+          "type": "STOCK"
+        },
+        {
+          "name": "Twist Bioscience Corp",
+          "price_symbol": "TWST",
+          "w": 1.33,
+          "type": "STOCK"
+        },
+        {
+          "name": "方舟生物医药",
+          "price_symbol": "ORKA",
+          "w": 1.31,
+          "type": "STOCK"
+        },
+        {
+          "name": "Kymera Therapeutics Inc",
+          "price_symbol": "KYMR",
+          "w": 1.29,
+          "type": "STOCK"
+        },
+        {
+          "name": "Viking Therapeutics Inc",
+          "price_symbol": "VKTX",
+          "w": 1.24,
+          "type": "STOCK"
+        },
+        {
+          "name": "Praxis Precision Medicines Inc",
+          "price_symbol": "PRAX",
+          "w": 1.22,
+          "type": "STOCK"
+        },
+        {
+          "name": "Erasca Inc",
+          "price_symbol": "ERAS",
+          "w": 1.2,
+          "type": "STOCK"
+        },
+        {
+          "name": "Revolution Medicines Inc",
+          "price_symbol": "RVMD",
+          "w": 1.14,
+          "type": "STOCK"
+        },
+        {
+          "name": "Rhythm Pharmaceuticals Inc",
+          "price_symbol": "RYTM",
+          "w": 1.14,
+          "type": "STOCK"
+        }
+      ],
+      "source": "东方财富基金持仓公开披露自动同步",
+      "curated": false,
+      "updated_at": "2026-08-22T20:51:42"
+    },
+    "161229": {
+      "report_period": "2026年2季度",
+      "holdings": [
+        {
+          "name": "中国移动",
+          "price_symbol": "941",
+          "w": 8.8,
+          "type": "STOCK"
+        },
+        {
+          "name": "建设银行",
+          "price_symbol": "939",
+          "w": 7.36,
+          "type": "STOCK"
+        },
+        {
+          "name": "腾讯控股",
+          "price_symbol": "700",
+          "w": 5.35,
+          "type": "STOCK"
+        },
+        {
+          "name": "招商银行",
+          "price_symbol": "3968.T",
+          "w": 5.22,
+          "type": "STOCK"
+        },
+        {
+          "name": "美的集团",
+          "price_symbol": "333",
+          "w": 4.79,
+          "type": "STOCK"
+        },
+        {
+          "name": "华润万象生活",
+          "price_symbol": "1209.T",
+          "w": 4.05,
+          "type": "STOCK"
+        },
+        {
+          "name": "工商银行",
+          "price_symbol": "1398.T",
+          "w": 3.87,
+          "type": "STOCK"
+        },
+        {
+          "name": "宁德时代",
+          "price_symbol": "300750.SZ",
+          "w": 3.22,
+          "type": "STOCK"
+        },
+        {
+          "name": "华润置地",
+          "price_symbol": "1109.T",
+          "w": 3.06,
+          "type": "STOCK"
+        },
+        {
+          "name": "阿里巴巴-W",
+          "price_symbol": "9988.T",
+          "w": 2.98,
+          "type": "STOCK"
+        }
+      ],
+      "source": "东方财富基金持仓公开披露自动同步",
+      "curated": false,
+      "updated_at": "2026-08-22T20:51:43"
+    },
+    "162415": {
+      "report_period": "2026年2季度",
+      "holdings": [
+        {
+          "name": "亚马逊",
+          "price_symbol": "AMZN",
+          "w": 21.05,
+          "type": "STOCK"
+        },
+        {
+          "name": "特斯拉",
+          "price_symbol": "TSLA",
+          "w": 18.6,
+          "type": "STOCK"
+        },
+        {
+          "name": "家得宝",
+          "price_symbol": "HD",
+          "w": 5.52,
+          "type": "STOCK"
+        },
+        {
+          "name": "麦当劳",
+          "price_symbol": "MCD",
+          "w": 3.93,
+          "type": "STOCK"
+        },
+        {
+          "name": "The TJX Companies Inc",
+          "price_symbol": "TJX",
+          "w": 3.72,
+          "type": "STOCK"
+        },
+        {
+          "name": "Booking Holdings",
+          "price_symbol": "BKNG",
+          "w": 3.26,
+          "type": "STOCK"
+        },
+        {
+          "name": "劳氏",
+          "price_symbol": "LOW",
+          "w": 2.91,
+          "type": "STOCK"
+        },
+        {
+          "name": "星巴克",
+          "price_symbol": "SBUX",
+          "w": 2.74,
+          "type": "STOCK"
+        },
+        {
+          "name": "万豪国际",
+          "price_symbol": "MAR",
+          "w": 1.91,
+          "type": "STOCK"
+        },
+        {
+          "name": "皇家加勒比邮轮",
+          "price_symbol": "RCL",
+          "w": 1.87,
+          "type": "STOCK"
+        }
+      ],
+      "source": "东方财富基金持仓公开披露自动同步",
+      "curated": false,
+      "updated_at": "2026-08-22T20:53:28"
+    }
+  }
+}

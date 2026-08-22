@@ -34,7 +34,7 @@ async def lifespan(_: FastAPI):
 app = FastAPI(
     title="FundCal",
     description="基金实时估值与 LOF 折溢价工具",
-    version="2.1.0",
+    version="3.0.0",
     lifespan=lifespan,
 )
 app.add_middleware(
@@ -64,6 +64,12 @@ async def dashboard() -> dict:
     }
 
 
+@app.get("/api/lof/catalog")
+async def lof_catalog() -> dict:
+    rows = await valuation.dashboard_catalog()
+    return {"funds": rows, "count": len(rows), "database": store.health()}
+
+
 @app.get("/api/search")
 async def search_fund(q: str = Query(min_length=1, max_length=100)) -> dict:
     fund = await valuation.resolve_query(q)
@@ -72,6 +78,29 @@ async def search_fund(q: str = Query(min_length=1, max_length=100)) -> dict:
     result = await valuation.estimate_fund(fund)
     if not fund.get("holdings"):
         result["warnings"].append("未取得最新季度持仓，实时估值可能无法计算。")
+    cache.record_search(result)
+    return result
+
+
+@app.get("/api/search/history")
+async def search_history(limit: int = Query(default=50, ge=1, le=200)) -> dict:
+    rows = cache.list_search_history(limit)
+    return {"funds": rows, "count": len(rows), "storage": cache.health()}
+
+
+@app.get("/api/lof/{fund_code}/estimate")
+async def estimate_lof(fund_code: str) -> dict:
+    if not fund_code.isdigit() or len(fund_code) != 6:
+        raise HTTPException(status_code=400, detail="LOF 代码必须为 6 位数字")
+    known = store.find_lof(fund_code)
+    if not known:
+        raise HTTPException(status_code=404, detail="该代码不在当前 LOF 目录中")
+    fund = await valuation.resolve_query(fund_code)
+    if not fund:
+        raise HTTPException(status_code=404, detail="LOF 基金资料获取失败")
+    result = await valuation.estimate_fund(fund)
+    if not fund.get("holdings"):
+        result["warnings"].append("未取得最新季度持仓，暂时只能展示场内价格。")
     return result
 
 
