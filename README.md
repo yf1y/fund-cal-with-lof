@@ -1,8 +1,8 @@
-# LOF 透镜（LOF Lens）
+# FundCal
 
-> **看见折溢价，也看见估值依据。**
+> **基金实时估值与 LOF 折溢价工具**
 
-LOF 透镜是一款面向个人投资者的可解释基金估值工具。它不会只给出一个貌似精确的数字，而是把估值所依据的披露持仓、原标的或替代行情、人民币汇率、成功取价比例和更新时间一起展示。你可以先判断一只 LOF 是溢价还是折价，再判断这个结论有多少数据支撑。
+FundCal 是一款面向个人使用的基金实时估值工具。它支持按基金代码或名称查询公开基金，并为 LOF 提供场内价格、折溢价和持仓拆解。结果同时展示披露持仓、原标的或替代行情、人民币汇率、成功取价比例和更新时间，避免只给出一个无法核验的估值数字。
 
 当前版本深度维护 21 只 LOF / QDII-LOF，同时支持按基金代码或完整名称分析其他公募基金。首次查询取得的基金名称、披露期和持仓会自动写入本机 SQLite 缓存；再次查询或重启服务后无需重复抓取持仓。本机运行不需要安装 PostgreSQL，也不需要 API Key。
 
@@ -74,7 +74,7 @@ cd C:\Users\21999\Desktop\stock_cal
 .\venv\Scripts\python.exe -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
 ```
 
-项目使用 Python 内置的 SQLite 保存查询缓存，文件会自动创建在 `.cache/lof_lens.sqlite3`。SQLite 是一个本地文件，不是需要单独安装和启动的数据库服务。
+项目使用 Python 内置的 SQLite 保存查询缓存，文件会自动创建在 `.cache/`。SQLite 是一个本地文件，不是需要单独安装和启动的数据库服务。
 
 ### 部署到 Render
 
@@ -154,7 +154,7 @@ cd C:\Users\21999\Desktop\stock_cal
 ## 项目结构
 
 ```text
-stock_cal/
+fund-cal-with-lof/
 ├── backend/
 │   ├── cache.py            # 无需安装服务的 SQLite 持久缓存
 │   ├── main.py             # FastAPI 路由、健康检查与网页入口
@@ -182,4 +182,4 @@ stock_cal/
 | QDII / FOF 跨市场自动映射 | 1–2 周起 | 港美日瑞等代码体系、交易时段、汇率和替代标的维护 |
 | 长期稳定运行 | 持续维护 | 上游接口变更、基金调仓与新增品种 |
 
-可参考 [FundVal-Live](https://github.com/Ye-Yu-Mo/FundVal-Live) 的持仓穿透和覆盖率思路，以及 [lof-fund-monitor-optimized-v2.8L](https://github.com/YeYeXuXu/lof-fund-monitor-optimized-v2.8L) 的 LOF 分类、海外代理和置信度设计。前者采用 AGPL-3.0；后者仓库当前未见明确 LICENSE。LOF 透镜只参考产品思路，估值与缓存代码独立实现，不直接复制其源码。
+可参考 [FundVal-Live](https://github.com/Ye-Yu-Mo/FundVal-Live) 的持仓穿透和覆盖率思路，以及 [lof-fund-monitor-optimized-v2.8L](https://github.com/YeYeXuXu/lof-fund-monitor-optimized-v2.8L) 的 LOF 分类、海外代理和置信度设计。前者采用 AGPL-3.0；后者仓库当前未见明确 LICENSE。FundCal 只参考产品思路，估值与缓存代码独立实现，不直接复制其源码。

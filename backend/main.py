@@ -32,8 +32,8 @@ async def lifespan(_: FastAPI):
 
 
 app = FastAPI(
-    title="LOF 透镜（LOF Lens）",
-    description="可解释的 LOF 实时估值与折溢价看板",
+    title="FundCal",
+    description="基金实时估值与 LOF 折溢价工具",
     version="2.1.0",
     lifespan=lifespan,
 )
