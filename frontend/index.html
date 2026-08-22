@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>基金实时估值中心</title>
+    <title>LOF 透镜 · 可解释的实时估值与折溢价</title>
+    <meta name="description" content="逐项展示持仓、跨市场行情、汇率与估值覆盖的 LOF 实时估值和折溢价看板。">
     <style>
         :root {
             --ink: #17212b;
@@ -27,6 +28,7 @@
         .shell { max-width: 1240px; margin: 0 auto; padding: 28px 20px 56px; }
         .topbar { margin-bottom: 20px; }
         h1 { margin: 0; font-size: clamp(24px, 4vw, 36px); letter-spacing: -0.04em; }
+        .tagline { margin: 7px 0 0; color: var(--muted); font-size: 14px; }
         .tabs { display: flex; gap: 4px; width: fit-content; padding: 4px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); margin-bottom: 16px; }
         .tab { border: 0; border-radius: 8px; padding: 10px 18px; background: transparent; color: var(--muted); font-weight: 700; cursor: pointer; }
         .tab.active { background: var(--brand); color: white; box-shadow: 0 2px 8px rgba(21,94,239,.22); }
@@ -113,7 +115,8 @@
 <body>
 <main class="shell">
     <header class="topbar">
-        <h1>基金实时估值中心</h1>
+        <h1>LOF 透镜 <span class="micro">LOF Lens</span></h1>
+        <p class="tagline">看见折溢价，也看见估值依据。</p>
     </header>
 
     <nav class="tabs" aria-label="功能切换">
@@ -131,7 +134,7 @@
                 <table>
                     <thead>
                     <tr>
-                        <th>基金代码 / 基金简称</th>
+                        <th>基金代码 / 名称</th>
                         <th>实时估值</th>
                         <th>场内价格</th>
                         <th>溢价率</th>
@@ -150,7 +153,7 @@
     <section class="panel" id="searchPanel">
         <div class="card search-card">
             <h2>查询基金估值</h2>
-            <p>请输入完整的 6 位基金代码或完整基金名称。</p>
+            <p>输入完整的 6 位基金代码或完整基金名称；首次分析会读取公开披露，之后自动复用本机缓存。</p>
             <div class="search-row">
                 <input id="searchInput" type="text" maxlength="100" placeholder="例如：160719 或 嘉实黄金（QDII-FOF-LOF）">
                 <button class="primary" id="searchBtn">查询估值</button>
@@ -255,8 +258,9 @@
     }
 
     function renderSearchResult(row) {
+        const cacheText = row.holdings_cache === 'hit' ? '持仓资料来自本机缓存' : row.holdings_cache === 'stored' ? '持仓资料已写入本机缓存' : '看板维护基金';
         return `
-            <div class="result-head"><div><div class="fund-code-primary">${esc(row.fund_code)}</div><h3>${esc(row.fund_name)}</h3><div class="fund-code">持仓披露期 ${esc(row.report_period || '未知')} · 汇率更新 ${displayTime(row.fx_updated_at)}</div></div><span class="basis-note ${(row.quote_qualities || []).includes('proxy') ? 'caution' : ''}">${esc(estimateBasis(row.quote_qualities))}</span></div>
+            <div class="result-head"><div><div class="fund-code-primary">${esc(row.fund_code)}</div><h3>${esc(row.fund_name)}</h3><div class="fund-code">持仓披露期 ${esc(row.report_period || '未知')} · ${esc(cacheText)} · 汇率更新 ${displayTime(row.fx_updated_at)}</div></div><span class="basis-note ${(row.quote_qualities || []).includes('proxy') ? 'caution' : ''}">${esc(estimateBasis(row.quote_qualities))}</span></div>
             <div class="metric-grid">
                 <div class="metric"><div class="metric-label">实时估值</div><div class="metric-value">${num(row.estimated_nav)}</div></div>
                 <div class="metric"><div class="metric-label">估算涨跌</div><div class="metric-value ${tone(row.estimated_change_pct)}">${pct(row.estimated_change_pct)}</div></div>

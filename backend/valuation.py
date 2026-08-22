@@ -1,11 +1,16 @@
 from __future__ import annotations
 
 import asyncio
+import json
+import re
 from datetime import datetime
+from io import StringIO
 from typing import Any
 
 import akshare as ak
+import pandas as pd
 
+from .cache import LocalCache
 from .market_data import (
     MarketDataClient,
     exchange_symbol_for_fund,
@@ -24,9 +29,15 @@ def _number(value: Any) -> float | None:
 
 
 class ValuationService:
-    def __init__(self, store: FundStore, market: MarketDataClient) -> None:
+    def __init__(
+        self,
+        store: FundStore,
+        market: MarketDataClient,
+        cache: LocalCache | None = None,
+    ) -> None:
         self.store = store
         self.market = market
+        self.cache = cache or LocalCache()
         self._fund_names: dict[str, str] = {}
         self._name_lock = asyncio.Lock()
         self._portfolio_cache: dict[str, dict[str, Any]] = {}
@@ -167,6 +178,12 @@ class ValuationService:
         if not nav.ok or (is_lof and (not market_quote or not market_quote.ok)):
             status = "error"
         qualities = sorted({item["quality"] for item in details if item["quality"]})
+        warnings = self._warnings(status, recorded_weight, priced_weight, qualities)
+        period_match = re.search(r"(20\d{2})", str(fund.get("report_period") or ""))
+        if period_match and int(period_match.group(1)) < datetime.now().year - 1:
+            warnings.append(
+                f"最新可用持仓披露期为 {fund.get('report_period')}，可能已明显偏离当前组合。"
+            )
         return {
             "fund_code": code,
             "fund_name": name,
@@ -193,7 +210,8 @@ class ValuationService:
             "fx_currencies": sorted(fx_currencies),
             "update_time": datetime.now().isoformat(timespec="seconds"),
             "details": details,
-            "warnings": self._warnings(status, recorded_weight, priced_weight, qualities),
+            "warnings": warnings,
+            "holdings_cache": fund.get("_cache_status", "curated"),
         }
 
     @staticmethod
@@ -215,6 +233,12 @@ class ValuationService:
                 return
             for item in self.store.list_dashboard_funds():
                 self._fund_names[str(item["fund_code"]).zfill(6)] = item["fund_name"]
+            cached_names = self.cache.get("fund-names:v1")
+            if isinstance(cached_names, dict):
+                self._fund_names.update(
+                    {str(code).zfill(6): str(name) for code, name in cached_names.items()}
+                )
+                return
             try:
                 frame = await asyncio.to_thread(ak.fund_name_em)
                 code_column = next((col for col in frame.columns if "代码" in str(col)), None)
@@ -222,6 +246,7 @@ class ValuationService:
                 if code_column is not None and name_column is not None:
                     for _, row in frame.iterrows():
                         self._fund_names[str(row[code_column]).zfill(6)] = str(row[name_column])
+                    self.cache.set("fund-names:v1", self._fund_names, 7 * 24 * 60 * 60)
             except Exception:
                 pass
 
@@ -230,70 +255,124 @@ class ValuationService:
         curated = self.store.find_curated(query)
         if curated:
             return curated
-        await self._load_fund_names()
-        if query.isdigit() and len(query) == 6 and query in self._fund_names:
-            code = query
-        else:
-            exact = [code for code, name in self._fund_names.items() if name == query]
-            if len(exact) != 1:
+        if query.isdigit() and len(query) == 6:
+            cached = self.cache.get(f"portfolio:v2:{query}")
+            if isinstance(cached, dict):
+                cached["_cache_status"] = "hit"
+                self._portfolio_cache[query] = cached
+                return cached
+            nav = await self.market.latest_nav(query)
+            if not nav.ok and not nav.fund_name:
                 return None
-            code = exact[0]
+            return await self._load_public_fund(query, nav.fund_name or query)
+
+        await self._load_fund_names()
+        exact = [code for code, name in self._fund_names.items() if name == query]
+        if len(exact) != 1:
+            return None
+        code = exact[0]
         return await self._load_public_fund(code, self._fund_names.get(code, "未知基金"))
+
+    @staticmethod
+    def _looks_like_lof_code(code: str) -> bool:
+        return code.startswith("16") or code.startswith(("501", "502", "506"))
+
+    @staticmethod
+    def _holding_symbol(value: Any) -> str:
+        raw = str(value or "").strip().upper().replace(" ", "")
+        if raw.endswith(".0") and raw[:-2].isdigit():
+            raw = raw[:-2]
+        if not raw or raw in {"NAN", "NONE", "--"}:
+            return ""
+        if raw.endswith((".SH", ".SZ", ".HK", ".T", ".SW", ".L")):
+            return normalize_symbol(raw)
+        if raw.isdigit() and len(raw) == 6:
+            suffix = ".SH" if raw.startswith(("5", "6", "9")) else ".SZ"
+            return raw + suffix
+        if raw.isdigit() and len(raw) == 5:
+            return raw.zfill(5) + ".HK"
+        if raw.isdigit() and len(raw) == 4:
+            return raw + ".T"
+        return raw
+
+    @staticmethod
+    def _parse_holdings_document(document: str) -> tuple[list[dict[str, Any]], str | None]:
+        match = re.search(r'content:(".*"),arryear:', document, flags=re.S)
+        if not match:
+            return [], None
+        try:
+            html = json.loads(match.group(1))
+        except json.JSONDecodeError:
+            return [], None
+        if not html.strip():
+            return [], None
+        quarter_labels = re.findall(r"(\d{4}年[一二三四1-4]季度)", html)
+        try:
+            frames = pd.read_html(StringIO(html))
+        except (ValueError, ImportError):
+            return [], None
+
+        for index, frame in enumerate(frames):
+            frame.columns = [
+                " ".join(str(part) for part in column if str(part) != "nan")
+                if isinstance(column, tuple)
+                else str(column)
+                for column in frame.columns
+            ]
+            code_column = next((col for col in frame.columns if "股票代码" in col), None)
+            name_column = next((col for col in frame.columns if "股票名称" in col), None)
+            weight_column = next((col for col in frame.columns if "占净值比例" in col), None)
+            if code_column is None or weight_column is None:
+                continue
+            holdings: list[dict[str, Any]] = []
+            for _, row in frame.iterrows():
+                symbol = ValuationService._holding_symbol(row[code_column])
+                weight = _number(str(row[weight_column]).replace("%", ""))
+                if not symbol or weight is None or weight <= 0:
+                    continue
+                name_value = row[name_column] if name_column is not None else symbol
+                name = str(name_value) if str(name_value).lower() != "nan" else symbol
+                holdings.append(
+                    {
+                        "name": name,
+                        "price_symbol": symbol,
+                        "w": weight,
+                        "type": "STOCK",
+                    }
+                )
+            if holdings:
+                period = quarter_labels[index] if index < len(quarter_labels) else None
+                return holdings, period
+        return [], None
 
     async def _load_public_fund(self, code: str, name: str) -> dict[str, Any]:
         cached = self._portfolio_cache.get(code)
         if cached:
             return cached
+        persisted = self.cache.get(f"portfolio:v2:{code}")
+        if isinstance(persisted, dict):
+            persisted["_cache_status"] = "hit"
+            self._portfolio_cache[code] = persisted
+            return persisted
 
-        def load() -> tuple[list[dict[str, Any]], str | None]:
-            current_year = datetime.now().year
-            frame = None
-            for year in range(current_year, current_year - 3, -1):
-                try:
-                    candidate = ak.fund_portfolio_hold_em(symbol=code, date=str(year))
-                    if candidate is not None and not candidate.empty:
-                        frame = candidate
-                        break
-                except Exception:
-                    continue
-            if frame is None or frame.empty:
-                return [], None
-            quarter_column = next((col for col in frame.columns if "季度" in str(col)), None)
-            if quarter_column is not None:
-                latest_quarter = frame[quarter_column].astype(str).max()
-                frame = frame[frame[quarter_column].astype(str) == latest_quarter]
-            code_column = next((col for col in frame.columns if "股票代码" in str(col)), None)
-            name_column = next((col for col in frame.columns if "股票名称" in str(col)), None)
-            weight_column = next((col for col in frame.columns if "占净值比例" in str(col)), None)
-            if code_column is None or weight_column is None:
-                return [], None
-            result = []
-            for _, row in frame.iterrows():
-                stock_code = str(row[code_column]).split(".")[0].zfill(6)
-                if not stock_code.isdigit() or len(stock_code) != 6:
-                    continue
-                suffix = ".SH" if stock_code.startswith(("6", "9")) else ".SZ"
-                weight = _number(row[weight_column])
-                if weight is None or weight <= 0:
-                    continue
-                result.append(
-                    {
-                        "name": str(row[name_column]) if name_column is not None else stock_code,
-                        "price_symbol": stock_code + suffix,
-                        "w": weight,
-                        "type": "STOCK",
-                    }
-                )
-            return result, latest_quarter if quarter_column is not None else None
-
-        holdings, report_period = await asyncio.to_thread(load)
+        document = await self.market.fund_holdings_document(code)
+        holdings, report_period = await asyncio.to_thread(
+            self._parse_holdings_document, document
+        )
         fund = {
             "fund_code": code,
             "fund_name": name,
-            "is_qdii": False,
-            "is_lof": False,
+            "is_qdii": "QDII" in name.upper(),
+            "is_lof": self._looks_like_lof_code(code),
             "report_period": report_period,
             "holdings": holdings,
+            "_cache_status": "stored",
         }
         self._portfolio_cache[code] = fund
+        persisted_fund = {key: value for key, value in fund.items() if key != "_cache_status"}
+        self.cache.set(
+            f"portfolio:v2:{code}",
+            persisted_fund,
+            7 * 24 * 60 * 60 if holdings else 6 * 60 * 60,
+        )
         return fund

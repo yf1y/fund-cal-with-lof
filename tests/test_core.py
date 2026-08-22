@@ -1,5 +1,9 @@
+import json
 import unittest
+from pathlib import Path
+from tempfile import TemporaryDirectory
 
+from backend.cache import LocalCache
 from backend.market_data import MarketDataClient, FxQuote, NavQuote, PriceQuote, normalize_symbol
 from backend.store import FundStore
 from backend.valuation import ValuationService
@@ -20,6 +24,29 @@ class FakeMarket:
 
 
 class CoreTests(unittest.IsolatedAsyncioTestCase):
+    def test_sqlite_cache_survives_a_new_instance(self):
+        with TemporaryDirectory() as directory:
+            path = Path(directory) / "cache.sqlite3"
+            LocalCache(path).set("fund", {"code": "012870"}, 60)
+            self.assertEqual(LocalCache(path).get("fund"), {"code": "012870"})
+
+    def test_public_holding_symbol_markets(self):
+        self.assertEqual(ValuationService._holding_symbol("600519"), "600519.SH")
+        self.assertEqual(ValuationService._holding_symbol("00700"), "00700.HK")
+        self.assertEqual(ValuationService._holding_symbol("AAPL"), "AAPL")
+
+    def test_parses_latest_public_holdings_document(self):
+        html = """
+        <h4>2026年2季度股票投资明细</h4>
+        <table><thead><tr><th>股票代码</th><th>股票名称</th><th>占净值比例</th></tr></thead>
+        <tbody><tr><td>AAPL</td><td>苹果</td><td>9.99%</td></tr></tbody></table>
+        """
+        document = f"var apidata={{ content:{json.dumps(html, ensure_ascii=False)},arryear:[2026]}};"
+        holdings, period = ValuationService._parse_holdings_document(document)
+        self.assertEqual(period, "2026年2季度")
+        self.assertEqual(holdings[0]["price_symbol"], "AAPL")
+        self.assertEqual(holdings[0]["w"], 9.99)
+
     def test_normalizes_yahoo_shanghai_suffix(self):
         self.assertEqual(normalize_symbol("688052.SS"), "688052.SH")
 

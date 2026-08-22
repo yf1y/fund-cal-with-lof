@@ -10,6 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
+from .cache import LocalCache
 from .market_data import MarketDataClient
 from .store import FundStore
 from .valuation import ValuationService
@@ -19,8 +20,9 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 FRONTEND_DIR = PROJECT_ROOT / "frontend"
 
 store = FundStore()
+cache = LocalCache()
 market = MarketDataClient()
-valuation = ValuationService(store, market)
+valuation = ValuationService(store, market, cache)
 
 
 @asynccontextmanager
@@ -29,7 +31,12 @@ async def lifespan(_: FastAPI):
     await market.close()
 
 
-app = FastAPI(title="LOF 与基金实时估值", version="2.0.0", lifespan=lifespan)
+app = FastAPI(
+    title="LOF 透镜（LOF Lens）",
+    description="可解释的 LOF 实时估值与折溢价看板",
+    version="2.1.0",
+    lifespan=lifespan,
+)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -41,7 +48,7 @@ app.add_middleware(
 
 @app.get("/api/health")
 async def health() -> dict:
-    return {"status": "ok", "database": store.health()}
+    return {"status": "ok", "database": store.health(), "cache": cache.health()}
 
 
 @app.get("/api/dashboard")

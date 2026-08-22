@@ -61,6 +61,7 @@ class NavQuote:
     source: str
     ok: bool
     message: str = ""
+    fund_name: str | None = None
 
 
 @dataclass
@@ -119,6 +120,7 @@ class MarketDataClient:
         cached = self._cache_get(key)
         if cached:
             return cached
+        fund_name = None
         try:
             async with self._semaphore:
                 response = await self.client.get(
@@ -126,6 +128,8 @@ class MarketDataClient:
                     params={"v": int(time.time() * 1000)},
                 )
                 response.raise_for_status()
+            name_match = re.search(r'fS_name\s*=\s*"([^"]+)"', response.text)
+            fund_name = name_match.group(1).strip() if name_match else None
             match = re.search(
                 r"Data_netWorthTrend\s*=\s*(\[.*?\]);", response.text, flags=re.S
             )
@@ -136,10 +140,54 @@ class MarketDataClient:
             nav = as_float(latest.get("y"))
             timestamp = latest.get("x")
             nav_date = datetime.fromtimestamp(timestamp / 1000).strftime("%Y-%m-%d")
-            result = NavQuote(nav, nav_date, "东方财富基金净值", nav is not None, "ok")
+            result = NavQuote(
+                nav,
+                nav_date,
+                "东方财富基金净值",
+                nav is not None,
+                "ok",
+                fund_name,
+            )
         except Exception as exc:
-            result = NavQuote(None, None, "东方财富基金净值", False, str(exc))
+            result = NavQuote(
+                None,
+                None,
+                "东方财富基金净值",
+                False,
+                str(exc),
+                fund_name,
+            )
         return self._cache_set(key, result, 1800 if result.ok else 60)
+
+    async def fund_holdings_document(self, fund_code: str) -> str:
+        """Fetch the latest holdings archive in one request.
+
+        Leaving ``year`` empty makes Eastmoney return the newest available year,
+        including older funds whose disclosure history ended several years ago.
+        """
+        fund_code = str(fund_code).zfill(6)
+        for attempt in range(2):
+            try:
+                async with self._semaphore:
+                    response = await self.client.get(
+                        "https://fundf10.eastmoney.com/FundArchivesDatas.aspx",
+                        params={
+                            "type": "jjcc",
+                            "code": fund_code,
+                            "topline": "10000",
+                            "year": "",
+                            "month": "",
+                            "rt": str(time.time()),
+                        },
+                        headers={"Referer": f"https://fundf10.eastmoney.com/ccmx_{fund_code}.html"},
+                    )
+                    response.raise_for_status()
+                if "content:" in response.text:
+                    return response.text
+            except Exception:
+                if attempt == 1:
+                    return ""
+        return ""
 
     @staticmethod
     def _tencent_code(symbol: str) -> str | None:
