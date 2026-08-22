@@ -34,7 +34,7 @@ async def lifespan(_: FastAPI):
 app = FastAPI(
     title="FundCal",
     description="基金实时估值与 LOF 折溢价工具",
-    version="3.0.0",
+    version="3.1.0",
     lifespan=lifespan,
 )
 app.add_middleware(
@@ -67,7 +67,22 @@ async def dashboard() -> dict:
 @app.get("/api/lof/catalog")
 async def lof_catalog() -> dict:
     rows = await valuation.dashboard_catalog()
-    return {"funds": rows, "count": len(rows), "database": store.health()}
+    saved_by_code = {
+        row["fund_code"]: row for row in cache.list_lof_estimates()
+    }
+    merged_rows = []
+    for row in rows:
+        saved = saved_by_code.get(row["fund_code"])
+        if saved:
+            saved = dict(saved)
+            saved["curated"] = row.get("curated", False)
+            saved["curated_rank"] = row.get("curated_rank")
+            saved["holdings_available"] = True
+            merged_rows.append(saved)
+        else:
+            merged_rows.append(row)
+    merged_rows.sort(key=valuation.dashboard_sort_key)
+    return {"funds": merged_rows, "count": len(merged_rows), "database": store.health()}
 
 
 @app.get("/api/search")
@@ -101,6 +116,8 @@ async def estimate_lof(fund_code: str) -> dict:
     result = await valuation.estimate_fund(fund)
     if not fund.get("holdings"):
         result["warnings"].append("未取得最新季度持仓，暂时只能展示场内价格。")
+    else:
+        cache.record_lof_estimate(result)
     return result
 
 

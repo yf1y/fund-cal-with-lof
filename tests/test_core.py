@@ -39,12 +39,28 @@ class CoreTests(unittest.IsolatedAsyncioTestCase):
             rows = cache.list_search_history()
             self.assertEqual([item["fund_code"] for item in rows], ["000001", "000002"])
 
+    def test_lof_estimate_survives_refresh_and_a_new_instance(self):
+        with TemporaryDirectory() as directory:
+            path = Path(directory) / "estimates.sqlite3"
+            cache = LocalCache(path, database_url="")
+            cache.record_lof_estimate(
+                {"fund_code": "160140", "fund_name": "测试 LOF", "estimated_nav": 1.23}
+            )
+            rows = LocalCache(path, database_url="").list_lof_estimates()
+            self.assertEqual(rows[0]["fund_code"], "160140")
+            self.assertEqual(rows[0]["estimated_nav"], 1.23)
+
     def test_versioned_lof_catalog_and_holdings_are_separate(self):
         store = FundStore()
         health = store.health()
         self.assertGreaterEqual(health["catalog_count"], 400)
         self.assertGreaterEqual(health["holdings_count"], 21)
         self.assertEqual(len(store.list_dashboard_funds()), 21)
+        curated = sorted(
+            store.list_dashboard_funds(), key=ValuationService.dashboard_sort_key
+        )
+        self.assertEqual(curated[0]["fund_code"], "161116")
+        self.assertEqual(curated[-1]["fund_code"], "163208")
 
     def test_public_holding_symbol_markets(self):
         self.assertEqual(ValuationService._holding_symbol("600519"), "600519.SH")

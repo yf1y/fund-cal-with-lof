@@ -48,6 +48,11 @@ class FundStore:
     def __init__(self) -> None:
         self._catalog = self._load_catalog()
         self._holdings = self._load_holdings()
+        self._curated_order = {
+            code: index
+            for index, (code, data) in enumerate(self._holdings.items())
+            if data.get("curated")
+        }
         self._mappings = dict(DEFAULT_PROXY_MAPPINGS)
         self.status = StoreStatus(
             "versioned-json",
@@ -86,6 +91,8 @@ class FundStore:
                 "holdings_source": holding_data.get("source"),
                 "holdings_available": bool(holding_data.get("holdings")),
                 "holdings_curated": bool(holding_data.get("curated")),
+                "curated": bool(holding_data.get("curated")),
+                "curated_rank": self._curated_order.get(code),
             }
         )
         return item

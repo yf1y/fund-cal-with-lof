@@ -82,6 +82,8 @@ class ValuationService:
                     "details": [],
                     "warnings": ["尚未执行本只基金的按需估值。"],
                     "holdings_available": bool(item.get("holdings_available")),
+                    "curated": bool(item.get("curated")),
+                    "curated_rank": item.get("curated_rank"),
                     "valuation_state": "ready" if item.get("holdings_available") else "on_demand",
                 }
             )
@@ -150,23 +152,23 @@ class ValuationService:
                     "details": [],
                     "warnings": ["尚未执行本只基金的按需估值。"],
                     "holdings_available": bool(item.get("holdings_available")),
+                    "curated": bool(item.get("curated")),
+                    "curated_rank": item.get("curated_rank"),
                     "valuation_state": "ready" if item.get("holdings_available") else "on_demand",
                 }
             )
-        detailed = sorted(
-            [row for row in rows if row.get("estimated_nav") is not None],
-            key=lambda row: row.get("premium_rate")
-            if row.get("premium_rate") is not None
-            else -10_000,
-            reverse=True,
-        )
-        pending = sorted(
-            [row for row in rows if row.get("estimated_nav") is None],
-            key=lambda row: (str(row.get("industry") or ""), row["fund_code"]),
-        )
-        rows = detailed + pending
+        rows.sort(key=self.dashboard_sort_key)
         self._dashboard_cache = (datetime.now().timestamp() + 60, rows)
         return rows
+
+    @staticmethod
+    def dashboard_sort_key(row: dict[str, Any]) -> tuple[int, int, str]:
+        if row.get("curated"):
+            rank = row.get("curated_rank")
+            return (0, int(rank) if rank is not None else 9999, row["fund_code"])
+        if row.get("holdings_available"):
+            return (1, 0, row["fund_code"])
+        return (2, 0, row["fund_code"])
 
     async def estimate_fund(self, fund: dict[str, Any]) -> dict[str, Any]:
         code = str(fund.get("fund_code", "")).zfill(6)
@@ -303,6 +305,8 @@ class ValuationService:
             "warnings": warnings,
             "holdings_cache": fund.get("_cache_status", "curated"),
             "holdings_available": bool(holdings),
+            "curated": bool(fund.get("curated")),
+            "curated_rank": fund.get("curated_rank"),
             "valuation_state": "estimated",
         }
 
@@ -452,9 +456,23 @@ class ValuationService:
     ) -> dict[str, Any]:
         cached = self._portfolio_cache.get(code)
         if cached:
+            if known:
+                cached.update(
+                    curated=bool(known.get("curated")),
+                    curated_rank=known.get("curated_rank"),
+                    fund_category=known.get("fund_category"),
+                    industry=known.get("industry"),
+                )
             return cached
         persisted = self.cache.get(f"portfolio:v2:{code}")
         if isinstance(persisted, dict):
+            if known:
+                persisted.update(
+                    curated=bool(known.get("curated")),
+                    curated_rank=known.get("curated_rank"),
+                    fund_category=known.get("fund_category"),
+                    industry=known.get("industry"),
+                )
             persisted["_cache_status"] = "hit"
             self._portfolio_cache[code] = persisted
             return persisted
@@ -470,6 +488,8 @@ class ValuationService:
             "is_lof": True if known else self._looks_like_lof_code(code),
             "fund_category": known.get("fund_category") if known else None,
             "industry": known.get("industry") if known else None,
+            "curated": bool(known.get("curated")) if known else False,
+            "curated_rank": known.get("curated_rank") if known else None,
             "report_period": report_period,
             "holdings": holdings,
             "_cache_status": "stored",

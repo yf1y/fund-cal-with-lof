@@ -29,6 +29,7 @@ class LocalCache:
         self._engine = None
         self._cache_table = None
         self._history_table = None
+        self._lof_estimate_table = None
         self.backend = "sqlite"
         self.message = "本机 SQLite 查询库已启用；无需安装数据库服务"
         if self.database_url:
@@ -80,6 +81,15 @@ class LocalCache:
                 )
                 """
             )
+            connection.execute(
+                """
+                CREATE TABLE IF NOT EXISTS lof_estimates (
+                    fund_code TEXT PRIMARY KEY,
+                    result_payload TEXT NOT NULL,
+                    updated_at TEXT NOT NULL
+                )
+                """
+            )
 
     @staticmethod
     def _normalized_database_url(value: str) -> str:
@@ -108,6 +118,13 @@ class LocalCache:
             Column("fund_name", String(255), nullable=False),
             Column("result_payload", JSON, nullable=False),
             Column("last_queried_at", String(32), nullable=False),
+        )
+        self._lof_estimate_table = Table(
+            "lof_estimates",
+            metadata,
+            Column("fund_code", String(6), primary_key=True),
+            Column("result_payload", JSON, nullable=False),
+            Column("updated_at", String(32), nullable=False),
         )
         self._engine = create_engine(
             self._normalized_database_url(self.database_url), pool_pre_ping=True
@@ -249,6 +266,66 @@ class LocalCache:
                 continue
         return result
 
+    def record_lof_estimate(self, result: dict[str, Any]) -> None:
+        code = str(result.get("fund_code", "")).zfill(6)
+        updated_at = datetime.now().isoformat(timespec="microseconds")
+        saved_result = dict(result)
+        saved_result["saved_at"] = updated_at
+        if self._engine is not None:
+            from sqlalchemy import delete
+
+            with self._engine.begin() as connection:
+                connection.execute(
+                    delete(self._lof_estimate_table).where(
+                        self._lof_estimate_table.c.fund_code == code
+                    )
+                )
+                connection.execute(
+                    self._lof_estimate_table.insert().values(
+                        fund_code=code,
+                        result_payload=saved_result,
+                        updated_at=updated_at,
+                    )
+                )
+            return
+        with self._connection() as connection:
+            connection.execute(
+                """
+                INSERT INTO lof_estimates (fund_code, result_payload, updated_at)
+                VALUES (?, ?, ?)
+                ON CONFLICT(fund_code) DO UPDATE SET
+                    result_payload = excluded.result_payload,
+                    updated_at = excluded.updated_at
+                """,
+                (code, json.dumps(saved_result, ensure_ascii=False), updated_at),
+            )
+
+    def list_lof_estimates(self) -> list[dict[str, Any]]:
+        if self._engine is not None:
+            from sqlalchemy import desc, select
+
+            with self._engine.connect() as connection:
+                rows = connection.execute(
+                    select(self._lof_estimate_table.c.result_payload).order_by(
+                        desc(self._lof_estimate_table.c.updated_at)
+                    )
+                ).all()
+            return [dict(row.result_payload) for row in rows]
+        with self._connection() as connection:
+            rows = connection.execute(
+                """
+                SELECT result_payload FROM lof_estimates
+                ORDER BY updated_at DESC
+                """
+            ).fetchall()
+        result = []
+        for row in rows:
+            try:
+                result.append(json.loads(row[0]))
+            except json.JSONDecodeError:
+                continue
+        return result
+
     def health(self) -> dict[str, Any]:
         if self._engine is not None:
             from sqlalchemy import func, select
@@ -262,6 +339,9 @@ class LocalCache:
                 history_count = connection.execute(
                     select(func.count()).select_from(self._history_table)
                 ).scalar_one()
+                lof_estimate_count = connection.execute(
+                    select(func.count()).select_from(self._lof_estimate_table)
+                ).scalar_one()
         else:
             with self._connection() as connection:
                 count = connection.execute(
@@ -270,11 +350,15 @@ class LocalCache:
                 history_count = connection.execute(
                     "SELECT COUNT(*) FROM search_history"
                 ).fetchone()[0]
+                lof_estimate_count = connection.execute(
+                    "SELECT COUNT(*) FROM lof_estimates"
+                ).fetchone()[0]
         return {
             "backend": self.backend,
             "persistent": True,
             "path": str(self.path) if self._engine is None else None,
             "active_items": count,
             "search_history_count": history_count,
+            "lof_estimate_count": lof_estimate_count,
             "message": self.message,
         }
