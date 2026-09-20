@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-22T20:48:52",
+  "updated_at": "2026-09-20T07:47:51",
   "source": "东方财富基金目录 + 腾讯场内行情验证",
   "verification": "候选代码必须取得沪深场内行情；人工维护基金始终保留",
   "count": 469,
@@ -96,11 +96,11 @@
     },
     {
       "fund_code": "160140",
-      "fund_name": "南方道琼斯美国精选A",
+      "fund_name": "南方美国精选REIT指数(QDII-LOF)A",
       "market": "SZ",
       "fund_category": "指数型-海外股票",
       "industry": "海外市场",
-      "is_qdii": false,
+      "is_qdii": true,
       "classification_method": "名称与基金类型规则",
       "curated": false
     },
@@ -1766,7 +1766,7 @@
     },
     {
       "fund_code": "161810",
-      "fund_name": "银华内需精选混合(LOF)",
+      "fund_name": "银华内需精选混合(LOF)A",
       "market": "SZ",
       "fund_category": "混合型-偏股",
       "industry": "综合",

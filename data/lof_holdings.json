@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-08-22T21:09:31",
+  "updated_at": "2026-09-20T07:48:30",
   "source": "基金公开披露；人工数据优先于自动抓取",
-  "count": 32,
+  "count": 35,
   "funds": {
     "161116": {
       "report_period": "2026-03-31",
@@ -1895,7 +1895,7 @@
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-08-22T20:50:10"
+      "updated_at": "2026-09-20T07:47:52"
     },
     "160140": {
       "report_period": "2026年2季度",
@@ -1963,7 +1963,7 @@
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-08-22T20:50:01"
+      "updated_at": "2026-09-20T07:47:53"
     },
     "160416": {
       "report_period": "2026年2季度",
@@ -1993,8 +1993,8 @@
           "type": "STOCK"
         },
         {
-          "name": "道达尔集团",
-          "price_symbol": "TTEFP",
+          "name": "TotalEnergies SE",
+          "price_symbol": "TTE",
           "w": 4.14,
           "type": "STOCK"
         },
@@ -2031,7 +2031,7 @@
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-08-22T20:50:11"
+      "updated_at": "2026-09-20T07:47:54"
     },
     "160644": {
       "report_period": "2026年2季度",
@@ -2099,7 +2099,7 @@
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-08-22T20:50:54"
+      "updated_at": "2026-09-20T07:47:59"
     },
     "160717": {
       "report_period": "2026年2季度",
@@ -2167,7 +2167,7 @@
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-08-22T20:50:56"
+      "updated_at": "2026-09-20T07:47:59"
     },
     "160924": {
       "report_period": "2026年2季度",
@@ -2303,7 +2303,7 @@
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-08-22T20:51:41"
+      "updated_at": "2026-09-20T07:48:03"
     },
     "161126": {
       "report_period": "2026年2季度",
@@ -2371,7 +2371,7 @@
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-08-22T20:51:42"
+      "updated_at": "2026-09-20T07:48:03"
     },
     "161127": {
       "report_period": "2026年2季度",
@@ -2439,7 +2439,7 @@
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-08-22T20:51:42"
+      "updated_at": "2026-09-20T07:48:04"
     },
     "161229": {
       "report_period": "2026年2季度",
@@ -2507,7 +2507,7 @@
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-08-22T20:51:43"
+      "updated_at": "2026-09-20T07:48:04"
     },
     "162415": {
       "report_period": "2026年2季度",
@@ -2575,7 +2575,211 @@
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-08-22T20:53:28"
+      "updated_at": "2026-09-20T07:48:09"
+    },
+    "161831": {
+      "report_period": "2026年2季度",
+      "holdings": [
+        {
+          "name": "腾讯控股",
+          "price_symbol": "700",
+          "w": 8.22,
+          "type": "STOCK"
+        },
+        {
+          "name": "阿里巴巴-W",
+          "price_symbol": "9988.T",
+          "w": 6.53,
+          "type": "STOCK"
+        },
+        {
+          "name": "工商银行",
+          "price_symbol": "1398.T",
+          "w": 5.41,
+          "type": "STOCK"
+        },
+        {
+          "name": "小米集团-W",
+          "price_symbol": "1810.T",
+          "w": 4.01,
+          "type": "STOCK"
+        },
+        {
+          "name": "美团-W",
+          "price_symbol": "3690.T",
+          "w": 3.89,
+          "type": "STOCK"
+        },
+        {
+          "name": "中芯国际",
+          "price_symbol": "981",
+          "w": 3.84,
+          "type": "STOCK"
+        },
+        {
+          "name": "中国银行",
+          "price_symbol": "3988.T",
+          "w": 3.62,
+          "type": "STOCK"
+        },
+        {
+          "name": "中国平安",
+          "price_symbol": "2318.T",
+          "w": 3.48,
+          "type": "STOCK"
+        },
+        {
+          "name": "网易",
+          "price_symbol": "9999.T",
+          "w": 3.27,
+          "type": "STOCK"
+        },
+        {
+          "name": "中国海洋石油",
+          "price_symbol": "883",
+          "w": 3.23,
+          "type": "STOCK"
+        }
+      ],
+      "source": "东方财富基金持仓公开披露自动同步",
+      "curated": false,
+      "updated_at": "2026-09-20T07:48:07"
+    },
+    "164212": {
+      "report_period": "2026年2季度",
+      "holdings": [
+        {
+          "name": "康宁",
+          "price_symbol": "GLW",
+          "w": 5.0,
+          "type": "STOCK"
+        },
+        {
+          "name": "迈威尔科技",
+          "price_symbol": "MRVL",
+          "w": 4.15,
+          "type": "STOCK"
+        },
+        {
+          "name": "美光科技",
+          "price_symbol": "MU",
+          "w": 3.98,
+          "type": "STOCK"
+        },
+        {
+          "name": "超威半导体",
+          "price_symbol": "AMD",
+          "w": 3.31,
+          "type": "STOCK"
+        },
+        {
+          "name": "泰瑞达",
+          "price_symbol": "TER",
+          "w": 2.24,
+          "type": "STOCK"
+        },
+        {
+          "name": "Lumentum Holdings Inc",
+          "price_symbol": "LITE",
+          "w": 2.2,
+          "type": "STOCK"
+        },
+        {
+          "name": "应用材料",
+          "price_symbol": "AMAT",
+          "w": 2.19,
+          "type": "STOCK"
+        },
+        {
+          "name": "Coherent Corp",
+          "price_symbol": "COHR",
+          "w": 2.03,
+          "type": "STOCK"
+        },
+        {
+          "name": "意法半导体",
+          "price_symbol": "STM",
+          "w": 1.97,
+          "type": "STOCK"
+        },
+        {
+          "name": "华虹宏力",
+          "price_symbol": "01347.HK",
+          "w": 1.95,
+          "type": "STOCK"
+        }
+      ],
+      "source": "东方财富基金持仓公开披露自动同步",
+      "curated": false,
+      "updated_at": "2026-09-20T07:48:13"
+    },
+    "164906": {
+      "report_period": "2026年2季度",
+      "holdings": [
+        {
+          "name": "腾讯控股",
+          "price_symbol": "00700.HK",
+          "w": 9.59,
+          "type": "STOCK"
+        },
+        {
+          "name": "拼多多",
+          "price_symbol": "PDD",
+          "w": 7.49,
+          "type": "STOCK"
+        },
+        {
+          "name": "阿里巴巴-W",
+          "price_symbol": "09988.HK",
+          "w": 7.26,
+          "type": "STOCK"
+        },
+        {
+          "name": "网易",
+          "price_symbol": "09999.HK",
+          "w": 6.44,
+          "type": "STOCK"
+        },
+        {
+          "name": "美团-W",
+          "price_symbol": "03690.HK",
+          "w": 6.35,
+          "type": "STOCK"
+        },
+        {
+          "name": "满帮",
+          "price_symbol": "YMM",
+          "w": 3.92,
+          "type": "STOCK"
+        },
+        {
+          "name": "快手-W",
+          "price_symbol": "01024.HK",
+          "w": 3.85,
+          "type": "STOCK"
+        },
+        {
+          "name": "百度集团-SW",
+          "price_symbol": "09888.HK",
+          "w": 3.78,
+          "type": "STOCK"
+        },
+        {
+          "name": "贝壳-W",
+          "price_symbol": "02423.HK",
+          "w": 3.64,
+          "type": "STOCK"
+        },
+        {
+          "name": "京东集团-SW",
+          "price_symbol": "09618.HK",
+          "w": 3.57,
+          "type": "STOCK"
+        }
+      ],
+      "source": "东方财富基金持仓公开披露自动同步",
+      "curated": false,
+      "updated_at": "2026-09-20T07:48:14"
     }
   }
 }
