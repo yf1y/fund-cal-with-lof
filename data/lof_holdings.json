@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-09-20T07:48:30",
+  "updated_at": "2026-10-20T07:43:42",
   "source": "基金公开披露；人工数据优先于自动抓取",
-  "count": 35,
+  "count": 37,
   "funds": {
     "161116": {
       "report_period": "2026-03-31",
@@ -1895,7 +1895,7 @@
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-09-20T07:47:52"
+      "updated_at": "2026-10-20T07:43:06"
     },
     "160140": {
       "report_period": "2026年2季度",
@@ -1963,7 +1963,7 @@
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-09-20T07:47:53"
+      "updated_at": "2026-10-20T07:43:06"
     },
     "160416": {
       "report_period": "2026年2季度",
@@ -2031,7 +2031,7 @@
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-09-20T07:47:54"
+      "updated_at": "2026-10-20T07:43:08"
     },
     "160644": {
       "report_period": "2026年2季度",
@@ -2099,7 +2099,7 @@
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-09-20T07:47:59"
+      "updated_at": "2026-10-20T07:43:12"
     },
     "160717": {
       "report_period": "2026年2季度",
@@ -2439,7 +2439,7 @@
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-09-20T07:48:04"
+      "updated_at": "2026-10-20T07:43:16"
     },
     "161229": {
       "report_period": "2026年2季度",
@@ -2507,7 +2507,7 @@
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-09-20T07:48:04"
+      "updated_at": "2026-10-20T07:43:17"
     },
     "162415": {
       "report_period": "2026年2季度",
@@ -2575,7 +2575,7 @@
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-09-20T07:48:09"
+      "updated_at": "2026-10-20T07:43:21"
     },
     "161831": {
       "report_period": "2026年2季度",
@@ -2711,7 +2711,7 @@
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-09-20T07:48:13"
+      "updated_at": "2026-10-20T07:43:26"
     },
     "164906": {
       "report_period": "2026年2季度",
@@ -2780,6 +2780,142 @@
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
       "updated_at": "2026-09-20T07:48:14"
+    },
+    "164705": {
+      "report_period": "2026年2季度",
+      "holdings": [
+        {
+          "name": "汇丰控股",
+          "price_symbol": "5",
+          "w": 8.53,
+          "type": "STOCK"
+        },
+        {
+          "name": "腾讯控股",
+          "price_symbol": "700",
+          "w": 7.57,
+          "type": "STOCK"
+        },
+        {
+          "name": "阿里巴巴-W",
+          "price_symbol": "9988.T",
+          "w": 6.02,
+          "type": "STOCK"
+        },
+        {
+          "name": "建设银行",
+          "price_symbol": "939",
+          "w": 4.84,
+          "type": "STOCK"
+        },
+        {
+          "name": "友邦保险",
+          "price_symbol": "1299.T",
+          "w": 4.68,
+          "type": "STOCK"
+        },
+        {
+          "name": "工商银行",
+          "price_symbol": "1398.T",
+          "w": 3.3,
+          "type": "STOCK"
+        },
+        {
+          "name": "中国移动",
+          "price_symbol": "941",
+          "w": 2.95,
+          "type": "STOCK"
+        },
+        {
+          "name": "香港交易所",
+          "price_symbol": "388",
+          "w": 2.72,
+          "type": "STOCK"
+        },
+        {
+          "name": "小米集团-W",
+          "price_symbol": "1810.T",
+          "w": 2.45,
+          "type": "STOCK"
+        },
+        {
+          "name": "美团-W",
+          "price_symbol": "3690.T",
+          "w": 2.37,
+          "type": "STOCK"
+        }
+      ],
+      "source": "东方财富基金持仓公开披露自动同步",
+      "curated": false,
+      "updated_at": "2026-10-20T07:43:26"
+    },
+    "501226": {
+      "report_period": "2026年2季度",
+      "holdings": [
+        {
+          "name": "台积电",
+          "price_symbol": "TSM",
+          "w": 8.71,
+          "type": "STOCK"
+        },
+        {
+          "name": "美光科技",
+          "price_symbol": "MU",
+          "w": 7.55,
+          "type": "STOCK"
+        },
+        {
+          "name": "博通",
+          "price_symbol": "AVGO",
+          "w": 6.03,
+          "type": "STOCK"
+        },
+        {
+          "name": "科磊",
+          "price_symbol": "KLAC",
+          "w": 5.96,
+          "type": "STOCK"
+        },
+        {
+          "name": "拉姆研究",
+          "price_symbol": "LRCX",
+          "w": 5.27,
+          "type": "STOCK"
+        },
+        {
+          "name": "闪迪",
+          "price_symbol": "SNDK",
+          "w": 5.19,
+          "type": "STOCK"
+        },
+        {
+          "name": "阿斯麦",
+          "price_symbol": "ASML",
+          "w": 5.14,
+          "type": "STOCK"
+        },
+        {
+          "name": "谷歌-A",
+          "price_symbol": "GOOGL",
+          "w": 4.89,
+          "type": "STOCK"
+        },
+        {
+          "name": "亚马逊",
+          "price_symbol": "AMZN",
+          "w": 4.35,
+          "type": "STOCK"
+        },
+        {
+          "name": "英伟达",
+          "price_symbol": "NVDA",
+          "w": 4.11,
+          "type": "STOCK"
+        }
+      ],
+      "source": "东方财富基金持仓公开披露自动同步",
+      "curated": false,
+      "updated_at": "2026-10-20T07:43:40"
     }
   }
 }

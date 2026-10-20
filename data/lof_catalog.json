@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-20T07:47:51",
+  "updated_at": "2026-10-20T07:43:04",
   "source": "东方财富基金目录 + 腾讯场内行情验证",
   "verification": "候选代码必须取得沪深场内行情；人工维护基金始终保留",
   "count": 469,
@@ -1516,7 +1516,7 @@
     },
     {
       "fund_code": "161229",
-      "fund_name": "国投瑞银中国价值发现股票",
+      "fund_name": "国投中国价值LOF",
       "market": "SZ",
       "fund_category": "QDII-普通股票",
       "industry": "海外市场",
