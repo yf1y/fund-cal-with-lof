@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-10-20T07:43:04",
+  "updated_at": "2026-11-20T10:09:34",
   "source": "东方财富基金目录 + 腾讯场内行情验证",
   "verification": "候选代码必须取得沪深场内行情；人工维护基金始终保留",
-  "count": 469,
+  "count": 467,
   "funds": [
     {
       "fund_code": "160105",
@@ -3045,16 +3045,6 @@
       "curated": false
     },
     {
-      "fund_code": "166007",
-      "fund_name": "中欧互通精选混合A",
-      "market": "SZ",
-      "fund_category": "混合型-偏股",
-      "industry": "综合",
-      "is_qdii": false,
-      "classification_method": "名称与基金类型规则",
-      "curated": false
-    },
-    {
       "fund_code": "166008",
       "fund_name": "中欧增强回报债券(LOF)A",
       "market": "SZ",
@@ -3409,16 +3399,6 @@
       "fund_name": "东方红睿丰混合",
       "market": "SZ",
       "fund_category": "混合型-灵活",
-      "industry": "综合",
-      "is_qdii": false,
-      "classification_method": "名称与基金类型规则",
-      "curated": false
-    },
-    {
-      "fund_code": "169103",
-      "fund_name": "东方红睿轩三年持有混合",
-      "market": "SZ",
-      "fund_category": "混合型-偏股",
       "industry": "综合",
       "is_qdii": false,
       "classification_method": "名称与基金类型规则",

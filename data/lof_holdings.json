@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-20T07:43:42",
+  "updated_at": "2026-11-20T10:10:06",
   "source": "基金公开披露；人工数据优先于自动抓取",
   "count": 37,
   "funds": {
@@ -1830,154 +1830,154 @@
       "updated_at": "2026-08-22T20:49:54"
     },
     "160125": {
-      "report_period": "2026年2季度",
+      "report_period": "2026年3季度",
       "holdings": [
-        {
-          "name": "壁仞科技",
-          "price_symbol": "6082.T",
-          "w": 7.77,
-          "type": "STOCK"
-        },
         {
           "name": "建设银行",
           "price_symbol": "939",
-          "w": 7.07,
+          "w": 6.21,
           "type": "STOCK"
         },
         {
-          "name": "长光辰芯",
-          "price_symbol": "3277.T",
-          "w": 6.19,
+          "name": "汇丰控股",
+          "price_symbol": "5",
+          "w": 5.52,
           "type": "STOCK"
         },
         {
-          "name": "中芯国际",
-          "price_symbol": "981",
-          "w": 5.76,
+          "name": "渣打集团",
+          "price_symbol": "2888.T",
+          "w": 5.45,
           "type": "STOCK"
         },
         {
-          "name": "建滔积层板",
-          "price_symbol": "1888.T",
-          "w": 4.77,
-          "type": "STOCK"
-        },
-        {
-          "name": "工商银行",
-          "price_symbol": "1398.T",
-          "w": 4.67,
-          "type": "STOCK"
-        },
-        {
-          "name": "华虹宏力",
-          "price_symbol": "1347.T",
-          "w": 4.38,
-          "type": "STOCK"
-        },
-        {
-          "name": "长和",
-          "price_symbol": "1",
-          "w": 4.07,
+          "name": "腾讯控股",
+          "price_symbol": "700",
+          "w": 5.11,
           "type": "STOCK"
         },
         {
           "name": "绿色动力环保",
           "price_symbol": "1330.T",
-          "w": 3.61,
+          "w": 4.69,
           "type": "STOCK"
         },
         {
-          "name": "宁德时代",
-          "price_symbol": "3750.T",
-          "w": 3.61,
+          "name": "药明生物",
+          "price_symbol": "2269.T",
+          "w": 4.33,
+          "type": "STOCK"
+        },
+        {
+          "name": "长和",
+          "price_symbol": "1",
+          "w": 4.16,
+          "type": "STOCK"
+        },
+        {
+          "name": "中国财险",
+          "price_symbol": "2328.T",
+          "w": 3.97,
+          "type": "STOCK"
+        },
+        {
+          "name": "阿里巴巴-W",
+          "price_symbol": "9988.T",
+          "w": 3.38,
+          "type": "STOCK"
+        },
+        {
+          "name": "工商银行",
+          "price_symbol": "1398.T",
+          "w": 3.26,
           "type": "STOCK"
         }
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-10-20T07:43:06"
+      "updated_at": "2026-11-20T10:09:35"
     },
     "160140": {
-      "report_period": "2026年2季度",
+      "report_period": "2026年3季度",
       "holdings": [
         {
           "name": "Welltower Inc",
           "price_symbol": "WELL",
-          "w": 10.89,
+          "w": 13.02,
           "type": "STOCK"
         },
         {
           "name": "安博",
           "price_symbol": "PLD",
-          "w": 8.59,
+          "w": 9.68,
           "type": "STOCK"
         },
         {
           "name": "易昆尼克斯",
           "price_symbol": "EQIX",
-          "w": 6.99,
+          "w": 7.83,
           "type": "STOCK"
         },
         {
           "name": "西蒙地产",
           "price_symbol": "SPG",
-          "w": 4.93,
+          "w": 5.1,
           "type": "STOCK"
         },
         {
           "name": "数字房地产信托",
           "price_symbol": "DLR",
-          "w": 4.03,
+          "w": 4.84,
           "type": "STOCK"
         },
         {
           "name": "Realty Income Corp",
           "price_symbol": "O",
-          "w": 3.93,
+          "w": 4.04,
           "type": "STOCK"
         },
         {
           "name": "大众仓储",
           "price_symbol": "PSA",
-          "w": 3.42,
+          "w": 3.73,
+          "type": "STOCK"
+        },
+        {
+          "name": "Vivmark Residential",
+          "price_symbol": "VMRK",
+          "w": 3.43,
           "type": "STOCK"
         },
         {
           "name": "芬塔公司",
           "price_symbol": "VTR",
-          "w": 2.94,
+          "w": 3.43,
           "type": "STOCK"
         },
         {
           "name": "Extra Space Storage Inc",
           "price_symbol": "EXR",
-          "w": 2.09,
-          "type": "STOCK"
-        },
-        {
-          "name": "艾芙隆海湾社区",
-          "price_symbol": "AVB",
-          "w": 1.78,
+          "w": 2.18,
           "type": "STOCK"
         }
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-10-20T07:43:06"
+      "updated_at": "2026-11-20T10:09:35"
     },
     "160416": {
-      "report_period": "2026年2季度",
+      "report_period": "2026年3季度",
       "holdings": [
         {
           "name": "埃克森美孚",
           "price_symbol": "XOM",
-          "w": 9.95,
+          "w": 9.41,
           "type": "STOCK"
         },
         {
           "name": "雪佛龙",
           "price_symbol": "CVX",
-          "w": 8.04,
+          "w": 8.28,
           "type": "STOCK"
         },
         {
@@ -1987,187 +1987,187 @@
           "type": "STOCK"
         },
         {
-          "name": "印度瑞来斯实业",
-          "price_symbol": "RIGD",
-          "w": 4.4,
+          "name": "TotalEnergies SE",
+          "price_symbol": "TTE",
+          "w": 3.98,
           "type": "STOCK"
         },
         {
-          "name": "TotalEnergies SE",
-          "price_symbol": "TTE",
-          "w": 4.14,
+          "name": "印度瑞来斯实业",
+          "price_symbol": "RIGD",
+          "w": 3.37,
           "type": "STOCK"
         },
         {
           "name": "康菲石油",
           "price_symbol": "COP",
-          "w": 3.09,
-          "type": "STOCK"
-        },
-        {
-          "name": "Enbridge股份有限公司",
-          "price_symbol": "ENBCN",
-          "w": 2.77,
+          "w": 3.11,
           "type": "STOCK"
         },
         {
           "name": "英国石油",
           "price_symbol": "BP.",
-          "w": 2.41,
+          "w": 2.46,
           "type": "STOCK"
         },
         {
-          "name": "威廉姆斯",
-          "price_symbol": "WMB",
-          "w": 2.14,
+          "name": "瓦莱罗能源",
+          "price_symbol": "VLO",
+          "w": 2.35,
           "type": "STOCK"
         },
         {
-          "name": "挪威国家石油公司",
-          "price_symbol": "EQNRNO",
-          "w": 2.07,
+          "name": "马拉松原油",
+          "price_symbol": "MPC",
+          "w": 2.35,
+          "type": "STOCK"
+        },
+        {
+          "name": "欧尼克",
+          "price_symbol": "OKE",
+          "w": 2.26,
           "type": "STOCK"
         }
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-10-20T07:43:08"
+      "updated_at": "2026-11-20T10:09:37"
     },
     "160644": {
-      "report_period": "2026年2季度",
+      "report_period": "2026年3季度",
       "holdings": [
+        {
+          "name": "英伟达",
+          "price_symbol": "NVDA",
+          "w": 9.76,
+          "type": "STOCK"
+        },
         {
           "name": "美光科技",
           "price_symbol": "MU",
-          "w": 10.64,
+          "w": 9.49,
           "type": "STOCK"
         },
         {
           "name": "闪迪",
           "price_symbol": "SNDK",
-          "w": 10.54,
-          "type": "STOCK"
-        },
-        {
-          "name": "建滔积层板",
-          "price_symbol": "01888.HK",
-          "w": 10.4,
-          "type": "STOCK"
-        },
-        {
-          "name": "联想集团",
-          "price_symbol": "00992.HK",
           "w": 9.35,
-          "type": "STOCK"
-        },
-        {
-          "name": "建滔集团",
-          "price_symbol": "00148.HK",
-          "w": 8.92,
-          "type": "STOCK"
-        },
-        {
-          "name": "美团-W",
-          "price_symbol": "03690.HK",
-          "w": 7.23,
-          "type": "STOCK"
-        },
-        {
-          "name": "阿里巴巴-W",
-          "price_symbol": "09988.HK",
-          "w": 6.87,
-          "type": "STOCK"
-        },
-        {
-          "name": "英伟达",
-          "price_symbol": "NVDA",
-          "w": 5.69,
           "type": "STOCK"
         },
         {
           "name": "台积电",
           "price_symbol": "TSM",
-          "w": 5.01,
+          "w": 8.9,
+          "type": "STOCK"
+        },
+        {
+          "name": "联想集团",
+          "price_symbol": "00992.HK",
+          "w": 8.17,
           "type": "STOCK"
         },
         {
           "name": "超威半导体",
           "price_symbol": "AMD",
-          "w": 3.53,
+          "w": 7.19,
+          "type": "STOCK"
+        },
+        {
+          "name": "建滔积层板",
+          "price_symbol": "01888.HK",
+          "w": 6.65,
+          "type": "STOCK"
+        },
+        {
+          "name": "英特尔",
+          "price_symbol": "INTC",
+          "w": 4.71,
+          "type": "STOCK"
+        },
+        {
+          "name": "阿里巴巴-W",
+          "price_symbol": "09988.HK",
+          "w": 3.97,
+          "type": "STOCK"
+        },
+        {
+          "name": "美团-W",
+          "price_symbol": "03690.HK",
+          "w": 3.64,
           "type": "STOCK"
         }
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-10-20T07:43:12"
+      "updated_at": "2026-11-20T10:09:40"
     },
     "160717": {
-      "report_period": "2026年2季度",
+      "report_period": "2026年3季度",
       "holdings": [
-        {
-          "name": "腾讯控股",
-          "price_symbol": "700",
-          "w": 7.69,
-          "type": "STOCK"
-        },
         {
           "name": "建设银行",
           "price_symbol": "939",
-          "w": 7.41,
+          "w": 7.73,
+          "type": "STOCK"
+        },
+        {
+          "name": "腾讯控股",
+          "price_symbol": "700",
+          "w": 7.39,
           "type": "STOCK"
         },
         {
           "name": "阿里巴巴-W",
           "price_symbol": "9988.T",
-          "w": 6.11,
+          "w": 7.3,
           "type": "STOCK"
         },
         {
           "name": "工商银行",
           "price_symbol": "1398.T",
-          "w": 5.06,
+          "w": 5.4,
           "type": "STOCK"
         },
         {
           "name": "中国移动",
           "price_symbol": "941",
-          "w": 4.55,
+          "w": 4.22,
           "type": "STOCK"
         },
         {
           "name": "小米集团-W",
           "price_symbol": "1810.T",
-          "w": 3.75,
-          "type": "STOCK"
-        },
-        {
-          "name": "美团-W",
-          "price_symbol": "3690.T",
-          "w": 3.64,
-          "type": "STOCK"
-        },
-        {
-          "name": "中芯国际",
-          "price_symbol": "981",
-          "w": 3.6,
+          "w": 3.87,
           "type": "STOCK"
         },
         {
           "name": "中国银行",
           "price_symbol": "3988.T",
+          "w": 3.68,
+          "type": "STOCK"
+        },
+        {
+          "name": "美团-W",
+          "price_symbol": "3690.T",
           "w": 3.39,
+          "type": "STOCK"
+        },
+        {
+          "name": "中国海洋石油",
+          "price_symbol": "883",
+          "w": 3.18,
           "type": "STOCK"
         },
         {
           "name": "中国平安",
           "price_symbol": "2318.T",
-          "w": 3.27,
+          "w": 3.02,
           "type": "STOCK"
         }
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-09-20T07:47:59"
+      "updated_at": "2026-11-20T10:09:40"
     },
     "160924": {
       "report_period": "2026年2季度",
@@ -2238,208 +2238,208 @@
       "updated_at": "2026-08-22T20:51:03"
     },
     "161124": {
-      "report_period": "2026年2季度",
+      "report_period": "2026年3季度",
       "holdings": [
-        {
-          "name": "长飞光纤光缆",
-          "price_symbol": "6869.T",
-          "w": 10.51,
-          "type": "STOCK"
-        },
-        {
-          "name": "赣锋锂业",
-          "price_symbol": "1772.T",
-          "w": 2.37,
-          "type": "STOCK"
-        },
         {
           "name": "中远海能",
           "price_symbol": "1138.T",
-          "w": 1.66,
+          "w": 2.31,
+          "type": "STOCK"
+        },
+        {
+          "name": "联想控股",
+          "price_symbol": "3396.T",
+          "w": 2.11,
           "type": "STOCK"
         },
         {
           "name": "康诺亚-B",
           "price_symbol": "2162.T",
-          "w": 1.53,
+          "w": 1.88,
           "type": "STOCK"
         },
         {
-          "name": "诺诚健华",
-          "price_symbol": "9969.T",
-          "w": 1.39,
-          "type": "STOCK"
-        },
-        {
-          "name": "荣昌生物",
-          "price_symbol": "9995.T",
-          "w": 1.36,
-          "type": "STOCK"
-        },
-        {
-          "name": "国富量子",
-          "price_symbol": "290",
-          "w": 1.35,
+          "name": "应星控股",
+          "price_symbol": "1440.T",
+          "w": 1.77,
           "type": "STOCK"
         },
         {
           "name": "重庆农村商业银行",
           "price_symbol": "3618.T",
-          "w": 1.27,
+          "w": 1.54,
           "type": "STOCK"
         },
         {
-          "name": "中创新航",
-          "price_symbol": "3931.T",
-          "w": 1.22,
+          "name": "荣昌生物",
+          "price_symbol": "9995.T",
+          "w": 1.47,
           "type": "STOCK"
         },
         {
-          "name": "汇聚科技",
-          "price_symbol": "1729.T",
-          "w": 1.2,
+          "name": "今海医疗科技",
+          "price_symbol": "2225.T",
+          "w": 1.31,
+          "type": "STOCK"
+        },
+        {
+          "name": "江苏宁沪高速公路",
+          "price_symbol": "177",
+          "w": 1.21,
+          "type": "STOCK"
+        },
+        {
+          "name": "三一重工",
+          "price_symbol": "6031.T",
+          "w": 1.19,
+          "type": "STOCK"
+        },
+        {
+          "name": "三花智控",
+          "price_symbol": "2050.T",
+          "w": 1.19,
           "type": "STOCK"
         }
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-09-20T07:48:03"
+      "updated_at": "2026-11-20T10:09:44"
     },
     "161126": {
-      "report_period": "2026年2季度",
+      "report_period": "2026年3季度",
       "holdings": [
         {
           "name": "Moderna Inc",
           "price_symbol": "MRNA",
-          "w": 2.34,
+          "w": 2.2,
           "type": "STOCK"
         },
         {
-          "name": "Bio-Techne Corp",
-          "price_symbol": "TECH",
+          "name": "Illumina Inc",
+          "price_symbol": "ILMN",
           "w": 2.07,
-          "type": "STOCK"
-        },
-        {
-          "name": "查尔斯河",
-          "price_symbol": "CRL",
-          "w": 1.87,
-          "type": "STOCK"
-        },
-        {
-          "name": "福泰制药",
-          "price_symbol": "VRTX",
-          "w": 1.75,
-          "type": "STOCK"
-        },
-        {
-          "name": "梅特勒-托利多",
-          "price_symbol": "MTD",
-          "w": 1.74,
-          "type": "STOCK"
-        },
-        {
-          "name": "达维塔保健",
-          "price_symbol": "DVA",
-          "w": 1.72,
-          "type": "STOCK"
-        },
-        {
-          "name": "艾伯维",
-          "price_symbol": "ABBV",
-          "w": 1.72,
-          "type": "STOCK"
-        },
-        {
-          "name": "生化基因",
-          "price_symbol": "BIIB",
-          "w": 1.71,
-          "type": "STOCK"
-        },
-        {
-          "name": "卡地纳健康",
-          "price_symbol": "CAH",
-          "w": 1.69,
           "type": "STOCK"
         },
         {
           "name": "Revvity Inc",
           "price_symbol": "RVTY",
+          "w": 1.91,
+          "type": "STOCK"
+        },
+        {
+          "name": "安捷伦",
+          "price_symbol": "A",
+          "w": 1.84,
+          "type": "STOCK"
+        },
+        {
+          "name": "梅特勒-托利多",
+          "price_symbol": "MTD",
+          "w": 1.82,
+          "type": "STOCK"
+        },
+        {
+          "name": "直觉外科",
+          "price_symbol": "ISRG",
+          "w": 1.78,
+          "type": "STOCK"
+        },
+        {
+          "name": "赛默飞世尔科技",
+          "price_symbol": "TMO",
+          "w": 1.73,
+          "type": "STOCK"
+        },
+        {
+          "name": "西氏医药服务",
+          "price_symbol": "WST",
+          "w": 1.7,
+          "type": "STOCK"
+        },
+        {
+          "name": "Veeva Systems Inc-A",
+          "price_symbol": "VEEV",
           "w": 1.69,
+          "type": "STOCK"
+        },
+        {
+          "name": "沃特世",
+          "price_symbol": "WAT",
+          "w": 1.68,
           "type": "STOCK"
         }
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-09-20T07:48:03"
+      "updated_at": "2026-11-20T10:09:44"
     },
     "161127": {
-      "report_period": "2026年2季度",
+      "report_period": "2026年3季度",
       "holdings": [
         {
-          "name": "Apogee Therapeutics Inc",
-          "price_symbol": "APGE",
-          "w": 1.41,
+          "name": "Twist Bioscience Corp",
+          "price_symbol": "TWST",
+          "w": 2.1,
           "type": "STOCK"
         },
         {
           "name": "Moderna Inc",
           "price_symbol": "MRNA",
-          "w": 1.34,
+          "w": 1.93,
           "type": "STOCK"
         },
         {
-          "name": "Twist Bioscience Corp",
-          "price_symbol": "TWST",
-          "w": 1.33,
+          "name": "Natera Inc",
+          "price_symbol": "NTRA",
+          "w": 1.7,
           "type": "STOCK"
         },
         {
-          "name": "方舟生物医药",
-          "price_symbol": "ORKA",
-          "w": 1.31,
+          "name": "Iovance Biotherapeutics Inc",
+          "price_symbol": "IOVA",
+          "w": 1.54,
           "type": "STOCK"
         },
         {
-          "name": "Kymera Therapeutics Inc",
-          "price_symbol": "KYMR",
-          "w": 1.29,
+          "name": "安进",
+          "price_symbol": "AMGN",
+          "w": 1.47,
           "type": "STOCK"
         },
         {
-          "name": "Viking Therapeutics Inc",
-          "price_symbol": "VKTX",
-          "w": 1.24,
+          "name": "生化基因",
+          "price_symbol": "BIIB",
+          "w": 1.46,
           "type": "STOCK"
         },
         {
-          "name": "Praxis Precision Medicines Inc",
-          "price_symbol": "PRAX",
-          "w": 1.22,
+          "name": "联合治疗",
+          "price_symbol": "UTHR",
+          "w": 1.46,
           "type": "STOCK"
         },
         {
-          "name": "Erasca Inc",
-          "price_symbol": "ERAS",
-          "w": 1.2,
+          "name": "艾伯维",
+          "price_symbol": "ABBV",
+          "w": 1.42,
           "type": "STOCK"
         },
         {
-          "name": "Revolution Medicines Inc",
-          "price_symbol": "RVMD",
-          "w": 1.14,
+          "name": "奥洛兹美医疗",
+          "price_symbol": "HALO",
+          "w": 1.4,
           "type": "STOCK"
         },
         {
-          "name": "Rhythm Pharmaceuticals Inc",
-          "price_symbol": "RYTM",
-          "w": 1.14,
+          "name": "Spyre Therapeutics Inc",
+          "price_symbol": "SYRE",
+          "w": 1.39,
           "type": "STOCK"
         }
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-10-20T07:43:16"
+      "updated_at": "2026-11-20T10:09:44"
     },
     "161229": {
       "report_period": "2026年2季度",
@@ -2510,72 +2510,72 @@
       "updated_at": "2026-10-20T07:43:17"
     },
     "162415": {
-      "report_period": "2026年2季度",
+      "report_period": "2026年3季度",
       "holdings": [
         {
           "name": "亚马逊",
           "price_symbol": "AMZN",
-          "w": 21.05,
+          "w": 22.15,
           "type": "STOCK"
         },
         {
           "name": "特斯拉",
           "price_symbol": "TSLA",
-          "w": 18.6,
+          "w": 16.73,
           "type": "STOCK"
         },
         {
           "name": "家得宝",
           "price_symbol": "HD",
-          "w": 5.52,
+          "w": 4.75,
           "type": "STOCK"
         },
         {
           "name": "麦当劳",
           "price_symbol": "MCD",
-          "w": 3.93,
+          "w": 4.0,
           "type": "STOCK"
         },
         {
           "name": "The TJX Companies Inc",
           "price_symbol": "TJX",
-          "w": 3.72,
+          "w": 3.86,
           "type": "STOCK"
         },
         {
           "name": "Booking Holdings",
           "price_symbol": "BKNG",
-          "w": 3.26,
-          "type": "STOCK"
-        },
-        {
-          "name": "劳氏",
-          "price_symbol": "LOW",
-          "w": 2.91,
+          "w": 3.23,
           "type": "STOCK"
         },
         {
           "name": "星巴克",
           "price_symbol": "SBUX",
-          "w": 2.74,
+          "w": 2.84,
+          "type": "STOCK"
+        },
+        {
+          "name": "劳氏",
+          "price_symbol": "LOW",
+          "w": 2.73,
           "type": "STOCK"
         },
         {
           "name": "万豪国际",
           "price_symbol": "MAR",
-          "w": 1.91,
+          "w": 2.01,
           "type": "STOCK"
         },
         {
-          "name": "皇家加勒比邮轮",
-          "price_symbol": "RCL",
-          "w": 1.87,
+          "name": "罗斯百货",
+          "price_symbol": "ROST",
+          "w": 1.97,
           "type": "STOCK"
         }
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-10-20T07:43:21"
+      "updated_at": "2026-11-20T10:09:49"
     },
     "161831": {
       "report_period": "2026年2季度",
@@ -2646,72 +2646,72 @@
       "updated_at": "2026-09-20T07:48:07"
     },
     "164212": {
-      "report_period": "2026年2季度",
+      "report_period": "2026年3季度",
       "holdings": [
-        {
-          "name": "康宁",
-          "price_symbol": "GLW",
-          "w": 5.0,
-          "type": "STOCK"
-        },
         {
           "name": "迈威尔科技",
           "price_symbol": "MRVL",
-          "w": 4.15,
-          "type": "STOCK"
-        },
-        {
-          "name": "美光科技",
-          "price_symbol": "MU",
-          "w": 3.98,
+          "w": 7.2,
           "type": "STOCK"
         },
         {
           "name": "超威半导体",
           "price_symbol": "AMD",
-          "w": 3.31,
+          "w": 4.97,
           "type": "STOCK"
         },
         {
-          "name": "泰瑞达",
-          "price_symbol": "TER",
-          "w": 2.24,
-          "type": "STOCK"
-        },
-        {
-          "name": "Lumentum Holdings Inc",
-          "price_symbol": "LITE",
-          "w": 2.2,
-          "type": "STOCK"
-        },
-        {
-          "name": "应用材料",
-          "price_symbol": "AMAT",
-          "w": 2.19,
+          "name": "康宁",
+          "price_symbol": "GLW",
+          "w": 4.85,
           "type": "STOCK"
         },
         {
           "name": "Coherent Corp",
           "price_symbol": "COHR",
-          "w": 2.03,
+          "w": 4.68,
           "type": "STOCK"
         },
         {
-          "name": "意法半导体",
-          "price_symbol": "STM",
-          "w": 1.97,
+          "name": "SK海力士",
+          "price_symbol": "SKHY",
+          "w": 4.58,
           "type": "STOCK"
         },
         {
-          "name": "华虹宏力",
-          "price_symbol": "01347.HK",
-          "w": 1.95,
+          "name": "Lumentum Holdings Inc",
+          "price_symbol": "LITE",
+          "w": 3.72,
+          "type": "STOCK"
+        },
+        {
+          "name": "Tower半导体",
+          "price_symbol": "TSEM",
+          "w": 3.48,
+          "type": "STOCK"
+        },
+        {
+          "name": "泰瑞达",
+          "price_symbol": "TER",
+          "w": 3.45,
+          "type": "STOCK"
+        },
+        {
+          "name": "英伟达",
+          "price_symbol": "NVDA",
+          "w": 3.28,
+          "type": "STOCK"
+        },
+        {
+          "name": "特斯拉",
+          "price_symbol": "TSLA",
+          "w": 3.05,
           "type": "STOCK"
         }
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-10-20T07:43:26"
+      "updated_at": "2026-11-20T10:09:52"
     },
     "164906": {
       "report_period": "2026年2季度",
@@ -2782,140 +2782,140 @@
       "updated_at": "2026-09-20T07:48:14"
     },
     "164705": {
-      "report_period": "2026年2季度",
+      "report_period": "2026年3季度",
       "holdings": [
         {
           "name": "汇丰控股",
           "price_symbol": "5",
-          "w": 8.53,
+          "w": 7.56,
           "type": "STOCK"
         },
         {
           "name": "腾讯控股",
           "price_symbol": "700",
-          "w": 7.57,
+          "w": 7.51,
           "type": "STOCK"
         },
         {
           "name": "阿里巴巴-W",
           "price_symbol": "9988.T",
-          "w": 6.02,
+          "w": 7.42,
           "type": "STOCK"
         },
         {
           "name": "建设银行",
           "price_symbol": "939",
-          "w": 4.84,
+          "w": 5.33,
           "type": "STOCK"
         },
         {
           "name": "友邦保险",
           "price_symbol": "1299.T",
-          "w": 4.68,
+          "w": 4.3,
           "type": "STOCK"
         },
         {
           "name": "工商银行",
           "price_symbol": "1398.T",
-          "w": 3.3,
+          "w": 3.59,
           "type": "STOCK"
         },
         {
           "name": "中国移动",
           "price_symbol": "941",
-          "w": 2.95,
+          "w": 2.8,
           "type": "STOCK"
         },
         {
           "name": "香港交易所",
           "price_symbol": "388",
-          "w": 2.72,
+          "w": 2.64,
           "type": "STOCK"
         },
         {
           "name": "小米集团-W",
           "price_symbol": "1810.T",
-          "w": 2.45,
+          "w": 2.57,
           "type": "STOCK"
         },
         {
-          "name": "美团-W",
-          "price_symbol": "3690.T",
-          "w": 2.37,
+          "name": "中国银行",
+          "price_symbol": "3988.T",
+          "w": 2.44,
           "type": "STOCK"
         }
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-10-20T07:43:26"
+      "updated_at": "2026-11-20T10:09:52"
     },
     "501226": {
-      "report_period": "2026年2季度",
+      "report_period": "2026年3季度",
       "holdings": [
         {
           "name": "台积电",
           "price_symbol": "TSM",
-          "w": 8.71,
-          "type": "STOCK"
-        },
-        {
-          "name": "美光科技",
-          "price_symbol": "MU",
-          "w": 7.55,
-          "type": "STOCK"
-        },
-        {
-          "name": "博通",
-          "price_symbol": "AVGO",
-          "w": 6.03,
-          "type": "STOCK"
-        },
-        {
-          "name": "科磊",
-          "price_symbol": "KLAC",
-          "w": 5.96,
-          "type": "STOCK"
-        },
-        {
-          "name": "拉姆研究",
-          "price_symbol": "LRCX",
-          "w": 5.27,
-          "type": "STOCK"
-        },
-        {
-          "name": "闪迪",
-          "price_symbol": "SNDK",
-          "w": 5.19,
-          "type": "STOCK"
-        },
-        {
-          "name": "阿斯麦",
-          "price_symbol": "ASML",
-          "w": 5.14,
+          "w": 9.33,
           "type": "STOCK"
         },
         {
           "name": "谷歌-A",
           "price_symbol": "GOOGL",
-          "w": 4.89,
-          "type": "STOCK"
-        },
-        {
-          "name": "亚马逊",
-          "price_symbol": "AMZN",
-          "w": 4.35,
+          "w": 6.66,
           "type": "STOCK"
         },
         {
           "name": "英伟达",
           "price_symbol": "NVDA",
-          "w": 4.11,
+          "w": 5.68,
+          "type": "STOCK"
+        },
+        {
+          "name": "博通",
+          "price_symbol": "AVGO",
+          "w": 5.58,
+          "type": "STOCK"
+        },
+        {
+          "name": "亚马逊",
+          "price_symbol": "AMZN",
+          "w": 4.82,
+          "type": "STOCK"
+        },
+        {
+          "name": "美光科技",
+          "price_symbol": "MU",
+          "w": 4.71,
+          "type": "STOCK"
+        },
+        {
+          "name": "科磊",
+          "price_symbol": "KLAC",
+          "w": 4.31,
+          "type": "STOCK"
+        },
+        {
+          "name": "阿斯麦",
+          "price_symbol": "ASML",
+          "w": 4.26,
+          "type": "STOCK"
+        },
+        {
+          "name": "闪迪",
+          "price_symbol": "SNDK",
+          "w": 3.85,
+          "type": "STOCK"
+        },
+        {
+          "name": "拉姆研究",
+          "price_symbol": "LRCX",
+          "w": 3.63,
           "type": "STOCK"
         }
       ],
       "source": "东方财富基金持仓公开披露自动同步",
       "curated": false,
-      "updated_at": "2026-10-20T07:43:40"
+      "updated_at": "2026-11-20T10:10:04"
     }
   }
 }
